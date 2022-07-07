@@ -1,9 +1,21 @@
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --success: #4D7C0F;
+  --light-background: #F3F4F6;
+  --primary: #0F7390;
+  --text: #1F2937;
+  --dark-text: #384151;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Rubik, sans-serif;
+  color: var(--text);
+  font-size: 16px;
+  background-color: var(--light-background);
 }
 
 a {
@@ -14,3 +26,4 @@ a {
 * {
   box-sizing: border-box;
 }
+
