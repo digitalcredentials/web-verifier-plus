@@ -1,0 +1,16 @@
+.issuer {
+  display: flex;
+  margin-top: 4px;
+}
+
+.issuerInformation {
+  flex: 1;
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.issuerInformation a {
+  font-size: 12px;
+}
