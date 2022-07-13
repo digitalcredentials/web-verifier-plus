@@ -3,6 +3,7 @@ import styles from './[id].module.css'
 import type { CredentialProps } from './[id].d';
 import { CredentialCard } from 'components/CredentialCard/CredentialCard';
 import { Container } from 'components/Container/Container';
+import { useEffect, useState } from 'react';
 
 const CredentialPage: NextPage<CredentialProps> = ({ credential }) => {
   return (
@@ -13,6 +14,7 @@ const CredentialPage: NextPage<CredentialProps> = ({ credential }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<CredentialProps> = async ({ params }: GetServerSidePropsContext) => {
+
   // TODO load VC from db using id
 
   return {
@@ -46,7 +48,14 @@ export const getServerSideProps: GetServerSideProps<CredentialProps> = async ({ 
             ],
             "description": "The holder of this credential is qualified to lead new student orientations.",
             "competencyRequired": "Demonstrated knowledge of key campus locations, campus services, and student organizations.",
-            "credentialCategory": "badge"
+            "credentialCategory": "badge",
+            "awardedOnCompletionOf": {
+              "numberOfCredits": {
+                "value": "120"
+              },
+              "startDate": "2014-09-06T00:00:00.000Z",
+              "endDate": "2018-12-09T00:00:00.000Z",
+            }
           }
         },
         "proof": {

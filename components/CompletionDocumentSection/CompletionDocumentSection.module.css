@@ -1,0 +1,10 @@
+.smallHeader {
+  margin-top: 32px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: space-between;
+}
