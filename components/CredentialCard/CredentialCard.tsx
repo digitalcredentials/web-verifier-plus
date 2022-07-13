@@ -23,11 +23,11 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
         <div className={styles.sectionHeader}>Criteria</div>
         <div className={styles.credentialCriteria}>{credential.credentialSubject.hasCredential?.competencyRequired}</div>
         {
-          issuer.image && (
-            <div className={styles.imageContainer}>
-              <img className={styles.issuerImage} src={issuer.image} alt="Issuer image" width="100" height="100"/>
-            </div>
-          )
+          // issuer.image && (
+          //   <div className={styles.imageContainer}>
+          //     <img className={styles.issuerImage} src={issuer.image} alt="Issuer image" width="100" height="100"/>
+          //   </div>
+          // )
         }
       </div>
       <div className={styles.secondaryColumn}>
@@ -51,16 +51,16 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
             <InfoBlock header="Issuance Date" contents={DateTime.fromISO(credential.issuanceDate).toLocaleString(DateTime.DATE_MED)} />
 
             {credential.expirationDate && (
-              <InfoBlock header="Expriration Date" contents={DateTime.fromISO(credential.expirationDate).toLocaleString(DateTime.DATE_MED)} />
+              <InfoBlock header="Expiration Date" contents={DateTime.fromISO(credential.expirationDate).toLocaleString(DateTime.DATE_MED)} />
             )}
           </div>
           {credential.credentialSubject.hasCredential?.awardedOnCompletionOf && (
             <CompletionDocumentSection completionDocument={credential.credentialSubject.hasCredential.awardedOnCompletionOf} />
           )}
         </div>
-        <div className={styles.qrCodeContainer}>
+        {/* <div className={styles.qrCodeContainer}>
           <QRCodeSVG value={JSON.stringify(credential)} className={styles.qrCode}/>
-        </div>
+        </div> */}
       </div>
     </div>
   );

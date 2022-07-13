@@ -3,6 +3,7 @@
 }
 
 .indicator {
+  min-height: 20px;
   border-radius: 10px;
   font-size: 12px;
   background-color: var(--light-background);
