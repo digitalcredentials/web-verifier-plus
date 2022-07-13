@@ -1,6 +1,7 @@
+import { ResultLog } from 'components/ResultLog/ResultLog';
 import { VerificationControls } from 'components/VerificationControls/VerificationControls';
 import { useVerificationContext } from 'lib/verificationContext';
-import { VerifyResult } from 'types/credential';
+import { VerifyResponse, VerifyResult } from 'types/credential';
 import styles from './VerificationCard.module.css';
 
 export const VerificationCard = () => {
@@ -15,7 +16,7 @@ export const VerificationCard = () => {
               Verifying
             </div>
           ) : (
-            <VerificationControls verificationResult={verificationResult as VerifyResult} verifyCredential={verifyCredential} />
+            <VerificationControls verificationResult={verificationResult as VerifyResponse} verifyCredential={verifyCredential} />
           )
         }
       </div>
@@ -24,7 +25,7 @@ export const VerificationCard = () => {
           loading ? (
             <div className={styles.loadingMessage}>Please wait while we verify your credential.</div>
           ) : (
-            <div>Put log here</div>
+            <ResultLog verificationResult={verificationResult as VerifyResponse}/>
           )
         }
       </div>
