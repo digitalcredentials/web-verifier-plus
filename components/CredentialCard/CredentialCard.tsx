@@ -33,13 +33,13 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
       <div className={styles.secondaryColumn}>
         <div>
           <div className={styles.buttonContainer}>
-            <Button
+            {/* <Button
               text="Share"
               icon={<span className="material-icons">share</span>}
               secondary
-            />
+            /> */}
             <Button
-              className={styles.viewSource}
+              // className={styles.viewSource}
               icon={<span className="material-icons">code</span>}
               text="View Source"
               secondary
