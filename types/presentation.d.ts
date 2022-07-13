@@ -5,7 +5,7 @@ export type VerifiablePresentation = {
   readonly issuer: Issuer;
   readonly type: string;
   readonly verifiableCredential: Credential | Credential[];
-  readonly proof: Proof;
+  readonly proof?: Proof;
 }
 
 export enum PresentationError {
