@@ -2,20 +2,21 @@ import { DateTime } from 'luxon';
 import { Button } from 'components/Button/Button';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
-import { IssuerObject } from 'types/credential';
+import { Credential, IssuerObject } from 'types/credential';
 import type {CredentialCardProps} from './CredentialCard.d';
 import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { QRCodeSVG } from 'qrcode.react';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 
-export const CredentialCard = ({ credential }: CredentialCardProps) => {
+export const CredentialCard = ({ presentation }: CredentialCardProps) => {
+  const credential = presentation.verifiableCredential as Credential;
   const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
 
   return (
     <div className={styles.card}>
       <div className={styles.primaryColumn}>
-        <VerifyIndicator credential={credential} />
+        <VerifyIndicator />
         <div className={styles.credentialName}>{credential.credentialSubject.hasCredential?.name}</div>
         <div className={styles.subjectName}>Issued to: {credential.credentialSubject.name}</div>
         <div className={styles.credentialDescription}>{credential.credentialSubject.hasCredential?.description}</div>

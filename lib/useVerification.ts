@@ -1,38 +1,38 @@
-import { SyntheticEvent, useCallback, useEffect, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Credential, VerifyResponse } from "types/credential";
+import { VerificationContextType } from "./verificationContext";
 
 
-export const useVerification = (credential: Credential, shouldStartVerification = false) => {
-  const [verifyResponse, setVerifyResponse] = useState<VerifyResponse | null>(null);
-  const [loading, setLoading] = useState(true)
-  const verificationStarted = useCallback((e: Event) => {
+export const useVerification = (credential: Credential) => {
+  const [verificationResult, setVerificationResult] = useState<VerifyResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [timerExpired, setTimerExpired] = useState(false);
+  const timeout = useRef<number>();
 
-  }, []);
+  const verifyCredential = useCallback(async () => {
+    setLoading(true);
+    setTimerExpired(false);
 
-  const verificationCompleted = useCallback((e: Event) => {
-
-  }, []);
-
-  const verifyCredential = useCallback(() => {
-    fetch('/api/verify', {
+    // artificial delay for UI purposes
+    timeout.current = window.setTimeout(() => {
+      setTimerExpired(true);
+    }, 1000);
+    const res = await fetch('/api/verify', {
       method: 'POST',
       body: JSON.stringify(credential)
-    }).then((res) => {
-      console.log("done!");
     });
+
+    const { result } = await res.json();
+    setVerificationResult(result);
+    setLoading(false);
   }, [credential]);
 
   useEffect(() => {
-    console.log("why me?")
-    window.addEventListener('verification-started', verificationStarted);
-    window.addEventListener('verification-completed', verificationCompleted);
-    if (shouldStartVerification) {
-      verifyCredential()
-    }
+    verifyCredential()
     return () => {
-      window.removeEventListener('verification-started', verificationStarted);
-      window.removeEventListener('verification-completed', verificationCompleted);
+      window.clearTimeout(timeout.current);
     }
-  }, [])
-  return { loading, verifyResponse }
+  }, [verifyCredential]);
+
+  return { loading: loading || !timerExpired, verificationResult, verifyCredential } as VerificationContextType
 }

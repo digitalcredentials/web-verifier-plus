@@ -6,6 +6,8 @@
   --primary: #0F7390;
   --text: #1F2937;
   --dark-text: #384151;
+  --light-text: #4C5563;
+  --error: #FF6565;
 }
 
 html,
