@@ -9,11 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@digitalcredentials/dcc-context": "^1.0.0",
+    "@digitalcredentials/did-io": "^1.0.2",
+    "@digitalcredentials/did-method-key": "^2.0.3",
+    "@digitalcredentials/ed25519-signature-2020": "^3.0.1",
+    "@digitalcredentials/ed25519-verification-key-2020": "^3.2.2",
+    "@digitalcredentials/vc": "^4.1.1",
+    "@digitalcredentials/vpqr": "^2.2.1",
+    "@digitalcredentials/x25519-key-agreement-key-2020": "^2.0.2",
+    "@interop/did-web-resolver": "^2.2.1",
+    "credentials-context": "^2.0.0",
+    "crypto-ld": "^6.0.0",
+    "did-context": "^3.1.1",
+    "ed25519-signature-2020-context": "^1.1.0",
+    "jsonld-document-loader": "^1.2.0",
+    "luxon": "^3.0.1",
+    "material-icons": "^1.11.4",
     "next": "12.2.0",
+    "qrcode.react": "^3.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "x25519-key-agreement-2020-context": "^1.0.0"
   },
   "devDependencies": {
+    "@types/luxon": "^2.3.2",
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

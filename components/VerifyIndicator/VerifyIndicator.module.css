@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+}
+
+.indicator {
+  min-height: 20px;
+  border-radius: 10px;
+  font-size: 12px;
+  background-color: var(--light-background);
+  display: flex;
+  padding: 2px 8px 2px 2px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.indicatorIcon {
+  margin-right: 4px;
+  font-size: 16px;
+}
+
+.loading {
+  padding: 2px 8px;
+  color: var(--primary);
+}
+
+.verified {
+  color: var(--success);
+}
+
+.notVerified {
+  color: var(--error);
+}

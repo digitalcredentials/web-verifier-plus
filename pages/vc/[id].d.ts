@@ -1,5 +1,6 @@
-import type { Credential } from "../../types/credential"
+import type { Credential } from 'types/credential'
+import { VerifiablePresentation } from 'types/presentation'
 
 export type CredentialProps = {
-  credential: Credential
+  presentation: VerifiablePresentation
 }

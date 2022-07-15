@@ -1,0 +1,40 @@
+.card {
+  margin-top: 32px;
+  background: var(--white);
+  box-shadow: 0px 15px 30px #06102421;
+  border-radius: 10px;
+  opacity: 1;
+  width: 1000px;
+  display: flex;
+}
+
+.verification {
+  padding: 24px;
+}
+
+.loadingIndicator {
+  background-color: var(--light-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 248px;
+  padding: 16px 0px ;
+  border-radius: 4px;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.loadingIndicator span {
+  margin-right: 8px;
+}
+
+.resultLog {
+  border-left: 2px solid var(--light-background);
+  padding: 24px;
+}
+
+.loadingMessage {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}

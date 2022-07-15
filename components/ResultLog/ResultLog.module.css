@@ -1,0 +1,33 @@
+.resultLog {
+  display: flex;
+}
+
+.issuer {
+  flex: 1;
+}
+
+.credential {
+  flex: 1;
+}
+
+.resultItem {
+  display:flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.resultItem span {
+  margin-right: 8px;
+}
+
+.verified {
+  color: var(--success);
+}
+
+.notVerified {
+  color: var(--error);
+}
+
+.header {
+  font-weight: bold;
+}

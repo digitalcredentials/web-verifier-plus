@@ -73,3 +73,20 @@ export enum CredentialError {
   CouldNotBeVerified = 'Credential could not be checked for verification and may be malformed.',
   DidNotInRegistry = 'Could not find issuer in registry with given DID.',
 }
+
+export type VerifyResultLog = {
+  id: string,
+  valid: boolean
+}
+
+export type VerifyResult = {
+  verified: boolean;
+  credential: Credential;
+  error: CredentialError;
+  log: VerifyResultLog[];
+}
+
+export type VerifyResponse = {
+  verified: boolean;
+  results: VerifyResult[];
+}
