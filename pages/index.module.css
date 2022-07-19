@@ -1,9 +1,10 @@
+
+
 .container {
-    width: 600px;
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: var(--light-background);
     height: 100vh;
     width: 100vw;
     align-items: center;
@@ -127,29 +128,40 @@
   text-align: center;
   font: normal normal bold 50px/24px Rubik;
   letter-spacing: 0px;
-  color: #0F7390;
+  color: var(--primary);
   opacity: 1;
+  margin-top: 59px
 }
 
 .textarea {
-  justify-content: center;
+  font: normal normal normal 16px/24px Rubik;
+  display: flex;
+  align-self: center;
   width: 500px;
   height: 181px;
-  border: 1px solid var(--unnamed-color-6b7280);
   border: 1px solid #6B7280;
   border-radius: 10px;
   opacity: 1;
+  margin-top: 24px;
+  padding: 16px;
 }
 
 .dndUpload {
-  /* display: flex; */
+  display: flex;
+  flex-direction: column;
   width: 500px;
   height: 86px;
   border: 2px dashed #6B7280;
   border-radius: 10px;
   opacity: 1;
-  /* text-align: center;
-  justify-content: center; */
+  text-align: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.dndUploadText {
+  font: normal normal medium 14px/17px Rubik;
+  color: var(--dark-text);
 }
 
 .fileUpload input {
@@ -157,19 +169,34 @@
 }
 
 .browseLink {
-  color:#0F7390;
+  color: var(--primary);
   text-decoration: underline;
   margin: 0px;
+  font: normal normal medium 14px/17px Rubik;
 }
 
-.description {
+.descriptionBlock {
+  width: 600px;
+  height: 67px;
   text-align: center;
   font: normal normal 16px/24px Rubik;
   letter-spacing: 0px;
-  color: #1F2937;
+  color: var(--text);
   opacity: 1;
+  font-size: 16px;
+  margin-top: 18px;
+  margin-bottom: 48px;
 }
 
-.wrapper {
-  background-color: red;
+.supportText {
+  font-size: 12px;
+  color: var(--light-text);
+  margin-top: 8px;
+  font: normal normal normal 12px/24px Rubik;
+}
+
+.scan {
+  display: flex;
+  width: 500px;
+  justify-content: center;
 }
