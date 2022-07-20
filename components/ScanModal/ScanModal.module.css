@@ -14,6 +14,16 @@
   padding-left: 32px;
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: var(--white);
+  opacity: .7;
+}
+
 .topRow {
   display: flex;
 }
@@ -62,5 +72,12 @@
 .bottomRow {
   display: flex;
   justify-content: flex-end;
+}
+
+.closeModalButton {
+  background: transparent;
+  border: none;
+  padding: 0px;
+  cursor: pointer;
 }
 

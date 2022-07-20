@@ -11,6 +11,7 @@ export default async function handler(
   if (req.method === 'POST') {
     // todo handle presentations
     const credential = JSON.parse(req.body) as Credential;
+    console.log(credential);
     const result = await verifyCredential(credential);
     console.log(result.results[0]);
     res.status(200).json({ result });

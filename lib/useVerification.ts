@@ -3,13 +3,16 @@ import { Credential, VerifyResponse } from "types/credential";
 import { VerificationContextType } from "./verificationContext";
 
 
-export const useVerification = (credential: Credential) => {
+export const useVerification = (credential?: Credential) => {
   const [verificationResult, setVerificationResult] = useState<VerifyResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [timerExpired, setTimerExpired] = useState(false);
   const timeout = useRef<number>();
 
   const verifyCredential = useCallback(async () => {
+    if (credential === undefined) {
+      return;
+    }
     setLoading(true);
     setTimerExpired(false);
 

@@ -3,16 +3,17 @@ import type { ScanModalProps } from './ScanModal.d';
 import styles from './ScanModal.module.css';
 import { QrReader } from 'react-qr-reader';
 import { useState } from 'react';
+import { Result } from '@zxing/library';
 
-export const ScanModal = ({ isOpen, setIsOpen }: ScanModalProps) => {
+export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
   //TODO: change hover style of close icon if possible
-  //TODO: add scan capabilities
   //TODO: close modal if something outside of modal is clicked?
-  const [data, setData] = useState('');
-  const handleScan = (newData, error) => {
-    if (newData !== undefined){
+  
+  const handleScan = (newData?: Result | null, error?: Error | null) => {
+    if (newData){
       console.log(newData);
-      setData(newData);
+      onScan(newData.getText());
+      closeModal();
     }
 
     if (error){
@@ -28,33 +29,40 @@ export const ScanModal = ({ isOpen, setIsOpen }: ScanModalProps) => {
     <div>
       {
         isOpen ? (
-          <div className={styles.container}>
-            <div className={styles.topRow}>
-              <span className={styles.title}>Scan a QR Code</span>
-              <span 
-                className="material-icons-outlined"
-                onClick={closeModal}
-              >
-                close
-              </span>
-            </div>
+          <>
+          <div className={styles.overlay} onClick={closeModal} />
 
-            <div className={styles.cameraContainer}>
-              <QrReader 
-                onResult={(result, error) => handleScan(result, error)}
-                constraints={{facingMode: "environment"}}
-                className={styles.qrReader}
-              />
+            <div className={styles.container}>
+              <div className={styles.topRow}>
+                <span className={styles.title}>Scan a QR Code</span>
+                <button onClick={closeModal} className={styles.closeModalButton}>
+                  <span 
+                    className="material-icons-outlined"
+                  >
+                    close
+                  </span>
+                </button>
+                
+              </div>
+
+              <div className={styles.cameraContainer}>
+                <QrReader 
+                  onResult={(result, error) => handleScan(result, error)}
+                  constraints={{facingMode: "environment"}}
+                  className={styles.qrReader}
+                />
+              </div>
+              <div className={styles.bottomRow}>
+                {/* <p>{data}</p> */}
+                <Button 
+                  className={styles.closeButton} 
+                  text='Close'
+                  onClick={closeModal} 
+                />
+              </div>
             </div>
-            <div className={styles.bottomRow}>
-              {/* <p>{data}</p> */}
-              <Button 
-                className={styles.closeButton} 
-                text='Close'
-                onClick={closeModal} 
-              />
-            </div>
-          </div>
+          </>
+          
         ) : null
       }
     </div>
