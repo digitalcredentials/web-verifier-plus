@@ -44,16 +44,16 @@ const Home: NextPage = () => {
     setPresentation(await credentialsFromQrText(result));
   }
 
-  function handleFileDrop(e) {
+  function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
     console.log("file was dropped");
     e.stopPropagation();
     e.preventDefault();
     setFile(e.dataTransfer.items[0].getAsFile())
   }
 
-  function handleBrowse(e) {
+  function handleBrowse(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e);
-    setFile(e.target.files[0]);
+    setFile(e.target.files !== null ? e.target.files[0] : null);
   }
   if (presentation !== null) {
     return (
@@ -79,9 +79,9 @@ const Home: NextPage = () => {
             This is an explanation of what this site is and what it does. This is an explanation of what this site is and what it does. This is an explanation of what this site is and what it does.
           </p>
         </div>
-        <Button 
-          icon={<span className="material-icons">qr_code_scanner</span>} 
-          className={styles.scan} 
+        <Button
+          icon={<span className="material-icons">qr_code_scanner</span>}
+          className={styles.scan}
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
