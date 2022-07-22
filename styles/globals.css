@@ -4,12 +4,32 @@
   --white: #FFFFFF;
   --black: #000000;
   --success: #4D7C0F;
-  --light-background: #F3F4F6;
+  --background: #F3F4F6;
   --primary: #0F7390;
   --text: #1F2937;
+  --contrast-text: #FFFFFF;
   --dark-text: #384151;
   --light-text: #4C5563;
   --error: #B91C1C;
+  --border: #6B7280;
+  --switch-background: #9CA3AF;
+  --switch-slider: #FFFFFF;
+}
+
+.darkmode {
+  --white: #FFFFFF;
+  --black: #000000;
+  --success: #A3E534;
+  --background: #1F2937;
+  --primary: #67E8F9;
+  --text: #F3F4F6;
+  --contrast-text: #111827;
+  --dark-text: #E5E7EB;
+  --light-text: #9CA3AF;
+  --error: #B91C1C;
+  --border: #9CA3AF;
+  --switch-background: #E5E7EB;
+  --switch-slider: #111827;
 }
 
 html,
@@ -19,7 +39,7 @@ body {
   font-family: Rubik, sans-serif;
   color: var(--text);
   font-size: 16px;
-  background-color: var(--light-background);
+  background-color: var(--background);
 }
 
 a {

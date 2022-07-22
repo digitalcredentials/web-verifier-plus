@@ -1,0 +1,35 @@
+.container {
+  padding-top: 16px;
+  /* background-color: var(--switch-slider); */
+  display: flex;
+  width: 100%;
+  /* padding-top: 16px; */
+  justify-content: flex-end;
+}
+
+.switchContainer {
+ padding-right: 33.5px;
+}
+
+.loginContainer {
+padding-right: 40px;
+display: flex;
+align-items: center;
+}
+
+.loginText {
+  margin-left: 9.5px;
+  color: var(--dark-text);
+  text-align: right;
+  font: normal normal medium 14px/17px Rubik;
+  letter-spacing: 0px;
+  opacity: 1;
+}
+
+.darkmodeIcon {
+  font-size: 16px;
+}
+
+.loginIcon {
+  font-size: 16px;
+}

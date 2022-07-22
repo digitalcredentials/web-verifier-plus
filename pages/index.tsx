@@ -11,7 +11,7 @@ import { VerificationContext } from 'lib/verificationContext'
 import { Credential } from 'types/credential'
 import { useVerification } from 'lib/useVerification'
 import { credentialsFromQrText } from 'lib/decode';
-
+import { TopBar } from 'components/TopBar/TopBar'
 
 const Home: NextPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -58,6 +58,7 @@ const Home: NextPage = () => {
   if (presentation !== null) {
     return (
       <VerificationContext.Provider value={credentialContext}>
+        <TopBar />
         <Container>
           <CredentialCard presentation={presentation} />
           <VerificationCard />
@@ -68,7 +69,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      {/* <TopBar /> */}
+      <TopBar />
         <div>
           <p className={styles.title}>
             DCC Verifier+
