@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  padding-right: 288px;
+  padding-left: 288px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.link {
+  text-align: left;
+  text-decoration: underline;
+  font: normal normal normal 14px/17px Rubik;
+  color: var(--text);
+}

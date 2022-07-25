@@ -12,12 +12,16 @@ import { Credential } from 'types/credential'
 import { useVerification } from 'lib/useVerification'
 import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
+import { BottomBar } from 'components/BottomBar/BottomBar'
 
 const Home: NextPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
+  // TODO: add trust us link
+  // TODO: add DCC icon
+
 
   useEffect(() => {
     if (file !== null) {
@@ -70,6 +74,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <TopBar />
+      <div className={styles.testContainer}>
         <div>
           <p className={styles.title}>
             DCC Verifier+
@@ -77,7 +82,9 @@ const Home: NextPage = () => {
         </div>
         <div>
           <p className={styles.descriptionBlock}>
-            This is an explanation of what this site is and what it does. This is an explanation of what this site is and what it does. This is an explanation of what this site is and what it does.
+            This is an explanation of what this site is and what it does. 
+            This is an explanation of what this site is and what it does. 
+            This is an explanation of what this site is and what it does. <a className={styles.trustLink}>Why trust us?</a>
           </p>
         </div>
         <Button 
@@ -104,6 +111,8 @@ const Home: NextPage = () => {
           placeholder='Paste JSON or URL'
         />
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan}/>
+      </div>
+      <BottomBar />
     </div>
   )
 }
