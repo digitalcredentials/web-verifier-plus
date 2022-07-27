@@ -3,13 +3,26 @@
   background: var(--contrast-text);
   box-shadow: 0px 15px 30px #06102421;
   border-radius: 10px;
-  opacity: 1;
-  width: 1000px;
   display: flex;
+  flex-wrap: wrap;
 }
 
+
 .verification {
+  border-right: 1px solid var(--background);
   padding: 24px;
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+@media screen and (min-width: 700px) {
+  .verification {
+    flex: 0 0 300px;
+  }
+
+  .card {
+    flex-wrap: nowrap;
+  }
 }
 
 .loadingIndicator {
@@ -17,9 +30,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 248px;
-  padding: 16px 0px ;
-  border-radius: 4px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 5px;
   color: var(--primary);
   font-weight: bold;
 }
@@ -29,7 +42,6 @@
 }
 
 .resultLog {
-  border-left: 2px solid var(--background);
   padding: 24px;
 }
 

@@ -1,35 +1,47 @@
 .container {
+  padding-inline: 16px;
+  gap: 16px;
+  align-items: center;
   padding-top: 16px;
-  /* background-color: var(--switch-slider); */
   display: flex;
   width: 100%;
-  /* padding-top: 16px; */
   justify-content: flex-end;
 }
 
-.switchContainer {
- padding-right: 33.5px;
-}
-
-.loginContainer {
-padding-right: 40px;
-display: flex;
-align-items: center;
-}
-
-.loginText {
-  margin-left: 9.5px;
+.loginButton {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  background: none;
+  border: none;
+  gap: 8px;
   color: var(--dark-text);
-  text-align: right;
-  font: normal normal medium 14px/17px Rubik;
-  letter-spacing: 0px;
-  opacity: 1;
+  font-family: Rubik, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+
 }
 
 .darkmodeIcon {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .loginIcon {
-  font-size: 16px;
+  font-size: 18px;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo p {
+  font-size: 16px;
+  font-family: Rubik, sans-serif;
+  font-weight: 700;
+  color: var(--primary);
+
+} 

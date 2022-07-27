@@ -8,12 +8,15 @@ export const ToggleSwitch = ({ icon, isOn, handleToggle }: ToggleSwitchProps) =>
   return(
     <div>
       <div className={styles.container}>
-        {icon}
+        
         <label
+          aria-label='Dark mode'
+          htmlFor='toggle'
           className={styles.switch}
-          // onClick={handleToggle}
         >
+          {icon}
           <input
+            id='toggle'
             type="checkbox"
             onClick={handleToggle}
           />

@@ -14,6 +14,7 @@
   --border: #6B7280;
   --switch-background: #9CA3AF;
   --switch-slider: #FFFFFF;
+  --modal-background: hsla(0, 0%, 100%, .7);
 }
 
 .darkmode {
@@ -30,6 +31,7 @@
   --border: #9CA3AF;
   --switch-background: #E5E7EB;
   --switch-slider: #111827;
+  --modal-background: hsla(0, 0%, 0%, .7);
 }
 
 html,
@@ -40,6 +42,7 @@ body {
   color: var(--text);
   font-size: 16px;
   background-color: var(--background);
+  line-height: 1.5;
 }
 
 a {

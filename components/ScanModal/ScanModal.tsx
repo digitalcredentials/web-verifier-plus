@@ -6,8 +6,6 @@ import { useState } from 'react';
 import { Result } from '@zxing/library';
 
 export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
-  //TODO: change hover style of close icon if possible
-  //TODO: close modal if something outside of modal is clicked?
   
   const handleScan = (newData?: Result | null, error?: Error | null) => {
     if (newData){
@@ -30,8 +28,7 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
       {
         isOpen ? (
           <>
-          <div className={styles.overlay} onClick={closeModal} />
-
+          <div className={styles.overlay} onClick={closeModal} >
             <div className={styles.container}>
               <div className={styles.topRow}>
                 <span className={styles.title}>Scan a QR Code</span>
@@ -61,6 +58,7 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
                 />
               </div>
             </div>
+          </div>
           </>
           
         ) : null

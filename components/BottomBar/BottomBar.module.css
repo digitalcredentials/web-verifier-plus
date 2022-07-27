@@ -1,9 +1,11 @@
 .container {
+  padding-inline: 16px;
   width: 100%;
-  padding-right: 288px;
-  padding-left: 288px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px 32px;
+  padding-block:8px;
+  flex-wrap: wrap;
 }
 
 .link {

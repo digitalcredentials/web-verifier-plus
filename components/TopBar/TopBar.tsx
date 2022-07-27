@@ -1,8 +1,12 @@
+import type { TopBarProps } from "./TopBar.d"
 import { ToggleSwitch } from "components/ToggleSwitch/ToggleSwitch";
+import Link from "next/link";
 import { useEffect, useState } from "react"
 import styles from './TopBar.module.css'
 
-export const TopBar = () => {
+//TODO: home button
+
+export const TopBar = ({hasLogo}: TopBarProps) => {
   const [isDark, setIsDark] = useState(false);
 
   // get local storage value for darkmode on mount
@@ -40,17 +44,22 @@ export const TopBar = () => {
 
   return(
       <div className={styles.container}>
-        <div className={styles.switchContainer}>
-          <ToggleSwitch
-            isOn={isDark}
-            handleToggle={handleToggle}
-            icon={ <span className={`material-icons ${styles.darkmodeIcon}`}> dark_mode </span> }
-          />
-        </div>
-        <div className={styles.loginContainer}>
-          <span className={`material-icons ${styles.loginIcon}`}> login </span>
-          <span className={styles.loginText}>Login</span>
-        </div>
+        { hasLogo ? 
+          <div className={styles.logo}>
+            {/* <image></image> */}
+            <p>DCC Verifier</p>
+          </div>
+         : null
+        }
+        <ToggleSwitch
+          isOn={isDark}
+          handleToggle={handleToggle}
+          icon={ <span aria-hidden className={`material-icons ${styles.darkmodeIcon}`}> dark_mode </span> }
+        />
+        <button className={styles.loginButton} type='button'>
+          <span aria-hidden className={`material-icons ${styles.loginIcon}`}> login </span>
+          Login
+        </button>
         
       </div>
   )
