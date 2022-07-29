@@ -8,14 +8,18 @@ import { useVerification } from 'lib/useVerification';
 import { Credential } from 'types/credential';
 import { VerificationContext } from 'lib/verificationContext';
 import { VerificationCard } from 'components/VerificationCard/VerificationCard';
+import { TopBar } from 'components/TopBar/TopBar';
+import { BottomBar } from 'components/BottomBar/BottomBar';
 
 const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
   const credentialContext = useVerification(presentation.verifiableCredential as Credential);
   return (
     <VerificationContext.Provider value={credentialContext}>
       <Container>
+        <TopBar hasLogo={true} />
         <CredentialCard presentation={presentation} />
         <VerificationCard />
+        <BottomBar/>
       </Container>
     </VerificationContext.Provider>
   )

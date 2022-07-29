@@ -1,23 +1,34 @@
 .resultLog {
   display: flex;
+  flex-wrap: wrap;
+  gap: 24px 12px;
 }
 
-.issuer {
-  flex: 1;
+.issuer, .credential {
+  flex: 0 0 100%;
 }
 
-.credential {
-  flex: 1;
+@media screen and (min-width: 700px) {
+  .resultLog {
+    flex-wrap: nowrap;
+  }
+  .issuer, .credential {
+    flex: 1;
+  }
 }
+
+
 
 .resultItem {
+  line-height: 1.5;
   display:flex;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 8px;
 }
 
 .resultItem span {
   margin-right: 8px;
+  margin-top: -1px;
 }
 
 .verified {

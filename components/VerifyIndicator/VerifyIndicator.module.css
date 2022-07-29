@@ -6,7 +6,7 @@
   min-height: 20px;
   border-radius: 10px;
   font-size: 12px;
-  background-color: var(--light-background);
+  background-color: var(--background);
   display: flex;
   padding: 2px 8px 2px 2px;
   font-weight: bold;
