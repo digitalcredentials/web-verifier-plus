@@ -49,14 +49,14 @@ const Home: NextPage = () => {
   }
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
-    // console.log("file was dropped");
+    console.log("file was dropped");
     e.stopPropagation();
     e.preventDefault();
     setFile(e.dataTransfer.items[0].getAsFile())
   }
 
   function handleBrowse(e: React.ChangeEvent<HTMLInputElement>) {
-    // console.log(e);
+    console.log(e);
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
   if (presentation !== null) {
