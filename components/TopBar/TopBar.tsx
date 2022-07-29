@@ -5,35 +5,31 @@ import { useEffect, useState } from "react"
 import styles from './TopBar.module.css'
 
 //TODO: home button
+//TODO: if hasLogo === true, set background of to dif color
 
-export const TopBar = ({hasLogo}: TopBarProps) => {
+export const TopBar = ({hasLogo = false}: TopBarProps) => {
   const [isDark, setIsDark] = useState(false);
 
   // get local storage value for darkmode on mount
   useEffect(() => {
     let darkMode = localStorage.getItem('darkMode');
-    //console.log('darkMode: ', darkMode);
     if (darkMode === 'true') { setIsDark(true); enableDarkMode(); }
     else { setIsDark(false); }
   },[]);
 
   const enableDarkMode = () => {
-    //console.log('enableDarkMode');
     document.body.classList.add('darkmode');
     localStorage.setItem('darkMode', 'true');
     setIsDark(true);
   }
 
   const disableDarkMode = () => {
-    //console.log('disableDarkMode');
     document.body.classList.remove('darkmode');
     localStorage.setItem('darkMode', 'false');
     setIsDark(false)
   }
 
   const handleToggle = () => {
-    //console.log('handleToggle');
-    //console.log('isDark: ', isDark);
     if (isDark) {
       disableDarkMode();
     }
@@ -43,11 +39,10 @@ export const TopBar = ({hasLogo}: TopBarProps) => {
   }
 
   return(
-      <div className={styles.container}>
+      <div className={`${hasLogo ? styles.hasLogoContainer : styles.contaner}`}>
         { hasLogo ? 
           <div className={styles.logo}>
-            {/* <image></image> */}
-            <p>DCC Verifier</p>
+            <p>Verifier+</p>
           </div>
          : null
         }

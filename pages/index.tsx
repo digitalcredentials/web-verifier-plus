@@ -49,35 +49,41 @@ const Home: NextPage = () => {
   }
 
   function handleFileDrop(e) {
-    console.log("file was dropped");
+    // console.log("file was dropped");
     e.stopPropagation();
     e.preventDefault();
     setFile(e.dataTransfer.items[0].getAsFile())
   }
 
   function handleBrowse(e) {
-    console.log(e);
+    // console.log(e);
     setFile(e.target.files[0]);
   }
   if (presentation !== null) {
     return (
-      <VerificationContext.Provider value={credentialContext}>
-        <TopBar />
-        <Container>
-          <CredentialCard presentation={presentation} />
-          <VerificationCard />
-        </Container>
-      </VerificationContext.Provider>
+      <div className={styles.container}>
+        <TopBar hasLogo={true} />
+        <div className={styles.verifyContainer}>
+          <VerificationContext.Provider value={credentialContext}>
+            <Container>
+              <CredentialCard presentation={presentation} />
+              <VerificationCard />
+            </Container>
+          </VerificationContext.Provider>
+        </div>
+        
+        <BottomBar />
+      </div>
     );
   }
 
   return (
     <div className={styles.container}>
       <TopBar />
-      <div className={styles.testContainer}>
+      <div className={styles.contentContainer}>
         <div>
           <p className={styles.title}>
-            DCC Verifier+
+            Verifier+
           </p>
         </div>
         <div>
@@ -93,6 +99,11 @@ const Home: NextPage = () => {
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
+        <textarea
+          className={styles.textarea}
+          placeholder='Paste JSON or URL'
+        />
+
         <div
           className={styles.dndUpload}
           onDrop={handleFileDrop}
@@ -106,10 +117,6 @@ const Home: NextPage = () => {
             </div>
             <span className={styles.supportText}>Supports JSON</span>
         </div>
-        <textarea
-          className={styles.textarea}
-          placeholder='Paste JSON or URL'
-        />
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan}/>
       </div>
       <BottomBar />

@@ -9,7 +9,7 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
   
   const handleScan = (newData?: Result | null, error?: Error | null) => {
     if (newData){
-      console.log(newData);
+      // console.log(newData);
       onScan(newData.getText());
       closeModal();
     }

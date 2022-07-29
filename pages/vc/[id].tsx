@@ -16,10 +16,11 @@ const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
   return (
     <VerificationContext.Provider value={credentialContext}>
       <Container>
+        <TopBar hasLogo={true} />
         <CredentialCard presentation={presentation} />
         <VerificationCard />
+        <BottomBar/>
       </Container>
-      <BottomBar/>
     </VerificationContext.Provider>
   )
 }

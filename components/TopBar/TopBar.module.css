@@ -8,6 +8,17 @@
   justify-content: flex-end;
 }
 
+.hasLogoContainer {
+  padding-inline: 16px;
+  gap: 16px;
+  align-items: center;
+  /* padding-top: 16px; */
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  background-color: var(--contrast-text);
+}
+
 .loginButton {
   padding: 8px 16px;
   display: flex;
@@ -36,9 +47,11 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-grow: 1;
 }
 
 .logo p {
+  flex-grow: 1;
   font-size: 16px;
   font-family: Rubik, sans-serif;
   font-weight: 700;
