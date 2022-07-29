@@ -39,7 +39,7 @@ export const TopBar = ({hasLogo = false}: TopBarProps) => {
   }
 
   return(
-      <div className={`${hasLogo ? styles.hasLogoContainer : styles.contaner}`}>
+      <div className={`${hasLogo ? styles.hasLogoContainer : styles.container}`}>
         { hasLogo ? 
           <div className={styles.logo}>
             <p>Verifier+</p>
