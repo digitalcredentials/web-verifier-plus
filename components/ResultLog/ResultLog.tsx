@@ -2,13 +2,21 @@ import type { ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 
 export const ResultLog = ({ verificationResult }: ResultLogProps) => {
-  const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = ''}) => {
+  const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = '', issuer = false}) => {
     return (
       <div className={styles.resultItem}>
         <span aria-hidden className={`material-icons ${verified ? styles.verified : styles.notVerified}`}>
           {verified ? 'check' : 'close'}
         </span>
-        {verified ? positiveMessage : negativeMessage}
+        <div>
+          {verified ? positiveMessage : negativeMessage}
+          { issuer ? 
+            <ul className={styles.issuerList}>
+              <li>DCC Trust Registry</li>
+            </ul> :
+          null
+          }
+        </div>
       </div>
     )
   }
@@ -27,8 +35,9 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
         <div className={styles.header}>Issuer</div>
         <ResultItem
           verified={logMap['issuer_did_resolves'] ?? true}
-          positiveMessage="Issuing institution can be reached for verification"
+          positiveMessage="Has been issued by a registered institution:"
           negativeMessage="Issuing institution cannot be reached for verification"
+          issuer={true}
         />
       </div>
       <div className={styles.credential}>

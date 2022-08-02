@@ -22,8 +22,15 @@ const Home: NextPage = () => {
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
   // TODO: add trust us link
-  // TODO: hook up verify button
 
+  // back button thought proces
+  // save history before moving to new render
+  // when back button is pressed we want to go back to a state where presentation is null
+
+  useEffect(() => {
+    history.pushState(null, '');
+    console.log('state pushed');
+  }, [])
 
   useEffect(() => {
     if (file !== null) {
@@ -73,6 +80,7 @@ const Home: NextPage = () => {
     console.log(e);
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
+
   if (presentation !== null) {
     return (
       <div className={styles.container}>
