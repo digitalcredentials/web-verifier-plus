@@ -7,8 +7,7 @@ import styles from './TopBar.module.css'
 //TODO: home button
 //TODO: if hasLogo === true, set background of to dif color
 
-export const TopBar = ({hasLogo = false}: TopBarProps) => {
-  const [isDark, setIsDark] = useState(false);
+export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
 
   // get local storage value for darkmode on mount
   useEffect(() => {

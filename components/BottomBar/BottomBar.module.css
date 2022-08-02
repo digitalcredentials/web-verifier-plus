@@ -1,10 +1,26 @@
 .container {
   padding-inline: 16px;
+  padding-block:8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.logoContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.linkContainer {
+  /* padding-inline: 16px; */
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 8px 32px;
-  padding-block:8px;
+  /* padding-block:8px; */
   flex-wrap: wrap;
 }
 
@@ -13,4 +29,10 @@
   text-decoration: underline;
   font: normal normal normal 14px/17px Rubik;
   color: var(--text);
+}
+
+.logo {
+  margin-bottom: 24px;
+  width: 113px;
+  height: 35px;
 }

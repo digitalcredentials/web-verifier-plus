@@ -15,12 +15,14 @@ import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 
 const Home: NextPage = () => {
+  const [textArea, setTextArea] = useState('');
+  const [isDark, setIsDark] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
   // TODO: add trust us link
-  // TODO: add DCC icon
+  // TODO: hook up verify button
 
 
   useEffect(() => {
@@ -44,6 +46,18 @@ const Home: NextPage = () => {
     setIsOpen(!isOpen);
   }
 
+  function verifyTextArea() {
+    console.log("verify button was pushed");
+
+    try {
+      const presentation = JSON.parse(textArea) as VerifiablePresentation;
+      // TODO: verify that it is a valid presentation
+      setPresentation(presentation);
+    } catch {
+      console.log('there was an error');
+    }
+  }
+
   async function onScan(result: string) {
     setPresentation(await credentialsFromQrText(result));
   }
@@ -62,7 +76,7 @@ const Home: NextPage = () => {
   if (presentation !== null) {
     return (
       <div className={styles.container}>
-        <TopBar hasLogo={true} />
+        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
@@ -72,18 +86,18 @@ const Home: NextPage = () => {
           </VerificationContext.Provider>
         </div>
         
-        <BottomBar />
+        <BottomBar isDark={isDark}/>
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      <TopBar />
+      <TopBar isDark={isDark} setIsDark={setIsDark} />
       <div className={styles.contentContainer}>
         <div>
           <p className={styles.title}>
-            Verifier+
+            VerifierPlus
           </p>
         </div>
         <div>
@@ -99,10 +113,15 @@ const Home: NextPage = () => {
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
-        <textarea
-          className={styles.textarea}
-          placeholder='Paste JSON or URL'
-        />
+        <div className={styles.textAreaContainer}>
+          <textarea
+            className={styles.textarea}
+            placeholder='Paste JSON or URL'
+            value={textArea}
+            onChange={(e) => setTextArea(e.target.value)}
+          />
+          <Button className={styles.verifyTextArea} text='Verify' onClick={verifyTextArea}/>
+        </div>
 
         <div
           className={styles.dndUpload}
@@ -119,7 +138,7 @@ const Home: NextPage = () => {
         </div>
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan}/>
       </div>
-      <BottomBar />
+      <BottomBar isDark={isDark}/>
     </div>
   )
 }
