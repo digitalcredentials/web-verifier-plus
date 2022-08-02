@@ -23,7 +23,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* max-width: 600px; */
     flex: 1;
   }
   
@@ -173,7 +172,6 @@
   background-color: var(--background);
   color: var(--text);
   flex-shrink: 1;
-  /* margin-bottom: 24px; */
 }
 
 .textAreaContainer {

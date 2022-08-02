@@ -15,12 +15,10 @@
 }
 
 .linkContainer {
-  /* padding-inline: 16px; */
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 8px 32px;
-  /* padding-block:8px; */
   flex-wrap: wrap;
 }
 

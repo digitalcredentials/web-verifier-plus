@@ -1,6 +1,5 @@
 import type { BottomBarProps } from './BottomBar.d'
 import styles from './BottomBar.module.css'
-import Image from 'next/image'
 
 export const BottomBar = ({isDark}: BottomBarProps) => {
 
@@ -18,8 +17,6 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
       <div className={styles.linkContainer}>
         <a className={styles.link}>DCC</a>
         <a className={styles.link}>MIT Open Learning</a>
-        {/* <a className={styles.link}>Terms & Conditions</a> */}
-        {/* <a className={styles.link}>Privacy Policy</a> */}
         <a className={styles.link}>Accessibility</a>
         <a className={styles.link}>View on Github</a>
       </div>

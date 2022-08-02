@@ -21,16 +21,6 @@ const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
-  // TODO: add trust us link
-
-  // back button thought proces
-  // save history before moving to new render
-  // when back button is pressed we want to go back to a state where presentation is null
-
-  useEffect(() => {
-    history.pushState(null, '');
-    console.log('state pushed');
-  }, [])
 
   useEffect(() => {
     if (file !== null) {
