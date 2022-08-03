@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  min-height: 100vh;
+  align-items: center;
+}
+
+.verifyContainer {
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}

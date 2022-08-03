@@ -50,10 +50,10 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
           handleToggle={handleToggle}
           icon={ <span aria-hidden className={`material-icons ${styles.darkmodeIcon}`}> dark_mode </span> }
         />
-        <button className={styles.loginButton} type='button'>
+        {/* <button className={styles.loginButton} type='button'>
           <span aria-hidden className={`material-icons ${styles.loginIcon}`}> login </span>
           Login
-        </button>
+        </button> */}
         
       </div>
   )
