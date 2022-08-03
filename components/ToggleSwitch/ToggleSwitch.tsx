@@ -16,6 +16,7 @@ export const ToggleSwitch = ({ icon, isOn, handleToggle }: ToggleSwitchProps) =>
         >
           {icon}
           <input
+            checked={isOn}
             id='toggle'
             type="checkbox"
             onClick={handleToggle}
