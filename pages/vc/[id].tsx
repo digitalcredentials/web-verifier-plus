@@ -13,13 +13,14 @@ import { BottomBar } from 'components/BottomBar/BottomBar';
 
 const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
   const credentialContext = useVerification(presentation.verifiableCredential as Credential);
+  const [isDark, setIsDark] = useState(false);
   return (
     <VerificationContext.Provider value={credentialContext}>
       <Container>
-        <TopBar hasLogo={true} />
+        <TopBar hasLogo isDark={isDark} setIsDark={setIsDark}/>
         <CredentialCard presentation={presentation} />
         <VerificationCard />
-        <BottomBar/>
+        <BottomBar isDark={isDark} />
       </Container>
     </VerificationContext.Provider>
   )
