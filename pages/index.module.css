@@ -23,7 +23,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* max-width: 600px; */
     flex: 1;
   }
   
@@ -163,10 +162,8 @@
   font: normal normal normal 16px/24px Rubik;
   display: flex;
   align-self: center;
-  max-width: 500px;
   width: 100%;
-  /* TODO: check with brandon about the height */
-  height: 160px;
+  height: 181px;
   border: 1px solid var(--border);
   border-radius: 10px;
   opacity: 1;
@@ -175,7 +172,21 @@
   background-color: var(--background);
   color: var(--text);
   flex-shrink: 1;
-  /* margin-bottom: 24px; */
+}
+
+.textAreaContainer {
+  display: flex;
+  max-width: 500px;
+  width: 100%;
+  width: 100%;
+  position: relative;
+  justify-content: center;
+}
+
+.verifyTextArea {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
 }
 
 .textarea::placeholder {

@@ -35,7 +35,7 @@
   padding: 16px;
   border-radius: 5px;
   background-color: var(--primary);
-  color: var(--white);
+  color: var(--contrast-text);
   font-family: Rubik, sans-serif;
   font-weight: bold;
 }

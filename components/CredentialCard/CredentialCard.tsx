@@ -24,12 +24,12 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
               icon={<span className="material-icons">share</span>}
               secondary
             /> */}
-            <Button
+            {/* <Button
               // className={styles.viewSource}
               icon={<span className="material-icons">code</span>}
               text="View Source"
               secondary
-            />
+            /> */}
           </div>
         </div>
         <h1 className={styles.credentialName}>{credential.credentialSubject.hasCredential?.name}</h1>
