@@ -14,6 +14,7 @@ import { BottomBar } from 'components/BottomBar/BottomBar';
 const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
   const [isDark, setIsDark] = useState(false);
   const credentialContext = useVerification(presentation.verifiableCredential as Credential);
+  const [isDark, setIsDark] = useState(false);
   return (
     <div className={styles.container}>
       <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
