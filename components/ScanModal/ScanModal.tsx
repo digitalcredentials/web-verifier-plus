@@ -33,15 +33,9 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
               <div className={styles.topRow}>
                 <span className={styles.title}>Scan a QR Code</span>
                 <button onClick={closeModal} className={styles.closeModalButton}>
-                  <span 
-                    className="material-icons-outlined"
-                  >
-                    close
-                  </span>
+                  <span className="material-icons-outlined">close</span>
                 </button>
-                
               </div>
-
               <div className={styles.cameraContainer}>
                 <QrReader 
                   onResult={(result, error) => handleScan(result, error)}
@@ -50,7 +44,6 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
                 />
               </div>
               <div className={styles.bottomRow}>
-                {/* <p>{data}</p> */}
                 <Button 
                   className={styles.closeButton} 
                   text='Close'
@@ -60,7 +53,6 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
             </div>
           </div>
           </>
-          
         ) : null
       }
     </div>

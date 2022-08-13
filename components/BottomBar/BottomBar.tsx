@@ -2,7 +2,6 @@ import type { BottomBarProps } from './BottomBar.d'
 import styles from './BottomBar.module.css'
 
 export const BottomBar = ({isDark}: BottomBarProps) => {
-
   return(
     <div className={styles.container}>
       <div className={styles.logoContainer}>
