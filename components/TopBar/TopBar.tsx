@@ -41,7 +41,7 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
       <div className={`${hasLogo ? styles.hasLogoContainer : styles.container}`}>
         { hasLogo ? 
           <div className={styles.logo}>
-            <p>Verifier+</p>
+            <p>VerifierPlus</p>
           </div>
          : null
         }
