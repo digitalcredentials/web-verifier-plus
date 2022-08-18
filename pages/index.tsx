@@ -21,41 +21,52 @@ const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
+  
+  useEffect(() => {
+    window.addEventListener('popstate', handlePop);
+  }, []);
 
   useEffect(() => {
     if (file !== null) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = e.target?.result as string ?? '';
-        try {
-          const presentation = JSON.parse(text) as VerifiablePresentation;
-          // TODO: verify that it is a valid presentation
-          setPresentation(presentation);
-        } catch {
-          console.log('there was an error');
-        }
+        checkPresentation(text);
       };
       reader.readAsText(file, 'UTF-8');
     }
   }, [file]);
-
-  function ScanButtonOnClick() {
-    setIsOpen(!isOpen);
+  
+  function handlePop() {
+    history.replaceState(null, '', '');
+    setPresentation(null);
   }
 
-  function verifyTextArea() {
-    console.log("verify button was pushed");
-
+  function checkPresentation(json: string) {
     try {
-      const presentation = JSON.parse(textArea) as VerifiablePresentation;
-      // TODO: verify that it is a valid presentation
+      const presentation = JSON.parse(json) as VerifiablePresentation;
+      verifyPresentation(presentation);
+      history.pushState(null, '', '#verify/results');
       setPresentation(presentation);
     } catch {
       console.log('there was an error');
     }
   }
 
+  function verifyPresentation(presentation: VerifiablePresentation) {
+    console.log('write me');
+  }
+  function ScanButtonOnClick() {
+    setIsOpen(!isOpen);
+  }
+
+  function verifyTextArea() {
+    console.log("verify button was pushed");
+    checkPresentation(textArea);
+  }
+
   async function onScan(result: string) {
+    history.pushState(null, '', '#test');
     setPresentation(await credentialsFromQrText(result));
   }
 
