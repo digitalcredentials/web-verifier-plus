@@ -40,7 +40,9 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
           <section>
             <Issuer issuer={issuer} header='Issuer'/>
             <div className={styles.headerRow}>
-              <InfoBlock header="Issuance Date" contents={DateTime.fromISO(credential.issuanceDate).toLocaleString(DateTime.DATE_MED)} />
+              {credential.issuanceDate && (
+                <InfoBlock header="Issuance Date" contents={DateTime.fromISO(credential.issuanceDate).toLocaleString(DateTime.DATE_MED)} />
+              )}
 
               {credential.expirationDate && (
                 <InfoBlock header="Expiration Date" contents={DateTime.fromISO(credential.expirationDate).toLocaleString(DateTime.DATE_MED)} />
@@ -57,10 +59,14 @@ export const CredentialCard = ({ presentation }: CredentialCardProps) => {
 
         <div className={styles.primaryColumn}>
           <div className={styles.credentialDescription}>{credential.credentialSubject.hasCredential?.description}</div>
-          <div>
-            <h3 className={styles.smallHeader}>Criteria</h3>
-            <div className={styles.credentialCriteria}>{credential.credentialSubject.hasCredential?.competencyRequired}</div>
-          </div>
+          {credential.credentialSubject.hasCredential?.competencyRequired && (
+            <div>
+              <h3 className={styles.smallHeader}>Criteria</h3>
+              <div className={styles.credentialCriteria}>{credential.credentialSubject.hasCredential?.competencyRequired}</div>
+            </div>
+          )}
+            
+          
           {
             // issuer.image && (
             //   <div className={styles.imageContainer}>
