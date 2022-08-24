@@ -86,6 +86,18 @@ const Home: NextPage = () => {
     }
   }
 
+  function verifyPresentation(presentation: VerifiablePresentation) {
+    console.log('write me');
+  }
+  function ScanButtonOnClick() {
+    setIsOpen(!isOpen);
+  }
+
+  function verifyTextArea() {
+    console.log("verify button was pushed");
+    checkPresentation(textArea);
+  }
+
   async function onScan(result: string) {
     history.pushState(null, '', '#verify/results');
     setPresentation(await credentialsFromQrText(result));
