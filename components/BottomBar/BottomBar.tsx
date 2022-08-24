@@ -16,7 +16,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
       <div className={styles.linkContainer}>
         <a className={styles.link}>Terms and Conditions of Use</a>
         <a className={styles.link}>Privacy Policy</a>
-        <a className={styles.link}>Accessibility</a>
+        <a className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</a>
         <a className={styles.link}>View on Github</a>
       </div>
     </div>
