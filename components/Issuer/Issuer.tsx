@@ -11,18 +11,26 @@ export const Issuer = ({issuer, header}: IssuerProps ) => {
     }
   }
 
+  const hasIssuerBlock = () => {
+    return issuer.image || issuer.name || issuer.url;
+  }
+
   return (
     <div>
-      <h3 className={styles.header}>{header}</h3>
-      <div className={styles.issuer}>
-        {issuer.image && (
-          <img src={issuer.image} width={36} height={36} alt="Issuer Image" ref={issuerImage} onError={handleonError} />
-        )}
-        <div className={styles.issuerInformation}>
-          <div>{issuer.name}</div>
-          <a href={issuer.url}>{issuer.url}</a>
+      {hasIssuerBlock() && (
+        <div>
+          <h3 className={styles.header}>{header}</h3>
+          <div className={styles.issuer}>
+            {issuer.image && (
+              <img src={issuer.image} width={36} height={36} alt="Issuer Image" ref={issuerImage} onError={handleonError} />
+            )}
+            <div className={styles.issuerInformation}>
+              <div>{issuer.name}</div>
+              <a href={issuer.url}>{issuer.url}</a>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
