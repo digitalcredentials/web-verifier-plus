@@ -147,7 +147,7 @@
   letter-spacing: 0px;
   color: var(--primary);
   opacity: 1;
-  margin-top: 59px
+  margin-top: 39px
 }
 
 @media screen and (min-width: 500px) {
@@ -253,4 +253,25 @@
 .trustLink {
   text-decoration: underline;
   color: var(--text);
+}
+
+.errorContainer {
+  /* height: 32px; */
+  padding-left: 8px;
+  padding-block: 4px;
+  display: flex;
+  border-radius: 5px;
+  margin-top: 4px;
+  max-width: 500px;
+  width: 100%;
+  background-color: var(--error);
+  color: var(--contrast-text);
+}
+
+.error {
+  margin: 0;
+  padding: 0;
+  padding-left: 8px;
+  
+  font: normal normal medium 14px/17px Rubik;
 }

@@ -19,10 +19,14 @@ const Home: NextPage = () => {
   const [isDark, setIsDark] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [textAreaError, setTextAreaError] = useState(false);
+  const [fileError, setFileError] = useState(false);
   const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
   const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
   
   useEffect(() => {
+    document.documentElement.lang = "en";
+    document.title = "VerifierPlus Home page";
     window.addEventListener('popstate', handlePop);
   }, []);
 
@@ -31,7 +35,14 @@ const Home: NextPage = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = e.target?.result as string ?? '';
-        checkPresentation(text);
+        const result = checkPresentation(text);
+        if (!result) {
+          console.log('file parse error');
+          setFileError(true);
+        } else {
+          console.log('no file parse error');
+          setFileError(false);
+        }
       };
       reader.readAsText(file, 'UTF-8');
     }
@@ -49,7 +60,29 @@ const Home: NextPage = () => {
       history.pushState(null, '', '#verify/results');
       setPresentation(presentation);
     } catch {
-      console.log('there was an error');
+      console.log('cannot parse json');
+      return false;
+    }
+    return true;
+  }
+
+  function verifyPresentation(presentation: VerifiablePresentation) {
+    // console.log('write me');
+  }
+
+  function ScanButtonOnClick() {
+    setIsOpen(!isOpen);
+  }
+
+  function verifyTextArea() {
+    console.log("verify button was pushed");
+    const result = checkPresentation(textArea);
+    if (!result) {
+      console.log('text area parse error');
+      setTextAreaError(true);
+    } else {
+      console.log('no text area parse error');
+      setTextAreaError(false);
     }
   }
 
@@ -66,7 +99,7 @@ const Home: NextPage = () => {
   }
 
   async function onScan(result: string) {
-    history.pushState(null, '', '#test');
+    history.pushState(null, '', '#verify/results');
     setPresentation(await credentialsFromQrText(result));
   }
 
@@ -105,9 +138,9 @@ const Home: NextPage = () => {
       <TopBar isDark={isDark} setIsDark={setIsDark} />
       <div className={styles.contentContainer}>
         <div>
-          <p className={styles.title}>
+          <h1 className={styles.title}>
             VerifierPlus
-          </p>
+          </h1>
         </div>
         <div>
           <p className={styles.descriptionBlock}>
@@ -123,14 +156,26 @@ const Home: NextPage = () => {
           onClick={ScanButtonOnClick}
         />
         <div className={styles.textAreaContainer}>
-          <textarea
+            <textarea
             className={styles.textarea}
             placeholder='Paste JSON or URL'
             value={textArea}
             onChange={(e) => setTextArea(e.target.value)}
+            id='textarea'
           />
           <Button className={styles.verifyTextArea} text='Verify' onClick={verifyTextArea}/>
         </div>
+
+        {textAreaError && (
+          <div className={styles.errorContainer}>  
+            <span className="material-icons-outlined">
+              warning
+            </span>
+            <p className={styles.error}>
+              Json cannot be parsed
+            </p>
+          </div>
+      )}
 
         <div
           className={styles.dndUpload}
@@ -145,6 +190,17 @@ const Home: NextPage = () => {
             </div>
             <span className={styles.supportText}>Supports JSON</span>
         </div>
+
+        {fileError && (
+          <div className={styles.errorContainer}>  
+            <span className="material-icons-outlined">
+              warning
+            </span>
+            <p className={styles.error}>
+              Json cannot be parsed
+            </p>
+          </div>
+      )}
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan}/>
       </div>
       <BottomBar isDark={isDark}/>
