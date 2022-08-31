@@ -3,7 +3,7 @@ import type { IssuerProps } from './Issuer.d';
 import styles from './Issuer.module.css';
 
 export const Issuer = ({issuer, header}: IssuerProps ) => {
-  let issuerImage = useRef<HTMLImageElement>(null);
+  const issuerImage = useRef<HTMLImageElement>(null);
 
   const handleonError = () => {
     if ( issuerImage.current != null) {
