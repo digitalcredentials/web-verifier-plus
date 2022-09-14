@@ -19,7 +19,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <a className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</a>
         <a className={styles.link}>View on Github</a>
       </div>
-      <p className={styles.version}>VerifierPlus Version 1.0.1</p>
+      <p className={styles.version}>VerifierPlus Version 1.0.2</p>
     </div>
   )
 }
