@@ -20,10 +20,14 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <a className={styles.link}>View on Github</a>
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <p className={styles.version}>VerifierPlus Version 1.0.2</p>
 =======
       <p className={styles.version}>VerifierPlus Version 1.0.1</p>
 >>>>>>> fixed version styles
+=======
+      <p className={styles.version}>VerifierPlus Version 1.0.2</p>
+>>>>>>> push for vercel update
     </div>
   )
 }
