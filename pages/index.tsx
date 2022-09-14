@@ -150,6 +150,7 @@ const Home: NextPage = () => {
             value={textArea}
             onChange={(e) => setTextArea(e.target.value)}
             id='textarea'
+            title='Input for raw JSON'
           />
           <Button className={styles.verifyTextArea} text='Verify' onClick={verifyTextArea}/>
         </div>

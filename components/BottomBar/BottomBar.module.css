@@ -37,8 +37,10 @@
 }
 
 .version {
+  align-self: center;
   text-align: left;
-  font: normal normal normal 14px/17px Rubik;
+  font: normal normal normal 12px/14px Rubik;
   color: var(--text);
-  margin: 0;
+  margin-top: 24px;
+  margin-bottom: 4px;
 }
