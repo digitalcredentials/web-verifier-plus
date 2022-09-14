@@ -143,7 +143,6 @@ const Home: NextPage = () => {
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
-        {/* <label htmlFor='textarea'></label> */}
         <div className={styles.textAreaContainer}>
             <textarea
             className={styles.textarea}
