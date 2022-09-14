@@ -35,3 +35,10 @@
   width: 113px;
   height: 35px;
 }
+
+.version {
+  text-align: left;
+  font: normal normal normal 14px/17px Rubik;
+  color: var(--text);
+  margin: 0;
+}
