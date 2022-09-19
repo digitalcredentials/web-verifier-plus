@@ -19,7 +19,7 @@ export const Issuer = ({issuer, header}: IssuerProps ) => {
     <div>
       {hasIssuerBlock() && (
         <div>
-          <h3 className={styles.header}>{header}</h3>
+          <h1 className={styles.header}>{header}</h1>
           <div className={styles.issuer}>
             {issuer.image && (
               <img src={issuer.image} width={36} height={36} alt="Issuer Image" ref={issuerImage} onError={handleonError} />
