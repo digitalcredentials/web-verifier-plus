@@ -15,6 +15,7 @@
   --switch-background: #9CA3AF;
   --switch-slider: #FFFFFF;
   --modal-background: hsla(0, 0%, 100%, .7);
+  --version: #808080;
 }
 
 .darkmode {
@@ -32,6 +33,7 @@
   --switch-background: #E5E7EB;
   --switch-slider: #111827;
   --modal-background: hsla(0, 0%, 0%, .7);
+  --version: #BDC0C6;
 }
 
 html,
