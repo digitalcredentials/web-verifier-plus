@@ -10,17 +10,21 @@ import { VerificationContext } from 'lib/verificationContext';
 import { VerificationCard } from 'components/VerificationCard/VerificationCard';
 import { TopBar } from 'components/TopBar/TopBar';
 import { BottomBar } from 'components/BottomBar/BottomBar';
+import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 
 const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
   const [isDark, setIsDark] = useState(false);
   const credentialContext = useVerification(presentation.verifiableCredential as Credential);
+  const vo : VerifiableObject = presentation;
+  const creds = extractCredentialsFrom(vo);
+  const cred = creds![0]
   return (
     <div className={styles.container}>
       <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
       <div className={styles.verifyContainer}>
         <VerificationContext.Provider value={credentialContext}>
           <Container>
-            <CredentialCard presentation={presentation} />
+            <CredentialCard credential={cred} />
             <VerificationCard />
           </Container>
         </VerificationContext.Provider>
