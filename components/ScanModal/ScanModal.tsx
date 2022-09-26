@@ -5,7 +5,7 @@ import { QrReader } from 'react-qr-reader';
 import { useState } from 'react';
 import { Result } from '@zxing/library';
 
-export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
+export const ScanModal = ({ isOpen, setIsOpen, onScan, setErrorMessage }: ScanModalProps) => {
   
   const handleScan = (newData?: Result | null, error?: Error | null) => {
     if (newData){
@@ -15,7 +15,8 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan }: ScanModalProps) => {
     }
 
     if (error){
-      // console.log(error);
+      // console.log("error");
+      setErrorMessage(true)
     }
   }
  

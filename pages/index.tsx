@@ -13,6 +13,10 @@ import { useVerification } from 'lib/useVerification'
 import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
+import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
+
+// NOTE: We currently only support one credential at a time. If a presentation with more than one credential
+// is dropped, pasted, or scanned we only look at the first one
 
 const Home: NextPage = () => {
   const [textArea, setTextArea] = useState('');
@@ -21,8 +25,9 @@ const Home: NextPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [textAreaError, setTextAreaError] = useState(false);
   const [fileError, setFileError] = useState(false);
-  const [presentation, setPresentation] = useState<VerifiablePresentation | null>(null);
-  const credentialContext = useVerification(Array.isArray(presentation?.verifiableCredential) ? presentation?.verifiableCredential[0] : presentation?.verifiableCredential as Credential);
+  const [scanError, setScanError] = useState(false);
+  const [credential, setCredential] = useState<Credential | undefined>(undefined);
+  const credentialContext = useVerification(credential);
   
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -35,12 +40,12 @@ const Home: NextPage = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = e.target?.result as string ?? '';
-        const result = checkPresentation(text);
+        const result = verifyCredential(text);
         if (!result) {
           console.log('file parse error');
           setFileError(true);
         } else {
-          console.log('no file parse error');
+          // console.log('no file parse error');
           setFileError(false);
         }
       };
@@ -50,45 +55,55 @@ const Home: NextPage = () => {
   
   function handlePop() {
     history.replaceState(null, '', '');
-    setPresentation(null);
+    setCredential(undefined);
   }
 
-  function checkPresentation(json: string) {
+  function checkJson(json: string) {
     try {
-      const presentation = JSON.parse(json) as VerifiablePresentation;
-      verifyPresentation(presentation);
-      history.pushState(null, '', '#verify/results');
-      setPresentation(presentation);
+      JSON.parse(json);
     } catch {
-      console.log('cannot parse json');
       return false;
     }
     return true;
   }
 
-  function verifyPresentation(presentation: VerifiablePresentation) {
-    // console.log('write me');
-  }
+  function verifyCredential(json: string) {
+    const result = checkJson(json);
+    if (!result) { return result; }
+    const parsedJson = JSON.parse(json);
+    let newCredential: VerifiableObject = parsedJson;
+
+    const vc = extractCredentialsFrom(newCredential);
+    if (vc === null) { return; }
+    history.pushState(null, '', '#verify/results');
+    // get first cred. this will eventually need to be changed
+    setCredential(vc[0]);
+    return result;
+  } 
 
   function ScanButtonOnClick() {
     setIsOpen(!isOpen);
   }
 
   function verifyTextArea() {
-    console.log("verify button was pushed");
-    const result = checkPresentation(textArea);
+    // console.log("verify button was pushed");
+    const result = verifyCredential(textArea);
     if (!result) {
-      console.log('text area parse error');
       setTextAreaError(true);
     } else {
-      console.log('no text area parse error');
+      // console.log('no text area parse error');
       setTextAreaError(false);
     }
   }
 
-  async function onScan(result: string) {
+  async function onScan(json: string) {
+    const fromqr = await credentialsFromQrText(json);
+    if (fromqr === null) { return; }
+    // get first cred. this will eventually need to be changed
+    const cred = fromqr[0];
+
     history.pushState(null, '', '#verify/results');
-    setPresentation(await credentialsFromQrText(result));
+    setCredential(cred);
   }
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
@@ -103,14 +118,14 @@ const Home: NextPage = () => {
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
 
-  if (presentation !== null) {
+  if (credential !== undefined) {
     return (
       <div className={styles.container}>
         <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
-              <CredentialCard presentation={presentation} />
+              <CredentialCard credential={credential} />
               <VerificationCard />
             </Container>
           </VerificationContext.Provider>
@@ -143,6 +158,18 @@ const Home: NextPage = () => {
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
+
+        {scanError && (
+          <div className={styles.errorContainer}>  
+            <span className="material-icons-outlined">
+              warning
+            </span>
+            <p className={styles.error}>
+              Invalid Qr code
+            </p>
+          </div>
+        )}
+
         <div className={styles.textAreaContainer}>
             <textarea
             className={styles.textarea}
@@ -190,7 +217,7 @@ const Home: NextPage = () => {
             </p>
           </div>
       )}
-        <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan}/>
+        <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan} setErrorMessage={setScanError} />
       </div>
       <BottomBar isDark={isDark}/>
     </div>

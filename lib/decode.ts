@@ -5,13 +5,25 @@ import { securityLoader } from './documentLoader';
 import type { Credential } from '../types/credential';
 //import { VerifiablePresentation, PresentationError } from '../types/presentation';
 import { VerifiablePresentation } from '../types/presentation';
+import { VerifiableObject, extractCredentialsFrom } from './verifiableObject';
 
 const documentLoader = securityLoader().build();
 const vpqrPattern = /^VP1-[A-Z|0-9]+/;
 
-export async function credentialsFromQrText(text: string): Promise<VerifiablePresentation> {
-  const { vp }: { vp: VerifiablePresentation } = await fromQrCode({ text, documentLoader });
-
+export async function credentialsFromQrText(text: string): Promise<Credential[] | null> {
+  // const test = await fromQrCode({ text, documentLoader});
+  // console.log(test);
+  
+  try {
+    const { vp }: { vp: VerifiableObject } = await fromQrCode({ text, documentLoader });
+    const vc = extractCredentialsFrom(vp);
+    return vc;
+    
+  } catch (error) {
+    return null;
+  }
+  
+  // console.log(vp);
   // TODO: We need to separate verificaiton of the presentation from the credentials inside.
   // https://www.pivotaltracker.com/story/show/179830339
   //const isVerified = await verifyPresentation(vp);
@@ -20,7 +32,6 @@ export async function credentialsFromQrText(text: string): Promise<VerifiablePre
   //  throw new Error(PresentationError.IsNotVerified);
   //}
 
-  return vp;
 }
 
 export function isVpqr(text: string): boolean {

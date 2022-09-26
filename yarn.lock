@@ -22,10 +22,30 @@
   resolved "https://registry.yarnpkg.com/@digitalbazaar/security-context/-/security-context-1.0.0.tgz#23624692cfadc6d97e1eb787ad38a19635d89297"
   integrity sha512-mlj+UmodxTAdMCHGxnGVTRLHcSLyiEOVRiz3J6yiRliJWyrgeXs34wlWjBorDIEMDIjK2JwZrDuFEKO9bS5nKQ==
 
+"@digitalbazaar/vc-status-list-context@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@digitalbazaar/vc-status-list-context/-/vc-status-list-context-3.0.1.tgz#0507b7b6f6ee8b5e7e4d402e7a2905efdc70a316"
+  integrity sha512-vQsqQXpmSXKNy/C0xxFUOBzz60dHh6oupQam1xRC8IspVC11hYJiX9SAhmbI0ulHvX1R2JfqZaJHZjmAyMZ/aA==
+
 "@digitalcredentials/base58-universal@^1.0.0", "@digitalcredentials/base58-universal@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@digitalcredentials/base58-universal/-/base58-universal-1.0.1.tgz#41b5a16cdeaac9cf01b23f1e564c560c2599b607"
   integrity sha512-1xKdJnfITMvrF/sCgwBx2C4p7qcNAARyIvrAOZGqIHmBaT/hAenpC8bf44qVY+UIMuCYP23kqpIfJQebQDThDQ==
+
+"@digitalcredentials/base64url-universal@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/base64url-universal/-/base64url-universal-2.0.2.tgz#cfee64eff2e75f71e10aa9b0de381694a73ea55d"
+  integrity sha512-SgyH5xuoZNu3oIhZjG+kWdk3Hc3eIRgi9/G0auii4jMd65kxBYY5YLmUeF0u1dpWoyrDp62uATq0yBP/sVV29w==
+  dependencies:
+    base64url "^3.0.1"
+
+"@digitalcredentials/bitstring@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/bitstring/-/bitstring-2.0.1.tgz#bb887f1d0999980598754e426d831c96a26a3863"
+  integrity sha512-9priXvsEJGI4LYHPwLqf5jv9HtQGlG0MgeuY8Q4NHN+xWz5rYMylh1TYTVThKa3XI6xF2pR2oEfKZD21eWXveQ==
+  dependencies:
+    "@digitalcredentials/base64url-universal" "^2.0.2"
+    pako "^2.0.4"
 
 "@digitalcredentials/bnid@^2.1.1":
   version "2.1.2"
@@ -131,6 +151,16 @@
   dependencies:
     fast-text-encoding "^1.0.3"
     isomorphic-webcrypto "^2.3.8"
+
+"@digitalcredentials/vc-status-list@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/vc-status-list/-/vc-status-list-5.0.2.tgz#9de8b23b6d533668a354ff464a689ecc42f24445"
+  integrity sha512-PI0N7SM0tXpaNLelbCNsMAi34AjOeuhUzMSYTkHdeqRPX7oT2F3ukyOssgr4koEqDxw9shHtxHu3fSJzrzcPMQ==
+  dependencies:
+    "@digitalbazaar/vc-status-list-context" "^3.0.1"
+    "@digitalcredentials/bitstring" "^2.0.1"
+    "@digitalcredentials/vc" "^4.1.1"
+    credentials-context "^2.0.0"
 
 "@digitalcredentials/vc@^4.1.1":
   version "4.1.1"
@@ -686,7 +716,7 @@ base64url-universal@^1.1.0:
   dependencies:
     base64url "^3.0.0"
 
-base64url@^3.0.0:
+base64url@^3.0.0, base64url@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/base64url/-/base64url-3.0.1.tgz#6399d572e2bc3f90a9a8b22d5dbb0a32d33f788d"
   integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
@@ -1982,6 +2012,11 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
+
+pako@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.4.tgz#6cebc4bbb0b6c73b0d5b8d7e8476e2b2fbea576d"
+  integrity sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==
 
 parent-module@^1.0.0:
   version "1.0.1"
