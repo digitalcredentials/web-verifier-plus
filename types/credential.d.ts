@@ -58,7 +58,10 @@ export type Proof = {
 
 export type Status = {
   id: string;
-  type: string;
+  type: string | [];
+  statusPurpose: string;
+  statusListIndex: string;
+  statusListCredential: string;
 }
 
 // https://digitalcredentials.github.io/dcc/v1/dcc-context-v1.json
