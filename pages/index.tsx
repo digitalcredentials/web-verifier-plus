@@ -147,9 +147,11 @@ const Home: NextPage = () => {
         </div>
         <div>
           <p className={styles.descriptionBlock}>
-            This is an explanation of what this site is and what it does. 
-            This is an explanation of what this site is and what it does. 
-            This is an explanation of what this site is and what it does. <a className={styles.trustLink}>Why trust us?</a>
+            VerifierPlus allows users to verify any <a href='html/faq.html#supported'>supported</a> digital academic credential. 
+            This site is hosted by 
+             the <a href='https://digitalcredentials.mit.edu/'>Digital Credentials Consortium</a>
+             , a network of leading international universities designing an open
+              infrastructure for digital academic credentials. <a href='html/faq.html#trust'>Why trust us?</a> 
           </p>
         </div>
         <Button 

@@ -2,6 +2,15 @@ import type { BottomBarProps } from './BottomBar.d'
 import styles from './BottomBar.module.css'
 
 export const BottomBar = ({isDark}: BottomBarProps) => {
+
+  const getVersionNumber = () => {
+    const gitCommit = '98c0a2a';
+    const version = "0.1.0";
+
+    return gitCommit + ' ' + version;
+
+  }
+
   return(
     <div className={styles.container}>
       <div className={styles.logoContainer}>
@@ -19,7 +28,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <a className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</a>
         <a className={styles.link}>View on Github</a>
       </div>
-      <p className={styles.version}>VerifierPlus Version 1.0.2</p>
+      <p className={styles.version}>VerifierPlus Version {getVersionNumber()}</p>
     </div>
   )
 }
