@@ -9,8 +9,7 @@ import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { QRCodeSVG } from 'qrcode.react';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 
-export const CredentialCard = ({ presentation }: CredentialCardProps) => {
-  const credential = Array.isArray(presentation.verifiableCredential) ? presentation.verifiableCredential[0] : presentation.verifiableCredential as Credential;
+export const CredentialCard = ({ credential }: CredentialCardProps) => {
   const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
 
   return (

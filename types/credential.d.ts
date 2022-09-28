@@ -56,8 +56,17 @@ export type Proof = {
   jws?: string;
 }
 
+export type Status = {
+  id: string;
+  type: string | [];
+  statusPurpose: string;
+  statusListIndex: string;
+  statusListCredential: string;
+}
+
 // https://digitalcredentials.github.io/dcc/v1/dcc-context-v1.json
 export type Credential = {
+  readonly credentialStatus?: Status;    // https://w3c.github.io/vc-data-model/#status
   readonly '@context': string[];         // https://w3c.github.io/vc-data-model/#contexts
   readonly id: string;                   // https://w3c.github.io/vc-data-model/#identifiers
   readonly type: string[];               // https://w3c.github.io/vc-data-model/#types

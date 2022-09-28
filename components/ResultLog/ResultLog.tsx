@@ -20,13 +20,16 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       </div>
     )
   }
-  console.log(verificationResult);
+  // console.log('1: ', verificationResult);
+  // console.log('2: ',verificationResult.results[0]);
+  // console.log('3: ',verificationResult.results[0]?.log);
   const logMap = verificationResult.results[0]?.log?.reduce((acc: Record<string, boolean>, log) => {
     acc[log.id] = log.valid;
     return acc;
   }, {}) ?? {};
 
-  console.log(logMap)
+  // console.log('logmap: ', logMap);
+  // console.log(logMap['issuer_did_resolves']);
 
 
   return (

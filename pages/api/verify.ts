@@ -9,9 +9,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    // todo handle presentations
+    // TODO: handle presentations
     const credential = JSON.parse(req.body) as Credential;
-    console.log(credential);
     const result = await verifyCredential(credential);
     console.log(result.results[0]);
     res.status(200).json({ result });
