@@ -14,7 +14,6 @@ import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
-import { useRouter } from 'next/router'
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -29,12 +28,7 @@ const Home: NextPage = () => {
   const [scanError, setScanError] = useState(false);
   const [credential, setCredential] = useState<Credential | undefined>(undefined);
   const credentialContext = useVerification(credential);
-  
-  const dynamicRoute = useRouter().asPath;
-  useEffect(() => {
-    console.log('here!')
-    setCredential(undefined)
-  }, [dynamicRoute])
+
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -132,7 +126,7 @@ const Home: NextPage = () => {
   if (credential !== undefined) {
     return (
       <main className={styles.container}>
-        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark}/>
+        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
@@ -149,7 +143,7 @@ const Home: NextPage = () => {
 
   return (
     <main className={styles.container}>
-      <TopBar isDark={isDark} setIsDark={setIsDark}/>
+      <TopBar isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
       <div className={styles.contentContainer}>
         <div>
           <h1 className={styles.title}>
@@ -178,7 +172,7 @@ const Home: NextPage = () => {
               warning
             </span>
             <p className={styles.error}>
-              Invalid Qr code
+              Invalid QR code
             </p>
           </div>
         )}
@@ -203,7 +197,7 @@ const Home: NextPage = () => {
               warning
             </span>
             <p className={styles.error}>
-              Json cannot be parsed
+              JSON cannot be parsed
             </p>
           </div>
       )}

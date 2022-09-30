@@ -16,7 +16,8 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan, setErrorMessage }: ScanMo
 
     if (error){
       // console.log("error");
-      setErrorMessage(true)
+      setErrorMessage(true);
+      closeModal();
     }
   }
  

@@ -7,7 +7,7 @@ import styles from './TopBar.module.css'
 //TODO: home button
 //TODO: if hasLogo === true, set background of to dif color
 
-export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
+export const TopBar = ({hasLogo = false, isDark, setIsDark, setCredential}: TopBarProps) => {
 
   // get local storage value for darkmode on mount
   useEffect(() => {
@@ -37,10 +37,14 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
     }
   }
 
+  const clearCredential = () => {
+    setCredential(undefined);
+  }
+
   return(
       <header className={`${hasLogo ? styles.hasLogoContainer : styles.container}`}>
         { hasLogo ? 
-          <div className={styles.logo}>
+          <div className={styles.logo} onClick={() => clearCredential()}>
             <Link href='/'>
               <p>VerifierPlus</p>
             </Link>
