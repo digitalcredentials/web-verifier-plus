@@ -5,7 +5,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = '', issuer = false}) => {
     return (
       <div className={styles.resultItem}>
-        <span aria-hidden className={`material-icons ${verified ? styles.verified : styles.notVerified}`}>
+        <span role='img' aria-label={verified ? 'green checkmark': 'red x'} className={`material-icons ${verified ? styles.verified : styles.notVerified}`}>
           {verified ? 'check' : 'close'}
         </span>
         <div>

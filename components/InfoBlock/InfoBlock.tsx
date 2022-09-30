@@ -4,7 +4,7 @@ import styles from './InfoBlock.module.css';
 export const InfoBlock = ({header, contents}: InfoBlockProps) => {
   return (
     <div className={styles.infoBlock}>
-      <h3 className={styles.smallHeader}>{header}</h3>
+      <h2 className={styles.smallHeader}>{header}</h2>
       <div className={styles.contents}>{contents}</div>
     </div>
   );

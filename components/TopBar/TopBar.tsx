@@ -38,10 +38,12 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
   }
 
   return(
-      <div className={`${hasLogo ? styles.hasLogoContainer : styles.container}`}>
+      <header className={`${hasLogo ? styles.hasLogoContainer : styles.container}`}>
         { hasLogo ? 
           <div className={styles.logo}>
-            <p>VerifierPlus</p>
+            <Link href='/'>
+              <p>VerifierPlus</p>
+            </Link>
           </div>
          : null
         }
@@ -55,6 +57,6 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark}: TopBarProps) => {
           Login
         </button> */}
         
-      </div>
+      </header>
   )
 }

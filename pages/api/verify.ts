@@ -12,7 +12,6 @@ export default async function handler(
     // TODO: handle presentations
     const credential = JSON.parse(req.body) as Credential;
     const result = await verifyCredential(credential);
-    console.log(result.results[0]);
     res.status(200).json({ result });
   } else {
     res.status(400).json({ status: 'Invalid Request' })

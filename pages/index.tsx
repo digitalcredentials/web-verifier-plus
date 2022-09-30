@@ -14,6 +14,7 @@ import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
+import { useRouter } from 'next/router'
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -29,6 +30,12 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<Credential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   
+  const dynamicRoute = useRouter().asPath;
+  useEffect(() => {
+    console.log('here!')
+    setCredential(undefined)
+  }, [dynamicRoute])
+
   useEffect(() => {
     document.documentElement.lang = "en";
     document.title = "VerifierPlus Home page";
@@ -118,10 +125,14 @@ const Home: NextPage = () => {
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
 
+  function clearCredState() {
+    setCredential(undefined);
+  }
+
   if (credential !== undefined) {
     return (
-      <div className={styles.container}>
-        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
+      <main className={styles.container}>
+        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark}/>
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
@@ -132,13 +143,13 @@ const Home: NextPage = () => {
         </div>
         
         <BottomBar isDark={isDark}/>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <TopBar isDark={isDark} setIsDark={setIsDark} />
+    <main className={styles.container}>
+      <TopBar isDark={isDark} setIsDark={setIsDark}/>
       <div className={styles.contentContainer}>
         <div>
           <h1 className={styles.title}>
@@ -173,14 +184,16 @@ const Home: NextPage = () => {
         )}
 
         <div className={styles.textAreaContainer}>
+          <div className={styles.floatingTextarea}>
             <textarea
-            className={styles.textarea}
-            placeholder='Paste JSON or URL'
-            value={textArea}
-            onChange={(e) => setTextArea(e.target.value)}
-            id='textarea'
-            title='Input for raw JSON'
-          />
+              aria-labelledby='textarea-label'
+              placeholder=' '
+              value={textArea}
+              onChange={(e) => setTextArea(e.target.value)}
+              id='textarea'
+            />
+            <label id='textarea-label' htmlFor='textarea'>Paste JSON or URL</label>
+          </div>
           <Button className={styles.verifyTextArea} text='Verify' onClick={verifyTextArea}/>
         </div>
 
@@ -222,7 +235,7 @@ const Home: NextPage = () => {
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan} setErrorMessage={setScanError} />
       </div>
       <BottomBar isDark={isDark}/>
-    </div>
+    </main>
   )
 }
 

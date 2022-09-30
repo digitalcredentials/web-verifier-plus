@@ -12,7 +12,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
   }
 
   return(
-    <div className={styles.container}>
+    <footer className={styles.container}>
       <div className={styles.logoContainer}>
         <a href='https://digitalcredentials.mit.edu/'>
           <img
@@ -29,6 +29,6 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <a className={styles.link}>View on Github</a>
       </div>
       <p className={styles.version}>VerifierPlus Version {getVersionNumber()}</p>
-    </div>
+    </footer>
   )
 }
