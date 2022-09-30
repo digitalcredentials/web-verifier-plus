@@ -97,3 +97,26 @@ a {
   justify-content: center;
   align-content: center;
 }
+
+.linkContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px 32px;
+  flex-wrap: wrap;
+}
+
+.logoContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.copyrightContainer {
+  align-self: center;
+  text-align: left;
+  color: var(--version);
+  margin-top: 24px;
+  margin-bottom: 4px;
+}
