@@ -122,10 +122,6 @@ const Home: NextPage = () => {
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
 
-  function clearCredState() {
-    setCredential(undefined);
-  }
-
   if (credential !== undefined) {
     return (
       <main className={styles.container}>
