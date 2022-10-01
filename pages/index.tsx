@@ -97,14 +97,17 @@ const Home: NextPage = () => {
     }
   }
 
-  async function onScan(json: string) {
+  async function onScan(json: string) : Promise<Boolean> {
     const fromqr = await credentialsFromQrText(json);
-    if (fromqr === null) { return; }
+    console.log('here');
+    console.log(fromqr);
+    if (fromqr === null) { return false; }
     // get first cred. this will eventually need to be changed
     const cred = fromqr[0];
 
     history.pushState(null, '', '#verify/results');
     setCredential(cred);
+    return true;
   }
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
