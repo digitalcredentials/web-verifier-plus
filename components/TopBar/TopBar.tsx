@@ -38,7 +38,9 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark, setCredential}: TopB
   }
 
   const clearCredential = () => {
-    setCredential(undefined);
+    if (setCredential) {
+      setCredential(undefined);
+    }
   }
 
   return(

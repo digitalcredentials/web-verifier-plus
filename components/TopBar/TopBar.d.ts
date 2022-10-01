@@ -4,5 +4,5 @@ export type TopBarProps = {
   isDark: boolean;
   hasLogo?: boolean;
   setIsDark: function;
-  setCredential: function;
+  setCredential?: function;
 }
