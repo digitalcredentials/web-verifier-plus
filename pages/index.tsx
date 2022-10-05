@@ -28,6 +28,7 @@ const Home: NextPage = () => {
   const [scanError, setScanError] = useState(false);
   const [credential, setCredential] = useState<Credential | undefined>(undefined);
   const credentialContext = useVerification(credential);
+  const [wasMulti, setWasMulti] = useState(false);
 
 
   useEffect(() => {
@@ -57,6 +58,7 @@ const Home: NextPage = () => {
   function handlePop() {
     history.replaceState(null, '', '');
     setCredential(undefined);
+    setWasMulti(false);
   }
 
   function checkJson(json: string) {
@@ -78,6 +80,10 @@ const Home: NextPage = () => {
     if (vc === null) { return; }
     history.pushState(null, '', '#verify/results');
     // get first cred. this will eventually need to be changed
+    if(vc.length > 1) { setWasMulti(true); }
+    console.log(vc);
+    console.log(vc.length);
+    console.log(wasMulti)
     setCredential(vc[0]);
     return result;
   } 
@@ -106,6 +112,7 @@ const Home: NextPage = () => {
     const cred = fromqr[0];
 
     history.pushState(null, '', '#verify/results');
+    if(fromqr.length > 1) { setWasMulti(true); }
     setCredential(cred);
     return true;
   }
@@ -129,7 +136,7 @@ const Home: NextPage = () => {
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
-              <CredentialCard credential={credential} />
+              <CredentialCard credential={credential} wasMulti={wasMulti}/>
               <VerificationCard />
             </Container>
           </VerificationContext.Provider>
