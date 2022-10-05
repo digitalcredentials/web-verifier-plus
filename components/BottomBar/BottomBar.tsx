@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { BottomBarProps } from './BottomBar.d'
 import styles from './BottomBar.module.css'
 
@@ -23,8 +24,8 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         </a>
       </div>
       <div className={styles.linkContainer}>
-        <a href='/html/terms.html' className={styles.link}>Terms and Conditions of Use</a>
-        <a href='/html/privacy.html' className={styles.link}>Privacy Policy</a>
+        <Link href='/terms' className={styles.link}>Terms and Conditions of Use</Link>
+        <Link href='/privacy' className={styles.link}>Privacy Policy</Link>
         <a className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</a>
         <a className={styles.link}>View on Github</a>
       </div>
