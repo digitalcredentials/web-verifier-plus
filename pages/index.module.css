@@ -156,40 +156,6 @@
   }
 }
 
-.textarea {
-  font: normal normal normal 16px/24px Rubik;
-  display: flex;
-  align-self: center;
-  width: 100%;
-  height: 181px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  opacity: 1;
-  margin-top: 24px;
-  padding: 16px;
-  background-color: var(--background);
-  color: var(--text);
-  flex-shrink: 1;
-}
-
-.textAreaContainer {
-  display: flex;
-  max-width: 500px;
-  width: 100%;
-  width: 100%;
-  position: relative;
-  justify-content: center;
-}
-
-.verifyTextArea {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-}
-
-.textarea::placeholder {
-  color: var(--light-text);
-}
 
 .dndUpload {
   display: flex;
@@ -274,4 +240,105 @@
   padding-left: 8px;
   
   font: normal normal medium 14px/17px Rubik;
+}
+
+
+/* .textarea {
+  font: normal normal normal 16px/24px Rubik;
+  display: flex;
+  align-self: center;
+  width: 100%;
+  height: 181px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  opacity: 1;
+  margin-top: 24px;
+  padding: 16px;
+  background-color: var(--background);
+  color: var(--text);
+  flex-shrink: 1;
+} */
+
+.textAreaContainer {
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  margin-top: 24px;
+}
+
+.verifyTextArea {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+
+/* .textarea::placeholder {
+  color: var(--light-text);
+} */
+
+
+.floatingTextarea {
+  --input-height: 48px;
+  --input-padding-horiz: 1em;
+  --input-bg-clr: var(--background);
+  --input-transition: 100ms ease;
+  --input-font-size: 16px;
+  --input-icon-size: 2.4rem;
+  --input-text-clr: var(--text);
+  --input-border-clr: var(--border);
+  --input-border: 2px solid var(--border);
+  --input-border-radius: 10px;
+
+  --floating-font-size: 16px;
+  --floating-label-clr: var(--light-text);
+    position: relative;
+}
+
+.floatingTextarea textarea {
+  overflow: auto;
+  display: block;
+  border: var(--input-border);
+  border-color: var(--input-border-clr);
+  border-radius: var(--input-border-radius);
+  min-height: 180px;
+  width: 100%;
+  padding: calc(var(--input-font-size) / 2) var(--input-padding-horiz);
+  font-size: var(--input-font-size);
+  color: var(--input-text-clr);
+  background-color: var(--input-bg-clr);
+  resize: none;
+}
+
+
+.floatingTextarea label {
+  position: absolute;
+  top: 8px;
+  left: calc(1em - 4px);
+  background-color: var(--input-bg-clr);
+  color: var(--floating-label-clr);
+  text-align: center;
+  transition: 200ms ease;
+  font-size: var(--floating-font-size);
+  pointer-events: none;
+  padding: 1px 4px;
+}
+
+.floatingTextarea textarea:not(:placeholder-shown) ~ label,
+.floatingTextarea textarea:focus ~ label {
+  top: 0px;
+  left: 1em;
+  transform: translateY(-50%);
+  --floating-font-size: 13px;
+  --floating-label-clr: var(--text);
+}
+
+.floatingTextarea textarea:focus {
+  --input-border-clr: var(--primary);
+  outline: none;
+}
+.floatingTextarea textarea:hover {
+  --input-border-clr: var(--dark-text);
+}
+.floatingTextarea textarea:focus:hover {
+  --input-border-clr: var(--dark-text);
 }

@@ -28,7 +28,8 @@ const Home: NextPage = () => {
   const [scanError, setScanError] = useState(false);
   const [credential, setCredential] = useState<Credential | undefined>(undefined);
   const credentialContext = useVerification(credential);
-  
+
+
   useEffect(() => {
     document.documentElement.lang = "en";
     document.title = "VerifierPlus Home page";
@@ -96,14 +97,17 @@ const Home: NextPage = () => {
     }
   }
 
-  async function onScan(json: string) {
+  async function onScan(json: string) : Promise<Boolean> {
     const fromqr = await credentialsFromQrText(json);
-    if (fromqr === null) { return; }
+    console.log('here');
+    console.log(fromqr);
+    if (fromqr === null) { return false; }
     // get first cred. this will eventually need to be changed
     const cred = fromqr[0];
 
     history.pushState(null, '', '#verify/results');
     setCredential(cred);
+    return true;
   }
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
@@ -120,8 +124,8 @@ const Home: NextPage = () => {
 
   if (credential !== undefined) {
     return (
-      <div className={styles.container}>
-        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
+      <main className={styles.container}>
+        <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
         <div className={styles.verifyContainer}>
           <VerificationContext.Provider value={credentialContext}>
             <Container>
@@ -132,13 +136,13 @@ const Home: NextPage = () => {
         </div>
         
         <BottomBar isDark={isDark}/>
-      </div>
+      </main>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <TopBar isDark={isDark} setIsDark={setIsDark} />
+    <main className={styles.container}>
+      <TopBar isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
       <div className={styles.contentContainer}>
         <div>
           <h1 className={styles.title}>
@@ -167,20 +171,22 @@ const Home: NextPage = () => {
               warning
             </span>
             <p className={styles.error}>
-              Invalid Qr code
+              Invalid QR code
             </p>
           </div>
         )}
 
         <div className={styles.textAreaContainer}>
+          <div className={styles.floatingTextarea}>
             <textarea
-            className={styles.textarea}
-            placeholder='Paste JSON or URL'
-            value={textArea}
-            onChange={(e) => setTextArea(e.target.value)}
-            id='textarea'
-            title='Input for raw JSON'
-          />
+              aria-labelledby='textarea-label'
+              placeholder=' '
+              value={textArea}
+              onChange={(e) => setTextArea(e.target.value)}
+              id='textarea'
+            />
+            <label id='textarea-label' htmlFor='textarea'>Paste JSON or URL</label>
+          </div>
           <Button className={styles.verifyTextArea} text='Verify' onClick={verifyTextArea}/>
         </div>
 
@@ -190,7 +196,7 @@ const Home: NextPage = () => {
               warning
             </span>
             <p className={styles.error}>
-              Json cannot be parsed
+              JSON cannot be parsed
             </p>
           </div>
       )}
@@ -222,7 +228,7 @@ const Home: NextPage = () => {
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan} setErrorMessage={setScanError} />
       </div>
       <BottomBar isDark={isDark}/>
-    </div>
+    </main>
   )
 }
 

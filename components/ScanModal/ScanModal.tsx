@@ -9,14 +9,17 @@ export const ScanModal = ({ isOpen, setIsOpen, onScan, setErrorMessage }: ScanMo
   
   const handleScan = (newData?: Result | null, error?: Error | null) => {
     if (newData){
-      // console.log(newData);
-      onScan(newData.getText());
+      const res = onScan(newData.getText());
       closeModal();
+      if (newData.getText()) {
+        setErrorMessage(true);
+      }
     }
 
     if (error){
-      // console.log("error");
-      setErrorMessage(true)
+      console.log(error);
+      // setErrorMessage(true);
+      // closeModal();
     }
   }
  
