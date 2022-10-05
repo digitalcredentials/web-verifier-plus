@@ -3,5 +3,5 @@ import { VerifiablePresentation } from 'types/presentation';
 
 export type CredentialCardProps = {
   credential: Credential,
-  wasMulti: Boolean
+  wasMulti?: Boolean
 }
