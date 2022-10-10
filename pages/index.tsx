@@ -14,6 +14,7 @@ import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
+import Link from 'next/link'
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -38,6 +39,16 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
+    if (credential === undefined) {
+      console.log('here');
+      setTextAreaError(false);
+      setFileError(false);
+      setScanError(false);
+      // history.replaceState(null, '', '');
+    }
+  }, [credential])
+
+  useEffect(() => {
     if (file !== null) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -56,7 +67,6 @@ const Home: NextPage = () => {
   }, [file]);
   
   function handlePop() {
-    history.replaceState(null, '', '');
     setCredential(undefined);
     setWasMulti(false);
   }
@@ -72,6 +82,7 @@ const Home: NextPage = () => {
 
   function verifyCredential(json: string) {
     const result = checkJson(json);
+
     if (!result) { return result; }
     const parsedJson = JSON.parse(json);
     let newCredential: VerifiableObject = parsedJson;
@@ -158,11 +169,11 @@ const Home: NextPage = () => {
         </div>
         <div>
           <p className={styles.descriptionBlock}>
-            VerifierPlus allows users to verify any <a href='html/faq.html#supported'>supported</a> digital academic credential. 
+            VerifierPlus allows users to verify any <Link href='faq#supported'>supported</Link> digital academic credential. 
             This site is hosted by 
              the <a href='https://digitalcredentials.mit.edu/'>Digital Credentials Consortium</a>
              , a network of leading international universities designing an open
-              infrastructure for digital academic credentials. <a href='html/faq.html#trust'>Why trust us?</a> 
+              infrastructure for digital academic credentials. <Link href='faq#trust'>Why trust us?</Link> 
           </p>
         </div>
         <Button 
