@@ -1,7 +1,7 @@
 import type { TopBarProps } from "./TopBar.d"
 import { ToggleSwitch } from "components/ToggleSwitch/ToggleSwitch";
 import Link from "next/link";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import styles from './TopBar.module.css'
 
 //TODO: home button
@@ -9,18 +9,19 @@ import styles from './TopBar.module.css'
 
 export const TopBar = ({hasLogo = false, isDark, setIsDark, setCredential}: TopBarProps) => {
 
+  const enableDarkMode = useCallback(() => {
+    document.body.classList.add('darkmode');
+    localStorage.setItem('darkMode', 'true');
+    setIsDark(true);
+  },[setIsDark]);
+
   // get local storage value for darkmode on mount
   useEffect(() => {
     let darkMode = localStorage.getItem('darkMode');
     if (darkMode === 'true') { setIsDark(true); enableDarkMode(); }
     else { setIsDark(false); }
-  },[]);
+  },[setIsDark, enableDarkMode]);
 
-  const enableDarkMode = () => {
-    document.body.classList.add('darkmode');
-    localStorage.setItem('darkMode', 'true');
-    setIsDark(true);
-  }
 
   const disableDarkMode = () => {
     document.body.classList.remove('darkmode');

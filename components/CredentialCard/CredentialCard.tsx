@@ -9,11 +9,20 @@ import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { QRCodeSVG } from 'qrcode.react';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 
-export const CredentialCard = ({ credential }: CredentialCardProps) => {
+export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardProps) => {
   const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
 
   return (
     <main aria-labelledby='title'>
+      {wasMulti && (
+        <div className={styles.errorContainer}>
+          
+          <span className={`material-icons-outlined ${styles.warningIcon}`}>
+            warning
+          </span>
+          <p className={styles.error}>Presentation had multiple credentials but only the first is displayed</p>
+        </div>
+      )}
       <div className={styles.card}>
         <div className={styles.topCard}>
           <div className={styles.verifyContainer}>
