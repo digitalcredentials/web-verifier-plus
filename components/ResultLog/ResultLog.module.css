@@ -17,8 +17,6 @@
   }
 }
 
-
-
 .resultItem {
   line-height: 1.5;
   display:flex;
@@ -47,4 +45,15 @@
   margin-top: 8px;
   margin-left: 16px;
   padding: 0;
+}
+
+.moreInfoLink {
+  color: var(--primary);
+  text-decoration: underline;
+  margin: 0px;
+  font: normal normal medium 14px/17px Rubik;
+}
+
+.errorContainer {
+  font-size: 12px;
 }

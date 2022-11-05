@@ -1,6 +1,6 @@
 import { fromQrCode } from '@digitalcredentials/vpqr';
 
-import { securityLoader } from './documentLoader';
+import { securityLoader } from '@digitalcredentials/security-document-loader';
 //import { verifyPresentation } from '../lib/validate';
 import type { Credential } from '../types/credential';
 //import { VerifiablePresentation, PresentationError } from '../types/presentation';

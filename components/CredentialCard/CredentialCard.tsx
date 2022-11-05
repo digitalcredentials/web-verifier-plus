@@ -8,9 +8,18 @@ import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { QRCodeSVG } from 'qrcode.react';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
+import { IssuerInfoModal } from 'components/IssuerInfoModal/IssuerInfoModal';
+import { useState } from 'react';
 
 export const CredentialCard = ({ credential }: CredentialCardProps) => {
+  //TODO: add back IssuerInfoModal
+  //TODO: add icon back to Issuer
   const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
+  const [isOpen, setIsOpen] = useState(false);
+
+  const infoButtonPushed = () => {
+    setIsOpen(true);
+  }
 
   return (
     <main aria-labelledby='title'>
@@ -38,7 +47,7 @@ export const CredentialCard = ({ credential }: CredentialCardProps) => {
         <div className={styles.mainCard}>
           <div className={styles.secondaryColumn}>
             <section>
-              <Issuer issuer={issuer} header='Issuer'/>
+              <Issuer issuer={issuer} infoButtonPushed={infoButtonPushed} header='Issuer'/>
               <div className={styles.headerRow}>
                 {credential.issuanceDate && (
                   <InfoBlock header="Issuance Date" contents={DateTime.fromISO(credential.issuanceDate).toLocaleString(DateTime.DATE_MED)} />
@@ -76,8 +85,8 @@ export const CredentialCard = ({ credential }: CredentialCardProps) => {
             }
           </div>
         </div>
-        
       </div>
+      {/* <IssuerInfoModal isOpen={isOpen} setIsOpen={setIsOpen} issuer={issuer}/> */}
     </main>
   );
 }
