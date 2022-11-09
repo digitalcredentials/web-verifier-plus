@@ -11,7 +11,7 @@ import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { IssuerInfoModal } from 'components/IssuerInfoModal/IssuerInfoModal';
 import { useState } from 'react';
 
-export const CredentialCard = ({ credential }: CredentialCardProps) => {
+export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardProps) => {
   //TODO: add back IssuerInfoModal
   //TODO: add icon back to Issuer
   const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
@@ -23,6 +23,15 @@ export const CredentialCard = ({ credential }: CredentialCardProps) => {
 
   return (
     <main aria-labelledby='title'>
+      {wasMulti && (
+        <div className={styles.errorContainer}>
+          
+          <span className={`material-icons-outlined ${styles.warningIcon}`}>
+            warning
+          </span>
+          <p className={styles.error}>Presentation had multiple credentials but only the first is displayed</p>
+        </div>
+      )}
       <div className={styles.card}>
         <div className={styles.topCard}>
           <div className={styles.verifyContainer}>
