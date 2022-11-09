@@ -4,9 +4,9 @@ import { checkStatus } from '@digitalcredentials/vc-status-list';
 import vc from '@digitalcredentials/vc';
 
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
-import { Credential, CredentialError } from 'types/credential.d';
+import { Credential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 
-import { securityLoader } from './documentLoader';
+import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { registries } from './registry';
 import { extractCredentialsFrom } from './verifiableObject';
 
@@ -60,7 +60,7 @@ export async function verifyCredential(credential: Credential): Promise<VerifyRe
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
   if (!registries.issuerDid.isInRegistry(issuerDid)) {
-    throw new Error(CredentialError.DidNotInRegistry);
+    throw new Error(CredentialErrorTypes.DidNotInRegistry);
   }
 
   try {
@@ -76,6 +76,6 @@ export async function verifyCredential(credential: Credential): Promise<VerifyRe
     return result;
   } catch (err) {
     console.warn(err);
-    throw new Error(CredentialError.CouldNotBeVerified);
+    throw new Error(CredentialErrorTypes.CouldNotBeVerified);
   }
 }

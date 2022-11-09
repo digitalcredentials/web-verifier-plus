@@ -77,12 +77,13 @@ export type Credential = {
   readonly proof?: Proof;                // https://w3c.github.io/vc-data-model/#proofs-signatures
 }
 
-// export enum CredentialError {
-//   IsNotVerified = 'Credential is not verified.',
-//   CouldNotBeVerified = 'Credential could not be checked for verification and may be malformed.',
-//   DidNotInRegistry = 'Could not find issuer in registry with given DID.',
-// }
+export enum CredentialErrorTypes {
+  IsNotVerified = 'Credential is not verified.',
+  CouldNotBeVerified = 'Credential could not be checked for verification and may be malformed.',
+  DidNotInRegistry = 'Could not find issuer in registry with given DID.',
+}
 
+// I added
 export type CredentialError = {
   details: ErrorDetails,
   message: string,
@@ -90,11 +91,13 @@ export type CredentialError = {
   stack: string,
 }
 
+// I added
 export type ErrorDetails = {
   cause: ErrorCause;
   code: string;
   url: string;
 }
+// I added
 export type ErrorCause = {
   message: string;
   name: string;
