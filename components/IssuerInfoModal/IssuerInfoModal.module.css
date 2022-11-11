@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+  width: 100%;
+  background: var(--background) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 15px 30px #06102452;
+  border-radius: 10px;
+  opacity: 1;
+  padding: 24px 32px;
+}
+
+.overlay {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: var(--modal-background);
+  padding: 48px 8px;
+  overflow: auto;
+}
+
+.unorderedList{
+  margin: 0px;
+  padding-left: 20px;
+}
+
+.header {
+  margin: 0px;
+  font-size: 12px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.issuerName {
+  margin: 0px;
+}

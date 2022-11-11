@@ -3,7 +3,6 @@ import styles from './index.module.css'
 import { Button } from 'components/Button/Button'
 import { useEffect, useState,  } from 'react'
 import { ScanModal } from 'components/ScanModal/ScanModal'
-import { VerifiablePresentation } from 'types/presentation'
 import { CredentialCard } from 'components/CredentialCard/CredentialCard'
 import { Container } from 'components/Container/Container'
 import { VerificationCard } from 'components/VerificationCard/VerificationCard'
@@ -58,7 +57,6 @@ const Home: NextPage = () => {
           console.log('file parse error');
           setFileError(true);
         } else {
-          // console.log('no file parse error');
           setFileError(false);
         }
       };
@@ -104,12 +102,10 @@ const Home: NextPage = () => {
   }
 
   function verifyTextArea() {
-    // console.log("verify button was pushed");
     const result = verifyCredential(textArea);
     if (!result) {
       setTextAreaError(true);
     } else {
-      // console.log('no text area parse error');
       setTextAreaError(false);
     }
   }

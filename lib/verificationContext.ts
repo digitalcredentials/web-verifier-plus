@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { Credential, VerifyResponse, VerifyResult } from "types/credential";
+import { VerifyResponse } from "types/credential";
 
 export type VerificationContextType = {
   loading: boolean;

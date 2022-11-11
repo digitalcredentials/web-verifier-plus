@@ -66,6 +66,16 @@
     js-base64 "^3.6.0"
     uuid "^8.3.1"
 
+"@digitalcredentials/crypto-ld@7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/crypto-ld/-/crypto-ld-7.0.3.tgz#558dbee5ce7a170bdbbc3d2328449093651e9f73"
+  integrity sha512-EKe23tcL2U14AP5LGb4OYGO0J73a7WACMpVPvLLLoavQlf2SFxeRLe+5qvDbiGeK89/4YVfGAowdjBWGsT0VKw==
+
+"@digitalcredentials/crypto-ld@^7.0.2":
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/crypto-ld/-/crypto-ld-7.0.6.tgz#51a3485d4fad2418df871ce0905cbaeecff96ea3"
+  integrity sha512-wxgjiU08rIMUaPhaOOVUjcdWZoL1FVfzGuX9ADHiyx0O34lJ4wdXnGk5QMYgwpl7B4gy1vDDp5VVHpO8l+aVFQ==
+
 "@digitalcredentials/dcc-context@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@digitalcredentials/dcc-context/-/dcc-context-1.0.0.tgz#7713bc437c90995e70e04e751001408ed59a165d"
@@ -144,6 +154,11 @@
   dependencies:
     lru-cache "^6.0.0"
 
+"@digitalcredentials/open-badges-context@^0.1.1":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/open-badges-context/-/open-badges-context-0.1.2.tgz#ce4f5a8550dc31dac582c19d221cc375a7eaa217"
+  integrity sha512-uaaL1htmUsJESfb3v7bAXKA4xu/xc7bzmK2R7BlYJEKY1QZpYOH9PZBrGqUEWfcMHfu1V2ILErIU4vMDz20lHQ==
+
 "@digitalcredentials/rdf-canonize@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@digitalcredentials/rdf-canonize/-/rdf-canonize-1.0.0.tgz#6297d512072004c2be7f280246383a9c4b0877ff"
@@ -151,6 +166,28 @@
   dependencies:
     fast-text-encoding "^1.0.3"
     isomorphic-webcrypto "^2.3.8"
+
+"@digitalcredentials/security-document-loader@^0.1.3":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/security-document-loader/-/security-document-loader-0.1.4.tgz#d02ceacb53df6e81ad38ba7e78d1a4478c5d3285"
+  integrity sha512-8eX4LWaEHtEPvfOpeF0tSUXJWIzpqHT/AuzkBCx0pJMSzsMgxMs15snr9V4nBA8BKpEa3fSj5qjWCDJKf+tOpw==
+  dependencies:
+    "@digitalbazaar/vc-status-list-context" "^3.0.1"
+    "@digitalcredentials/crypto-ld" "^7.0.2"
+    "@digitalcredentials/dcc-context" "^1.0.0"
+    "@digitalcredentials/did-io" "^1.0.2"
+    "@digitalcredentials/did-method-key" "^2.0.3"
+    "@digitalcredentials/ed25519-verification-key-2020" "^3.2.2"
+    "@digitalcredentials/open-badges-context" "^0.1.1"
+    "@digitalcredentials/x25519-key-agreement-key-2020" "^3.0.0"
+    "@interop/did-web-resolver" "^3.0.0"
+    credentials-context "^2.0.0"
+    crypto-ld "^7.0.0"
+    did-context "^3.1.1"
+    ed25519-signature-2020-context "^1.1.0"
+    html-entities "^2.3.3"
+    jsonld-document-loader "^1.2.1"
+    x25519-key-agreement-2020-context "^1.0.0"
 
 "@digitalcredentials/vc-status-list@^5.0.2":
   version "5.0.2"
@@ -166,6 +203,15 @@
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@digitalcredentials/vc/-/vc-4.1.1.tgz#cc10e3559c6d1ec620b08445703b1268f852cb17"
   integrity sha512-QVLrFBX/jzm/psHhjHpCikJ+CtKsV7kLGsteXbVNUrwJxfzpYeGuhggZSqmdrXr/9ePWwfOpBy2DAaJsqmEkIA==
+  dependencies:
+    "@digitalcredentials/jsonld" "^5.2.1"
+    "@digitalcredentials/jsonld-signatures" "^9.3.1"
+    credentials-context "^2.0.0"
+
+"@digitalcredentials/vc@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/vc/-/vc-5.0.0.tgz#9940103221d9bdc280ce82ca615624ac2ef08d47"
+  integrity sha512-87ARRxlAdIuUPArbMYJ8vUY7QqkIvJGFrBwfTH1PcB8Wz1E/M4q3oc/WLrDyJNg4o/irVVB5gkA9iIntTYSpoA==
   dependencies:
     "@digitalcredentials/jsonld" "^5.2.1"
     "@digitalcredentials/jsonld-signatures" "^9.3.1"
@@ -189,6 +235,16 @@
     "@digitalcredentials/base58-universal" "^1.0.0"
     crypto-ld "^6.0.0"
     ed2curve "^0.3.0"
+    tweetnacl "^1.0.3"
+
+"@digitalcredentials/x25519-key-agreement-key-2020@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@digitalcredentials/x25519-key-agreement-key-2020/-/x25519-key-agreement-key-2020-3.0.0.tgz#2e3b4b66ac74a69db087267771eead1b644c94fb"
+  integrity sha512-mCh6eRh6opBZiEtAWZ3RvCGs6JP9QpN2/xPxncQIKBK9WBUxONgL1CEsTUTRcisGvWQrUcqVXRHQ0Tl6b8weSQ==
+  dependencies:
+    "@digitalcredentials/base58-universal" "^1.0.0"
+    "@noble/ed25519" "^1.6.0"
+    crypto-ld "^6.0.0"
     tweetnacl "^1.0.3"
 
 "@eslint/eslintrc@^1.3.0":
@@ -220,10 +276,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@interop/did-web-resolver@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@interop/did-web-resolver/-/did-web-resolver-2.2.1.tgz#03033854bc984d5095ebad749a081ff2be0ceecc"
-  integrity sha512-k4RkVj9Af5WRbBJJN7vQd+KMM7AyDepQnej7pWdhiFWjLXDpzb76lbJptdL7iUOtgdTQNSh20C3+2G9/IKI8tQ==
+"@interop/did-web-resolver@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@interop/did-web-resolver/-/did-web-resolver-3.0.0.tgz#692386bb333b6f4795e8699b82fc9561cb7abe82"
+  integrity sha512-5Aevwo+/qrn4q5y4nwdVEeTFhlGSw8fYvs7A//WBAIKXGEBdWpHHvcIgsofNmtGao0f1ZnTb2MoCzsM0TnIn8g==
   dependencies:
     "@digitalcredentials/bnid" "^2.1.1"
     "@digitalcredentials/did-io" "^1.0.2"
@@ -309,6 +365,11 @@
   version "12.2.0"
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.2.0.tgz#9f66664f9122ca555b96a5f2fc6e2af677bf801b"
   integrity sha512-OI14ozFLThEV3ey6jE47zrzSTV/6eIMsvbwozo+XfdWqOPwQ7X00YkRx4GVMKMC0rM44oGS2gmwMKYpe4EblnA==
+
+"@noble/ed25519@^1.6.0":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@noble/ed25519/-/ed25519-1.7.1.tgz#6899660f6fbb97798a6fbd227227c4589a454724"
+  integrity sha512-Rk4SkJFaXZiznFyC/t77Q0NKS4FL7TLJJsVG2V2oiEq3kJVeTdxysEe/yRWSpnWMe808XRDJ+VFh5pt/FN5plw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -836,6 +897,11 @@ crypto-ld@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/crypto-ld/-/crypto-ld-6.0.0.tgz#cf8dcf566cb3020bdb27f0279e6cc9b46d031cd7"
   integrity sha512-XWL1LslqggNoaCI/m3I7HcvaSt9b2tYzdrXO+jHLUj9G1BvRfvV7ZTFDVY5nifYuIGAPdAGu7unPxLRustw3VA==
+
+crypto-ld@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/crypto-ld/-/crypto-ld-7.0.0.tgz#ad593cce31da84e60bd14fd2b25221f97e8a3b74"
+  integrity sha512-RrXy6aB0TOhSiqsgavTQt1G8mKomKIaNLb2JZxj7A/Vi0EwmXguuBQoeiAvePfK6bDR3uQbqYnaLLs4irTWwgw==
 
 csstype@^3.0.2:
   version "3.1.0"
@@ -1479,6 +1545,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+html-entities@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-2.3.3.tgz#117d7626bece327fc8baace8868fa6f5ef856e46"
+  integrity sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==
+
 ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
@@ -1696,7 +1767,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonld-document-loader@^1.2.0:
+jsonld-document-loader@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/jsonld-document-loader/-/jsonld-document-loader-1.2.1.tgz#d1bf82c4888cc097c5cbaf2c89c7f6331bc10355"
   integrity sha512-CtFyIBZApeVvs6QgyS7Gcp8h1dUs+1XNHcV4Sr6O9ItPaL0hVgqe47Tgs3RNH0A5Bc4p3UFPKAJVHKSOQq4mhQ==

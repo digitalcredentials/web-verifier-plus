@@ -1,7 +1,7 @@
 import { ResultLog } from 'components/ResultLog/ResultLog';
 import { VerificationControls } from 'components/VerificationControls/VerificationControls';
 import { useVerificationContext } from 'lib/verificationContext';
-import { VerifyResponse, VerifyResult } from 'types/credential';
+import { VerifyResponse } from 'types/credential';
 import styles from './VerificationCard.module.css';
 
 export const VerificationCard = () => {

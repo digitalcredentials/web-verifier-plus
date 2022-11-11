@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Credential, VerifyResponse } from "types/credential";
 import { VerificationContextType } from "./verificationContext";
 

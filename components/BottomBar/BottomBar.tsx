@@ -7,7 +7,6 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
   const getVersionNumber = () => {
     const gitCommit = '98c0a2a';
     const version = "0.1.0";
-
     return gitCommit + ' ' + version;
 
   }

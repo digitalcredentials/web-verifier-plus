@@ -1,4 +1,3 @@
-import { lookupService } from "dns";
 import { useVerificationContext } from "lib/verificationContext";
 import styles from './VerifyIndicator.module.css';
 

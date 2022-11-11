@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { IssuerProps } from './Issuer.d';
 import styles from './Issuer.module.css';
 
-export const Issuer = ({issuer, header}: IssuerProps ) => {
+export const Issuer = ({issuer, header, infoButtonPushed}: IssuerProps ) => {
   const issuerImage = useRef<HTMLImageElement>(null);
 
   const handleonError = () => {
@@ -25,7 +25,11 @@ export const Issuer = ({issuer, header}: IssuerProps ) => {
               <img src={issuer.image} width={36} height={36} alt={`${issuer.name} logo`} ref={issuerImage} onError={handleonError} />
             )}
             <div className={styles.issuerInformation}>
-              <div>{issuer.name}</div>
+              <div>{issuer.name}
+                {/* <span className={`material-icons-outlined ${styles.infoIcon}`} onClick={infoButtonPushed}>
+                  info
+                </span> */}
+              </div>
               <a href={issuer.url}>{issuer.url}</a>
             </div>
           </div>
