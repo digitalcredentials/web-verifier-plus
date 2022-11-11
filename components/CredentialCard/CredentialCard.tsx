@@ -2,11 +2,10 @@ import { DateTime } from 'luxon';
 import { Button } from 'components/Button/Button';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
-import { Credential, IssuerObject } from 'types/credential';
+import { IssuerObject } from 'types/credential';
 import type {CredentialCardProps} from './CredentialCard.d';
 import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
-import { QRCodeSVG } from 'qrcode.react';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { IssuerInfoModal } from 'components/IssuerInfoModal/IssuerInfoModal';
 import { useState } from 'react';
@@ -14,7 +13,8 @@ import { useState } from 'react';
 export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardProps) => {
   //TODO: add back IssuerInfoModal
   //TODO: add icon back to Issuer
-  const issuer = credential.issuer as IssuerObject; // TODO figure out other issuer type
+  // NOTE: unused imports will be used when above features get reinstated
+  const issuer = credential.issuer as IssuerObject;
   const [isOpen, setIsOpen] = useState(false);
 
   const infoButtonPushed = () => {

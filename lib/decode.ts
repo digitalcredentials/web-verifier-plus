@@ -1,18 +1,12 @@
 import { fromQrCode } from '@digitalcredentials/vpqr';
-
 import { securityLoader } from '@digitalcredentials/security-document-loader';
-//import { verifyPresentation } from '../lib/validate';
 import type { Credential } from '../types/credential';
-//import { VerifiablePresentation, PresentationError } from '../types/presentation';
-import { VerifiablePresentation } from '../types/presentation';
 import { VerifiableObject, extractCredentialsFrom } from './verifiableObject';
 
 const documentLoader = securityLoader().build();
 const vpqrPattern = /^VP1-[A-Z|0-9]+/;
 
 export async function credentialsFromQrText(text: string): Promise<Credential[] | null> {
-  // const test = await fromQrCode({ text, documentLoader});
-  // console.log(test);
   
   try {
     const { vp }: { vp: VerifiableObject } = await fromQrCode({ text, documentLoader });

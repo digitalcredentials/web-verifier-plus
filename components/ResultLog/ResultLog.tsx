@@ -1,4 +1,3 @@
-import { Button } from 'components/Button/Button';
 import { useState } from 'react';
 import { CredentialError } from 'types/credential';
 import type { ResultLogProps } from './ResultLog.d';
@@ -24,16 +23,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       </div>
     )
   }
-  // console.log('1: ', verificationResult);
-  // console.log('2: ',verificationResult.results[0].error);
-  // console.log('3: ',verificationResult.results[0]?.log);
+
   const logMap = verificationResult.results[0]?.log?.reduce((acc: Record<string, boolean>, log) => {
     acc[log.id] = log.valid;
     return acc;
   }, {}) ?? {};
-
-  // console.log('logmap: ', logMap);
-  // console.log(logMap['issuer_did_resolves']);
 
   console.log(verificationResult.results[0]);
   let hasError = false;

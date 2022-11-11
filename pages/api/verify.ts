@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Credential } from 'types/credential';
-import { ResultLog, verifyCredential } from 'lib/validate';
+import { verifyCredential } from 'lib/validate';
 
 
 export default async function handler(

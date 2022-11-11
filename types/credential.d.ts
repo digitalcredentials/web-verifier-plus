@@ -83,7 +83,6 @@ export enum CredentialErrorTypes {
   DidNotInRegistry = 'Could not find issuer in registry with given DID.',
 }
 
-// I added
 export type CredentialError = {
   details: ErrorDetails,
   message: string,
@@ -91,13 +90,12 @@ export type CredentialError = {
   stack: string,
 }
 
-// I added
 export type ErrorDetails = {
   cause: ErrorCause;
   code: string;
   url: string;
 }
-// I added
+
 export type ErrorCause = {
   message: string;
   name: string;

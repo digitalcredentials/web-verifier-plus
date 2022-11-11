@@ -1,11 +1,8 @@
 import type { TopBarProps } from "./TopBar.d"
 import { ToggleSwitch } from "components/ToggleSwitch/ToggleSwitch";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect } from "react"
 import styles from './TopBar.module.css'
-
-//TODO: home button
-//TODO: if hasLogo === true, set background of to dif color
 
 export const TopBar = ({hasLogo = false, isDark, setIsDark, setCredential}: TopBarProps) => {
 

@@ -2,6 +2,7 @@ import type { IssuerInfoModalProps } from './IssuerInfoModal.d';
 import styles from './IssuerInfoModal.module.css';
 
 export const IssuerInfoModal = ({ isOpen, setIsOpen, issuer }: IssuerInfoModalProps) => {
+  //TODO: get the registries from the issuer
   const closeModal = () => {
     setIsOpen(false);
   }

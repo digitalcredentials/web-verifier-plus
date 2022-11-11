@@ -3,7 +3,7 @@ import styles from './[id].module.css'
 import type { CredentialProps } from './[id].d';
 import { CredentialCard } from 'components/CredentialCard/CredentialCard';
 import { Container } from 'components/Container/Container';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useVerification } from 'lib/useVerification';
 import { Credential } from 'types/credential';
 import { VerificationContext } from 'lib/verificationContext';

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { IssuerProps } from './Issuer.d';
 import styles from './Issuer.module.css';
 
@@ -38,5 +38,3 @@ export const Issuer = ({issuer, header, infoButtonPushed}: IssuerProps ) => {
     </div>
   );
 }
-
-// className={`material-icons ${styles.darkmodeIcon}`}
