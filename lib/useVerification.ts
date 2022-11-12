@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Credential, VerifyResponse } from "types/credential";
-import { VerificationContextType } from "./verificationContext";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { VerifiableCredential, VerifyResponse } from 'types/credential';
+import { VerificationContextType } from './verificationContext';
 
-
-export const useVerification = (credential?: Credential) => {
+export const useVerification = (credential?: VerifiableCredential) => {
   const [verificationResult, setVerificationResult] = useState<VerifyResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [timerExpired, setTimerExpired] = useState(false);

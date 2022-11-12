@@ -13,11 +13,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
         </span>
         <div>
           {verified ? positiveMessage : negativeMessage}
-          { issuer ? 
+          { issuer ?
             <ul className={styles.issuerList}>
               <li>DCC Trust Registry</li>
             </ul> :
-          null
+            null
           }
         </div>
       </div>

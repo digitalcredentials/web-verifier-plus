@@ -1,21 +1,40 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
-import styles from './[id].module.css'
-import type { CredentialProps } from './[id].d';
+import useSWR from 'swr';
+import styles from './[publicCredentialId].module.css'
+import type { CredentialProps } from './[publicCredentialId].d';
 import { CredentialCard } from 'components/CredentialCard/CredentialCard';
 import { Container } from 'components/Container/Container';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useVerification } from 'lib/useVerification';
-import { Credential } from 'types/credential';
+import { VerifiableCredential } from 'types/credential';
 import { VerificationContext } from 'lib/verificationContext';
 import { VerificationCard } from 'components/VerificationCard/VerificationCard';
 import { TopBar } from 'components/TopBar/TopBar';
 import { BottomBar } from 'components/BottomBar/BottomBar';
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 
-const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
+// @see https://nextjs.org/docs/basic-features/data-fetching/client-side#client-side-data-fetching-with-swr
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
+const CredentialPage: NextPage<CredentialProps> = () => {
   const [isDark, setIsDark] = useState(false);
-  const credentialContext = useVerification(presentation.verifiableCredential as Credential);
-  const vo : VerifiableObject = presentation;
+  const router = useRouter()
+  const { publicCredentialId } = router.query
+  const { data, error } = useSWR(`/api/credentials/${publicCredentialId}`, fetcher)
+
+  if (error) {
+    return <div>Failed to load</div>
+  }
+  if (!data) {
+    return <div>Loading...</div>
+  }
+
+  const { vp: presentation } = data;
+
+  const credentialContext = useVerification(presentation.verifiableCredential as VerifiableCredential);
+
+  const vo: VerifiableObject = presentation;
   const creds = extractCredentialsFrom(vo);
   const cred = creds![0]
   return (
@@ -35,8 +54,7 @@ const CredentialPage: NextPage<CredentialProps> = ({ presentation }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<CredentialProps> = async ({ params }: GetServerSidePropsContext) => {
-
-  // TODO load VC from db using id
+  // TODO: Remove these mock credentials once 'useSWR' loading above is working
   if (params?.id === '1') { // verifiable
     return {
       props: {
@@ -138,4 +156,3 @@ export const getServerSideProps: GetServerSideProps<CredentialProps> = async ({ 
 }
 
 export default CredentialPage
-
