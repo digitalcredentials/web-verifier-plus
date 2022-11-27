@@ -9,10 +9,12 @@ import { verifyCredential, verifyPresentation } from './validate';
 export type VerifiableObject = VerifiableCredential | VerifiablePresentation;
 
 function isVerifiableCredential(obj: VerifiableObject): obj is VerifiableCredential {
+  if (obj === undefined) { return false; }
   return obj.type?.includes('VerifiableCredential');
 }
 
 function isVerifiablePresentation(obj: VerifiableObject): obj is VerifiablePresentation {
+  if (obj === undefined) { return false; }
   return obj.type.includes('VerifiablePresentation');
 }
 

@@ -15,28 +15,51 @@ import { BottomBar } from 'components/BottomBar/BottomBar';
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 
 // @see https://nextjs.org/docs/basic-features/data-fetching/client-side#client-side-data-fetching-with-swr
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
+// think this needed to be changed because of ts https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr
+const fetcher = (input: RequestInfo, init: RequestInit, ...args: any[]) => fetch(input, init).then((res) => res.json());
 
 const CredentialPage: NextPage<CredentialProps> = () => {
+  // TODO: probably want to find a way to extract cred then validate vs just getting cred from get return
   const [isDark, setIsDark] = useState(false);
-  const router = useRouter()
-  const { publicCredentialId } = router.query
-  const { data, error } = useSWR(`/api/credentials/${publicCredentialId}`, fetcher)
 
+  const router = useRouter();
+  const { publicCredentialId } = router.query;
+  // console.log('id: ', publicCredentialId);
+
+  // console.log('started api call');
+  const { data, error } = useSWR(`/api/credentials/${publicCredentialId}`, fetcher);
+  // console.log('end of api call');
+  // console.log('data: ', data);
+  // console.log('error: ', error);
+
+  let credential = undefined;
+  if (data !== undefined) {
+    ({ credential } = data);
+    // console.log('vp: ', credential)
+  }
+  
+  // console.log('start of verification');
+  // console.log('test: ', credential);
+  const credentialContext = useVerification(credential?.verifiableCredential as VerifiableCredential);
+  // console.log('hre: ', credentialContext);
+  // console.log('end of verification');
+  
   if (error) {
-    return <div>Failed to load</div>
+    console.log('failed to load');
+    return <div>Failed to load</div>;
   }
   if (!data) {
-    return <div>Loading...</div>
+    console.log('loading');
+    return <div>Loading...</div>;
   }
-
-  const { vp: presentation } = data;
-
-  const credentialContext = useVerification(presentation.verifiableCredential as VerifiableCredential);
-
-  const vo: VerifiableObject = presentation;
+  
+  // console.log('pres: ', credential)
+  const vo: VerifiableObject = credential;
+  // console.log('vo: ', vo);
   const creds = extractCredentialsFrom(vo);
   const cred = creds![0]
+  
   return (
     <div className={styles.container}>
       <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />

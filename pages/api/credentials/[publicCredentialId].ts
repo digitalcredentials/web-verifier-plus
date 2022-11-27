@@ -5,6 +5,7 @@ import * as credentials from 'lib/credentials';
  * GET /api/credentials/{publicCredentialId}
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log('started api');
   try {
     switch (req.method) {
       case 'GET':

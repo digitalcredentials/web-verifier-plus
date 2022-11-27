@@ -10,6 +10,7 @@ export const useVerification = (credential?: VerifiableCredential) => {
 
   const verifyCredential = useCallback(async () => {
     if (credential === undefined) {
+      console.log("cred was undefined in verifyCred")
       return;
     }
     setLoading(true);
