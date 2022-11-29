@@ -39,7 +39,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (credential === undefined) {
-      console.log('here');
       setTextAreaError(false);
       setFileError(false);
       setScanError(false);
