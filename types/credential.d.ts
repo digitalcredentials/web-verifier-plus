@@ -27,7 +27,6 @@ export type EducationalOperationalCredentialExtensions = {
   readonly awardedOnCompletionOf?: CompletionDocument;
 }
 
-// https://schema.org/EducationalOccupationalCredential (this doesn't really conform)
 export type EducationalOperationalCredential = EducationalOperationalCredentialExtensions & {
   readonly id: string;
   readonly name?: string;
@@ -51,7 +50,7 @@ export type Proof = {
   created: string;
   verificationMethod: string;
   proofPurpose: string;
-  proofValue: string;
+  proofValue?: string;
   challenge?: string;
   jws?: string;
 }
@@ -65,13 +64,13 @@ export type Status = {
 }
 
 // https://digitalcredentials.github.io/dcc/v1/dcc-context-v1.json
-export type Credential = {
+export type VerifiableCredential = {
   readonly credentialStatus?: Status;    // https://w3c.github.io/vc-data-model/#status
   readonly '@context': string[];         // https://w3c.github.io/vc-data-model/#contexts
-  readonly id: string;                   // https://w3c.github.io/vc-data-model/#identifiers
+  readonly id?: string;                   // https://w3c.github.io/vc-data-model/#identifiers
   readonly type: string[];               // https://w3c.github.io/vc-data-model/#types
   readonly issuer: Issuer;               // https://w3c.github.io/vc-data-model/#issuer
-  readonly issuanceDate: string;         // https://w3c.github.io/vc-data-model/#issuance-date
+  readonly issuanceDate?: string;         // https://w3c.github.io/vc-data-model/#issuance-date
   readonly expirationDate?: string;      // https://w3c.github.io/vc-data-model/#expiration
   readonly credentialSubject: Subject;   // https://w3c.github.io/vc-data-model/#credential-subject
   readonly proof?: Proof;                // https://w3c.github.io/vc-data-model/#proofs-signatures
@@ -109,7 +108,7 @@ export type VerifyResultLog = {
 
 export type VerifyResult = {
   verified: boolean;
-  credential: Credential;
+  credential: VerifiableCredential;
   error: CredentialError;
   log: VerifyResultLog[];
 }

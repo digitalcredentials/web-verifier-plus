@@ -7,7 +7,7 @@ import { CredentialCard } from 'components/CredentialCard/CredentialCard'
 import { Container } from 'components/Container/Container'
 import { VerificationCard } from 'components/VerificationCard/VerificationCard'
 import { VerificationContext } from 'lib/verificationContext'
-import { Credential } from 'types/credential'
+import { VerifiableCredential } from 'types/credential'
 import { useVerification } from 'lib/useVerification'
 import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
   const [textAreaError, setTextAreaError] = useState(false);
   const [fileError, setFileError] = useState(false);
   const [scanError, setScanError] = useState(false);
-  const [credential, setCredential] = useState<Credential | undefined>(undefined);
+  const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
 
@@ -39,7 +39,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (credential === undefined) {
-      console.log('here');
       setTextAreaError(false);
       setFileError(false);
       setScanError(false);
@@ -63,7 +62,7 @@ const Home: NextPage = () => {
       reader.readAsText(file, 'UTF-8');
     }
   }, [file]);
-  
+
   function handlePop() {
     setCredential(undefined);
     setWasMulti(false);
@@ -95,7 +94,7 @@ const Home: NextPage = () => {
     console.log(wasMulti)
     setCredential(vc[0]);
     return result;
-  } 
+  }
 
   function ScanButtonOnClick() {
     setIsOpen(!isOpen);
@@ -148,7 +147,7 @@ const Home: NextPage = () => {
             </Container>
           </VerificationContext.Provider>
         </div>
-        
+
         <BottomBar isDark={isDark}/>
       </main>
     );
@@ -165,22 +164,22 @@ const Home: NextPage = () => {
         </div>
         <div>
           <p className={styles.descriptionBlock}>
-            VerifierPlus allows users to verify any <Link href='faq#supported'>supported</Link> digital academic credential. 
-            This site is hosted by 
+            VerifierPlus allows users to verify any <Link href='faq#supported'>supported</Link> digital academic credential.
+            This site is hosted by
              the <a href='https://digitalcredentials.mit.edu/'>Digital Credentials Consortium</a>
              , a network of leading international universities designing an open
-              infrastructure for digital academic credentials. <Link href='faq#trust'>Why trust us?</Link> 
+              infrastructure for digital academic credentials. <Link href='faq#trust'>Why trust us?</Link>
           </p>
         </div>
-        <Button 
-          icon={<span className="material-icons">qr_code_scanner</span>} 
-          className={styles.scan} 
+        <Button
+          icon={<span className="material-icons">qr_code_scanner</span>}
+          className={styles.scan}
           text='Scan QR Code'
           onClick={ScanButtonOnClick}
         />
 
         {scanError && (
-          <div className={styles.errorContainer}>  
+          <div className={styles.errorContainer}>
             <span className="material-icons-outlined">
               warning
             </span>
@@ -205,7 +204,7 @@ const Home: NextPage = () => {
         </div>
 
         {textAreaError && (
-          <div className={styles.errorContainer}>  
+          <div className={styles.errorContainer}>
             <span className="material-icons-outlined">
               warning
             </span>
@@ -230,7 +229,7 @@ const Home: NextPage = () => {
         </div>
 
         {fileError && (
-          <div className={styles.errorContainer}>  
+          <div className={styles.errorContainer}>
             <span className="material-icons-outlined">
               warning
             </span>

@@ -1,4 +1,4 @@
-import { Credential } from '../types/credential';
+import { VerifiableCredential } from '../types/credential';
 import { VerifiablePresentation } from '../types/presentation';
 import { verifyCredential, verifyPresentation } from './validate';
 
@@ -6,13 +6,15 @@ import { verifyCredential, verifyPresentation } from './validate';
  * This type is used to identify a request response that could be a
  * Verifiable Credential or Verifiable Presentation.
  */
-export type VerifiableObject = Credential | VerifiablePresentation;
+export type VerifiableObject = VerifiableCredential | VerifiablePresentation;
 
-function isVerifiableCredential(obj: VerifiableObject): obj is Credential {
+function isVerifiableCredential(obj: VerifiableObject): obj is VerifiableCredential {
+  if (obj === undefined) { return false; }
   return obj.type?.includes('VerifiableCredential');
 }
 
 function isVerifiablePresentation(obj: VerifiableObject): obj is VerifiablePresentation {
+  if (obj === undefined) { return false; }
   return obj.type.includes('VerifiablePresentation');
 }
 
@@ -27,7 +29,7 @@ export async function verifyVerifiableObject(obj: VerifiableObject): Promise<boo
   return false;
 }
 
-export function extractCredentialsFrom(obj: VerifiableObject): Credential[] | null {
+export function extractCredentialsFrom(obj: VerifiableObject): VerifiableCredential[] | null {
   if (isVerifiableCredential(obj)) {
     return [obj];
   }

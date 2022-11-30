@@ -1,22 +1,22 @@
 import { fromQrCode } from '@digitalcredentials/vpqr';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
-import type { Credential } from '../types/credential';
+import type { VerifiableCredential } from '../types/credential';
 import { VerifiableObject, extractCredentialsFrom } from './verifiableObject';
 
 const documentLoader = securityLoader().build();
 const vpqrPattern = /^VP1-[A-Z|0-9]+/;
 
-export async function credentialsFromQrText(text: string): Promise<Credential[] | null> {
-  
+export async function credentialsFromQrText(text: string): Promise<VerifiableCredential[] | null> {
+
   try {
     const { vp }: { vp: VerifiableObject } = await fromQrCode({ text, documentLoader });
     const vc = extractCredentialsFrom(vp);
     return vc;
-    
+
   } catch (error) {
     return null;
   }
-  
+
   // console.log(vp);
   // TODO: We need to separate verificaiton of the presentation from the credentials inside.
   // https://www.pivotaltracker.com/story/show/179830339

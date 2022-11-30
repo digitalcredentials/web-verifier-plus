@@ -25,7 +25,7 @@ export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardPro
     <main aria-labelledby='title'>
       {wasMulti && (
         <div className={styles.errorContainer}>
-          
+
           <span className={`material-icons-outlined ${styles.warningIcon}`}>
             warning
           </span>
@@ -83,8 +83,8 @@ export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardPro
                 <div className={styles.credentialCriteria}>{credential.credentialSubject.hasCredential?.competencyRequired}</div>
               </div>
             )}
-              
-            
+
+
             {
               // issuer.image && (
               //   <div className={styles.imageContainer}>

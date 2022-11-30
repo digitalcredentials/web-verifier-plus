@@ -1,10 +1,10 @@
-import type { Credential, Proof, Issuer } from './credential';
+import type { VerifiableCredential, Proof, Issuer } from './credential';
 
 export type VerifiablePresentation = {
   readonly '@context': string | string[];
-  readonly issuer?: Issuer;
+  readonly holder?: string;
   readonly type: string;
-  readonly verifiableCredential: Credential | Credential[];
+  readonly verifiableCredential: VerifiableCredential | VerifiableCredential[];
   readonly proof?: Proof;
 }
 
