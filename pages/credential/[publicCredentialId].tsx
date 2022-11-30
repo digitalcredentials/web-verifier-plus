@@ -1,7 +1,6 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 import useSWR from 'swr';
 import styles from './[publicCredentialId].module.css'
-import type { CredentialProps } from './[publicCredentialId].d';
 import { CredentialCard } from 'components/CredentialCard/CredentialCard';
 import { Container } from 'components/Container/Container';
 import { useEffect, useState } from 'react';
@@ -18,7 +17,7 @@ import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 // think this needed to be changed because of ts https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr
 const fetcher = (input: RequestInfo, init: RequestInit, ...args: any[]) => fetch(input, init).then((res) => res.json());
 
-const CredentialPage: NextPage<CredentialProps> = () => {
+const CredentialPage: NextPage = () => {
   const [isDark, setIsDark] = useState(false);
   const [credential, setCredential] = useState<VerifiableObject | undefined>(undefined);
   const credentialContext = useVerification(credential as VerifiableCredential);
