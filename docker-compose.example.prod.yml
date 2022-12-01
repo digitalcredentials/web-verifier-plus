@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  web-verifier-plus:
+    container_name: web-verifier-plus
+    build: .
+    environment:
+      - VIRTUAL_HOST=${URL}
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=${URL}
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "${HTTPPORT}:80"
+      - "${HTTPSPORT}:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - ./vhost:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+  nginx-proxy-acme:
+    container_name: nginx-proxy-acme
+    image: nginxproxy/acme-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme:/etc/acme.sh
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - ./vhost:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+    environment:
+      - "DEFAULT_EMAIL=${EMAIL}"
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    depends_on:
+      - "nginx-proxy"

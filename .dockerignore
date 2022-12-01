@@ -1,0 +1,6 @@
+.github/
+.env.example
+node_modules/
+acme/
+certs/
+vhost/
