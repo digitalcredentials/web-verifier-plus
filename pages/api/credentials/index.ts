@@ -9,8 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     switch (req.method) {
       case 'POST':
-        const credential = req.body;
-        console.log('POST /credentials:', credential)
+        console.log('POST /credentials:', req.body)
 
         const url = await credentials.post(req.body);
         console.log('Credential stored at:', url);
