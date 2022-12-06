@@ -10,17 +10,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     let result: any;
     const { publicCredentialId } = req.query;
+
+    if(!publicCredentialId) {
+      throw new Error('Credential id is required.');
+    }
+
     switch (req.method) {
       case 'GET':
-        console.log(`GET /credentials/${publicCredentialId}`)
+        console.log(`GET /api/credentials/${publicCredentialId}`)
 
         result = await credentials.get({ publicCredentialId });
-        console.log('Loaded credential:', result.credential);
+        console.log(`Loaded credential by public id "${publicCredentialId}"`);
 
         res.status(200).json(result);
         break;
       case 'DELETE':
-        console.log(`DELETE /credentials/${publicCredentialId}`)
+        console.log(`DELETE /api/credentials/${publicCredentialId}`)
 
         result = await credentials.unshare({ publicCredentialId, payload: req.body });
         console.log('Unshared credential.');

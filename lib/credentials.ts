@@ -8,6 +8,14 @@ export type CredentialPayload = {
   vp: VerifiablePresentation;
 }
 
+export type StoreCredentialResult = {
+  url: {
+    view: string;
+    get: string;
+    unshare: string;
+  }
+}
+
 export type GetCredentialResult = {
   vp: VerifiablePresentation;
   id: string;
@@ -25,13 +33,17 @@ export type GetCredentialResult = {
  *
  * @param vp {VerifiablePresentation}
  *
- * @returns {Promise<string>} Relative URL at which the credential was stored.
+ * @returns {Promise<StoreCredentialResult>} View and unshare URLs for the
+ *   stored credential.
  */
-export async function post({ vp }: CredentialPayload): Promise<string> {
+export async function post({ vp }: CredentialPayload): Promise<StoreCredentialResult> {
   const { holder } = vp;
   if(!holder) {
     throw new Error("Missing 'holder' property. DID Authentication is required.");
   }
+
+  // TODO: Authenticate the presenter (make sure the 'holder' did matches the
+  //  signature on the VP).
 
   const Credentials = await dbCredentials.open();
   const credential = _extractCredential(vp);
@@ -48,7 +60,16 @@ export async function post({ vp }: CredentialPayload): Promise<string> {
   });
   await dbCredentials.close();
 
-  return `/credentials/${publicId}`
+  return {
+    url: {
+      // human-readable HTML view of the credential
+      view: `/credentials/${publicId}`,
+      // raw JSON GET (used by the html view)
+      get: `/api/credentials/${publicId}`,
+      // used for DELETE/unshare API
+      unshare: `/api/credentials/${publicId}`
+    }
+  };
 }
 
 export function publicIdFrom (holder: string, credential: VerifiableCredential): string {
