@@ -59,3 +59,8 @@
   color: var(--primary);
 
 } 
+
+.betaTag {
+  font-size: 8px;
+  
+}

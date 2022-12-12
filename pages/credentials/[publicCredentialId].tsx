@@ -12,6 +12,7 @@ import { VerificationCard } from 'components/VerificationCard/VerificationCard';
 import { TopBar } from 'components/TopBar/TopBar';
 import { BottomBar } from 'components/BottomBar/BottomBar';
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
+import { LoadingError } from 'components/LoadingError/LoadingError';
 
 // @see https://nextjs.org/docs/basic-features/data-fetching/client-side#client-side-data-fetching-with-swr
 // think this needed to be changed because of ts https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr
@@ -37,7 +38,12 @@ const CredentialPage: NextPage = () => {
   const { data, error } = useSWR(`/api/credentials/${publicCredentialId}`, fetcher, {onSuccess: extract});
   
   if (error) {
-    return <div>Failed to load</div>;
+    return (    
+    <div className={styles.container}>
+      <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
+        <LoadingError/>
+      <BottomBar isDark={isDark}/>
+    </div>);
   }
   if (!data) {
     return <div>Loading...</div>;
