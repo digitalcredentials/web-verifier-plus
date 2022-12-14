@@ -342,3 +342,7 @@
 .floatingTextarea textarea:focus:hover {
   --input-border-clr: var(--dark-text);
 }
+
+.betaTag {
+  font-size: 34px;
+}
