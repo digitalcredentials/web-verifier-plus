@@ -159,7 +159,7 @@ const Home: NextPage = () => {
       <div className={styles.contentContainer}>
         <div>
           <h1 className={styles.title}>
-            VerifierPlus
+            VerifierPlus <span className={styles.betaTag}>Beta</span>
           </h1>
         </div>
         <div>
