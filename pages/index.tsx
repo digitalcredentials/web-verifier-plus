@@ -100,8 +100,31 @@ const Home: NextPage = () => {
     setIsOpen(!isOpen);
   }
 
-  function verifyTextArea() {
-    const result = verifyCredential(textArea);
+  async function getJSONFromURL(url: string) {
+    try {
+      let response = await fetch(url);
+      let responseJson = await response.json(); //.json()
+      console.log(responseJson);
+      return JSON.stringify(responseJson);
+    } catch (error) {
+      console.error(error);
+      return "";
+    }
+  }
+
+  async function verifyTextArea() {
+    // check if textarea is json
+    let input = "";
+    if (!checkJson(textArea)) {
+      const fromUrl = await getJSONFromURL(textArea);
+      if (fromUrl !== "") {
+        console.log(fromUrl);
+        input = fromUrl;
+      }
+    } else { input = textArea; }
+    // if its not json check if its a url
+
+    const result = verifyCredential(input);
     if (!result) {
       setTextAreaError(true);
     } else {
