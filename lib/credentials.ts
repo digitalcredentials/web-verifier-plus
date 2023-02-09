@@ -49,12 +49,10 @@ export async function post({ vp }: CredentialPayload): Promise<StoreCredentialRe
   const credential = _extractCredential(vp);
   const publicId = publicIdFrom(holder, credential);
 
-  // TODO: Set automatic expiration date
-  // @see https://www.mongodb.com/docs/v6.0/tutorial/expire-data/
-
   await Credentials.insert({
     id: publicId,
     controller: holder,
+    createdAt: new Date(),
     vp,
     shared: true
   });
