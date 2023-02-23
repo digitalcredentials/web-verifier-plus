@@ -35,10 +35,22 @@ export type EducationalOperationalCredential = EducationalOperationalCredentialE
   readonly credentialCategory?: string;
 }
 
+export type OpenBadgeAchievement = {
+  readonly achievementType?: string;
+  readonly criteria?: {
+        readonly narrative?: string
+      },
+  readonly description?: string,
+  readonly id?: string,
+  readonly name?: string,
+  readonly type?: string;
+}
+
 type SubjectExtensions = {
   readonly type?: string;
   readonly name?: string;
   readonly hasCredential?: EducationalOperationalCredential; // https://schema.org/hasCredential
+  readonly achievement?: OpenBadgeAchievement
 }
 
 export type Subject = SubjectExtensions & {

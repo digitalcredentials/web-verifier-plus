@@ -22,7 +22,7 @@ export const Issuer = ({issuer, header, infoButtonPushed}: IssuerProps ) => {
           <h2 className={styles.header}>{header}</h2>
           <div className={styles.issuer}>
             {issuer.image && (
-              <img src={issuer.image} width={36} height={36} alt={`${issuer.name} logo`} ref={issuerImage} onError={handleonError} />
+              <img src={issuer.image?.id || issuer.image} width={36} height={36} alt={`${issuer.name} logo`} ref={issuerImage} onError={handleonError} />
             )}
             <div className={styles.issuerInformation}>
               <div>{issuer.name}
