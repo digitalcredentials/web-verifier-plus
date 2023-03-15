@@ -53,10 +53,5 @@ export const issuerDidRegistry: RegistryRaw<IssuerDidEntry> = {
       location: 'Atlanta, GA, USA',
       url: 'https://c21u.gatech.edu',
     },
-    "did:key:z6MkpcJENgsDNoVct5MnzM49sydB35GvewXEdJeWdy68yi4j":{
-      "name":"San José City College",
-      "location":"San Jose, CA, USA",
-      "url":"https://www.sjcc.edu"
-    }
   },
 };
