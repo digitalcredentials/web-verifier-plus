@@ -1,7 +1,7 @@
 import type { VerifiableCredential } from 'types/credential';
 
 export type CredentialCardProps = {
-  credential: VerifiableCredential,
+  credential?: VerifiableCredential,
   wasMulti?: Boolean
 }
 

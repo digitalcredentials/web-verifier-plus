@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import { Button } from 'components/Button/Button';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
 import { IssuerObject, VerifiableCredential } from 'types/credential';
@@ -7,16 +6,15 @@ import type {CredentialCardProps, CredentialDisplayFields} from './CredentialCar
 import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
-import { IssuerInfoModal } from 'components/IssuerInfoModal/IssuerInfoModal';
 import { useState } from 'react';
 
-export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardProps) => {
-  //TODO: add back IssuerInfoModal
-  //TODO: add icon back to Issuer
+export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardProps) => {
+  // TODO: add back IssuerInfoModal
+  // TODO: add icon back to Issuer
   // NOTE: unused imports will be used when above features get reinstated
 
   const displayValues = mapCredDataToDisplayValues(credential)
-  const issuer = credential.issuer as IssuerObject;
+  const issuer = credential?.issuer as IssuerObject;
   const [isOpen, setIsOpen] = useState(false);
 
   const infoButtonPushed = () => {
@@ -68,7 +66,7 @@ export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardPro
                   <InfoBlock header="Expiration Date" contents={DateTime.fromISO(displayValues.expirationDate).toLocaleString(DateTime.DATE_MED)} />
                 )}
               </div>
-              {credential.credentialSubject.hasCredential?.awardedOnCompletionOf && (
+              {credential?.credentialSubject?.hasCredential?.awardedOnCompletionOf && (
                 <CompletionDocumentSection completionDocument={credential.credentialSubject.hasCredential.awardedOnCompletionOf} />
               )}
             </section>
@@ -102,7 +100,17 @@ export const CredentialCard = ({ credential, wasMulti=false }: CredentialCardPro
   );
 }
 
-const mapCredDataToDisplayValues = (credential:VerifiableCredential): CredentialDisplayFields => {
+const mapCredDataToDisplayValues = (credential?: VerifiableCredential): CredentialDisplayFields => {
+  if (!credential) {
+    return {
+      issuedTo: '',
+      issuanceDate: '',
+      expirationDate: '',
+      credentialName: '',
+      credentialDescription: '',
+      criteria: ''
+    }
+  }
   const common = {
     issuedTo: credential.credentialSubject.name,
     issuanceDate: credential.issuanceDate,
@@ -122,5 +130,4 @@ const mapCredDataToDisplayValues = (credential:VerifiableCredential): Credential
       criteria: credential.credentialSubject.hasCredential?.competencyRequired
     }
   }
-  
 }

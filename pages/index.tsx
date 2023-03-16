@@ -30,7 +30,6 @@ const Home: NextPage = () => {
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
 
-
   useEffect(() => {
     document.documentElement.lang = "en";
     document.title = "VerifierPlus Home page";

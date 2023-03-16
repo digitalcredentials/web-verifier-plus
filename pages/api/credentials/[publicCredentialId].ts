@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET':
         console.log(`GET /api/credentials/${publicCredentialId}`)
 
+        // Returns a GetCredentialResult instance
         result = await credentials.get({ publicCredentialId });
         console.log(`Loaded credential by public id "${publicCredentialId}"`);
 
