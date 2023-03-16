@@ -101,6 +101,15 @@ export async function get({ publicCredentialId }: any): Promise<GetCredentialRes
     throw notFound;
   }
 
+  /**
+   * Straight from the db, a result looks like:
+   * {
+   *   id, // Unique credential id (used in view/unshare URL)
+   *   controller, // The DID of the entity who shared the credential (did:key:..., etc)
+   *   vp, // The full Verifiable Presentation containing one or more VCs (we only support one at the moment)
+   *   shared // boolean flag used for "soft delete" / unshare functionality
+   * }
+   */
   const credential = _extractCredential(result.vp);
 
   return { credential, ...result }
