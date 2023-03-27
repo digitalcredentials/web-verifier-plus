@@ -22,7 +22,7 @@ const Privacy: NextPage = () => {
             <p>VerifierPlus is an open source open source digital credential verification and public sharing website developed by the <a href="https://digitalcredentials.mit.edu">Digital Credentials Consortium</a>, a network of leading international universities designing an open infrastructure for academic credentials.</p>
             <p>This Privacy Policy explains how VerifierPlus collects, uses, and processes personal information about its learners.</p>
           <h2>What Personal Information We Collect</h2>
-            <p>Verifier Plus only collects the information you voluntarily provide. VerifierPlus has no control over what personal information may be included in the digital credential used with VerifierPlus. Categories of personal information that may be included and collected by VerifierPlus during the verification process include the following: Name, Email Address, Credential Data.</p>
+            <p>VerifierPlus only collects the information you voluntarily provide. VerifierPlus has no control over what personal information may be included in the digital credential used with VerifierPlus. Categories of personal information that may be included and collected by VerifierPlus during the verification process include the following: Name, Email Address, Credential Data.</p>
           	<p>Additionally, to provide you with access to VerifierPlus, we collect your IP address.</p>
           <h2>How We Collect Personal Information</h2>
             <p>We collect information, including personal information, when you use VerifierPlus.</p>
