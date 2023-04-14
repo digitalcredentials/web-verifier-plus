@@ -53,10 +53,20 @@ export const issuerDidRegistry: RegistryRaw<IssuerDidEntry> = {
       location: 'Atlanta, GA, USA',
       url: 'https://c21u.gatech.edu',
     },
-    "did:key:z6MkpcJENgsDNoVct5MnzM49sydB35GvewXEdJeWdy68yi4j":{
-      "name":"San José City College",
-      "location":"San Jose, CA, USA",
-      "url":"https://www.sjcc.edu"
+    'did:key:z6MkpcJENgsDNoVct5MnzM49sydB35GvewXEdJeWdy68yi4j':{
+      name:'San José City College',
+      location:'San Jose, CA, USA',
+      url:'https://www.sjcc.edu'
+    },
+     'did:key:z6MkvCQzWzLE6t7CbvHLXkEpYrQeqCfem3rFds6ZDjmarLGU':{
+      name:'Bioscience Core Skills Institute',
+      location:'USA',
+      url:'https://coreskillsinstitute.com/'
+    },
+    'did:key:z6MksfP8fgyfeMdNkcFj9AzQA6Gy8ihdJ29n9hNSKwmCLVPJ':{
+      name:'College Unbound',
+      location:'Providence, RI, USA',
+      url:'https://collegeunbound.edu'
     }
   },
 };
