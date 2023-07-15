@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@digitalcredentials/crypto-ld": "7.0.3",
+    "@digitalcredentials/crypto-ld": "7.0.6",
     "@digitalcredentials/did-io": "^1.0.2",
     "@digitalcredentials/did-method-key": "^2.0.3",
     "@digitalcredentials/ed25519-signature-2020": "^3.0.1",
