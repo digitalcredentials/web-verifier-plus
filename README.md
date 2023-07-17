@@ -7,6 +7,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 $ asdf install
 $ npm i --legacy-peer-deps
 ```
+- you do not need to use `asdf` to install the dependencies, you may use another package manager of your choice. As long as the proper version(s) listed in [.tool-versions](.tool-versions) are installed this will work for you.
 
 ## Running the Server
 ```
