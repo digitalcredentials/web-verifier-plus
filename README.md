@@ -2,15 +2,15 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 # Getting Started
-## Installing the Application
+## Installing the Server
 ```
 $ asdf install
 $ npm i --legacy-peer-deps
 ```
 
-## Running the Application
+## Running the Server
 ```
-yarn dev
+$ yarn dev
 ```
 *This creates a [dev server](http://localhost:3000) hosted at `http://localhost:3000`, open it in your browser while this is running in the command line*
 
