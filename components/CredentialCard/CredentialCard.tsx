@@ -7,6 +7,7 @@ import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardProps) => {
   // TODO: add back IssuerInfoModal
@@ -20,6 +21,10 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
   const infoButtonPushed = () => {
     setIsOpen(true);
   }
+
+  // let testCriteria = 'im **bold** and im *italics* but im # big';
+
+
 
   return (
     <main aria-labelledby='title'>
@@ -80,7 +85,10 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             {displayValues.criteria && (
               <div>
                 <h3 className={styles.smallHeader}>Criteria</h3>
-                <div className={styles.credentialCriteria}>{displayValues.criteria}</div>
+                {/* <div className={styles.credentialCriteria}>{displayValues.criteria}</div> */}
+                <div className={styles.markdownContainer}>
+                  <ReactMarkdown >{displayValues.criteria}</ReactMarkdown>
+                </div>
               </div>
             )}
 
