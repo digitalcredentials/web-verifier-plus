@@ -30,6 +30,7 @@ export const Issuer = ({issuer, header, infoButtonPushed}: IssuerProps ) => {
                   info
                 </span> */}
               </div>
+              <p className={styles.issuerAddress}>{issuer.address}</p>
               <a href={issuer.url}>{issuer.url}</a>
             </div>
           </div>
