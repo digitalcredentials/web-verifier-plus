@@ -22,9 +22,6 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
     setIsOpen(true);
   }
 
-  // let testCriteria = 'im **bold** and im *italics* but im # big';
-
-
 
   return (
     <main aria-labelledby='title'>
@@ -55,8 +52,14 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
               /> */}
             </div>
           </div>
-          <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
-          <div className={styles.subjectName}>Issued to: {displayValues.issuedTo}</div>
+          <div className={styles.achivementInfo}>
+            {displayValues.achievementImage ? <img className={styles.achievementImage} src={displayValues.achievementImage} alt="achievement image"/>: null}
+            <div>
+              <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
+              <p className={styles.subjectName}>Issued to: {displayValues.issuedTo}</p>
+              {displayValues.achievementType ? <p className={styles.achievementType}>Achievement Type : {displayValues.achievementType}</p> : null}
+            </div>
+          </div>
         </div>
         <div className={styles.mainCard}>
           <div className={styles.secondaryColumn}>
@@ -124,11 +127,13 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     issuanceDate: credential.issuanceDate,
     expirationDate: credential.expirationDate
   }
-  if (credential.type.includes("OpenBadgeCredential")){
+  if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
     return {...common,
-      credentialName: credential.credentialSubject.achievement?.name,
+      credentialName: credential.name,
       credentialDescription: credential.credentialSubject.achievement?.description,
-      criteria: credential.credentialSubject.achievement?.criteria?.narrative
+      criteria: credential.credentialSubject.achievement?.criteria?.narrative,
+      achievementImage: credential.credentialSubject.achievement?.image?.id,
+      achievementType: credential.credentialSubject.achievement?.achievementType
 
     }
   } else {
