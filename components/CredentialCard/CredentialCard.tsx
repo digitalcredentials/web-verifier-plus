@@ -56,7 +56,7 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             {displayValues.achievementImage ? <img className={styles.achievementImage} src={displayValues.achievementImage} alt="achievement image"/>: null}
             <div>
               <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
-              <p className={styles.subjectName}>Issued to: {displayValues.issuedTo}</p>
+              <p className={styles.subjectName}>Subject Name: {displayValues.issuedTo}</p>
               {displayValues.achievementType ? <p className={styles.achievementType}>Achievement Type : {displayValues.achievementType}</p> : null}
             </div>
           </div>
