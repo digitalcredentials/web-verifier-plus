@@ -22,7 +22,6 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
     setIsOpen(true);
   }
 
-
   return (
     <main aria-labelledby='title'>
       {wasMulti && (
