@@ -32,7 +32,6 @@ const CredentialPage: NextPage = () => {
   const extract = (data: {vp: VerifiableObject}) => {
     if (data !== undefined) {
       const vp = data.vp;
-      console.log(data);
       const creds = extractCredentialsFrom(vp);
       setCredential(creds![0])
     }

@@ -56,7 +56,36 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
   if (!registries.issuerDid.isInRegistry(issuerDid)) {
-    throw new Error(CredentialErrorTypes.DidNotInRegistry);
+    // throw new Error(CredentialErrorTypes.DidNotInRegistry);
+    return {
+      verified: false,
+      results: [
+        {
+          verified: false,
+          credential: credential,
+          error: {
+            details: {
+              cause: {
+                message: CredentialErrorTypes.DidNotInRegistry,
+                name: 'Error',
+                stack: 'temp'
+              },
+              code: 'temp',
+              url: 'temp',
+            },
+            message: CredentialErrorTypes.DidNotInRegistry,
+            name: 'Error',
+            stack: 'temp',
+          },
+          log: [
+              { id: 'expiration', valid: false },
+              { id: 'valid_signature', valid: false },
+              { id: 'issuer_did_resolves', valid: false },
+              { id: 'revocation_status', valid: false }
+            ],
+        }
+      ]
+    }
   }
 
   try {
@@ -68,7 +97,7 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       // Only check revocation status if VC has a 'credentialStatus' property
       checkStatus: hasRevocation ? checkStatus : undefined
     });
-
+    
     return result;
   } catch (err) {
     console.warn(err);
