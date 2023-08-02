@@ -29,7 +29,6 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     return acc;
   }, {}) ?? {};
 
-  console.log(verificationResult.results[0]);
   let hasError = false;
   let error: CredentialError;
   if (verificationResult.results[0].error) {
