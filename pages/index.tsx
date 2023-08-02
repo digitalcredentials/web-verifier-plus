@@ -88,9 +88,6 @@ const Home: NextPage = () => {
     history.pushState(null, '', '#verify/results');
     // get first cred. this will eventually need to be changed
     if(vc.length > 1) { setWasMulti(true); }
-    console.log(vc);
-    console.log(vc.length);
-    console.log(wasMulti)
     setCredential(vc[0]);
     return result;
   }
@@ -103,7 +100,6 @@ const Home: NextPage = () => {
     try {
       let response = await fetch(url);
       let responseJson = await response.json(); //.json()
-      console.log(responseJson);
       return JSON.stringify(responseJson);
     } catch (error) {
       console.error(error);

@@ -17,7 +17,6 @@ export async function credentialsFromQrText(text: string): Promise<VerifiableCre
     return null;
   }
 
-  // console.log(vp);
   // TODO: We need to separate verificaiton of the presentation from the credentials inside.
   // https://www.pivotaltracker.com/story/show/179830339
   //const isVerified = await verifyPresentation(vp);

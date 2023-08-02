@@ -67,6 +67,11 @@ export const issuerDidRegistry: RegistryRaw<IssuerDidEntry> = {
       name:'College Unbound',
       location:'Providence, RI, USA',
       url:'https://collegeunbound.edu',
+    },
+    'did:key:z6MkgPBJwKZD8FeFYpps9opan1VdVAeo8EvzJc15BofGujkV':{
+      name: 'Digital Credentials Consortium Test Issuer',
+      location: 'Cambridge, MA, USA',
+      url: 'https://dcconsortium.org',
     }
   },
 };
