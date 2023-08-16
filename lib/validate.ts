@@ -5,8 +5,8 @@ import vc from '@digitalcredentials/vc';
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
-import { registries } from './registry';
 import { extractCredentialsFrom } from './verifiableObject';
+import { registryCollections } from '@digitalcredentials/issuer-registry-client';
 const documentLoader = securityLoader().build();
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
@@ -53,39 +53,15 @@ export async function verifyPresentation(
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
   const { issuer } = credential;
 
+  const {malformed, message} = checkMalformed(credential);
+  if (malformed) { return createErrorMessage(credential, message); }
+
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
-  if (!registries.issuerDid.isInRegistry(issuerDid)) {
+  const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
+  if (isInRegistry) {
     // throw new Error(CredentialErrorTypes.DidNotInRegistry);
-    return {
-      verified: false,
-      results: [
-        {
-          verified: false,
-          credential: credential,
-          error: {
-            details: {
-              cause: {
-                message: CredentialErrorTypes.DidNotInRegistry,
-                name: 'Error',
-                stack: 'temp'
-              },
-              code: 'temp',
-              url: 'temp',
-            },
-            message: CredentialErrorTypes.DidNotInRegistry,
-            name: 'Error',
-            stack: 'temp',
-          },
-          log: [
-              { id: 'expiration', valid: false },
-              { id: 'valid_signature', valid: false },
-              { id: 'issuer_did_resolves', valid: false },
-              { id: 'revocation_status', valid: false }
-            ],
-        }
-      ]
-    }
+    return createErrorMessage(credential, CredentialErrorTypes.DidNotInRegistry)
   }
 
   try {
@@ -102,5 +78,52 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
   } catch (err) {
     console.warn(err);
     throw new Error(CredentialErrorTypes.CouldNotBeVerified);
+  }
+}
+
+function checkMalformed(credential: VerifiableCredential) {
+  let message = '';
+
+  // check credential for proof
+  if (!credential.proof){
+    message += 'This is not a Verifiable Credential (does not have a digital signature).'
+  }
+
+  if (message !== '') {
+    return {malformed: true, message: message};
+  }
+  return {malformed: false, message: message};
+
+}
+
+function createErrorMessage(credential: VerifiableCredential, message: string) {
+  return {
+    verified: false,
+    results: [
+      {
+        verified: false,
+        credential: credential,
+        error: {
+          details: {
+            cause: {
+              message: message,
+              name: 'Error',
+              stack: 'temp'
+            },
+            code: 'temp',
+            url: 'temp',
+          },
+          message: message,
+          name: 'Error',
+          stack: 'temp',
+        },
+        log: [
+            { id: 'expiration', valid: false },
+            { id: 'valid_signature', valid: false },
+            { id: 'issuer_did_resolves', valid: false },
+            { id: 'revocation_status', valid: false }
+          ],
+      }
+    ]
   }
 }
