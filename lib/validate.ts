@@ -7,6 +7,7 @@ import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'typ
 import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { registries } from './registry';
 import { extractCredentialsFrom } from './verifiableObject';
+import { registryCollections } from '@digitalcredentials/issuer-registry-client';
 const documentLoader = securityLoader().build();
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
@@ -55,7 +56,11 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
 
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
-  if (!registries.issuerDid.isInRegistry(issuerDid)) {
+  const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
+  console.log('-----');
+  console.log(isInRegistry);
+  console.log('-----');
+  if (!isInRegistry) {
     throw new Error(CredentialErrorTypes.DidNotInRegistry);
   }
 
