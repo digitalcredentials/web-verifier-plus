@@ -105,19 +105,19 @@ export type CredentialError = {
   details: ErrorDetails,
   message: string,
   name: string,
-  stack: string,
+  stack?: string,
 }
 
 export type ErrorDetails = {
   cause: ErrorCause;
-  code: string;
-  url: string;
+  code?: string;
+  url?: string;
 }
 
 export type ErrorCause = {
   message: string;
   name: string;
-  stack: string
+  stack?: string
 }
 
 export type VerifyResultLog = {
