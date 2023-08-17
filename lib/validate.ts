@@ -89,7 +89,7 @@ function checkMalformed(credential: VerifiableCredential) {
     message += 'This is not a Verifiable Credential (does not have a digital signature).'
   }
 
-  if (message !== '') {
+  if (message) {
     return {malformed: true, message: message};
   }
   return {malformed: false, message: message};
@@ -108,14 +108,10 @@ function createErrorMessage(credential: VerifiableCredential, message: string) {
             cause: {
               message: message,
               name: 'Error',
-              stack: 'temp'
             },
-            code: 'temp',
-            url: 'temp',
           },
           message: message,
           name: 'Error',
-          stack: 'temp',
         },
         log: [
             { id: 'expiration', valid: false },
