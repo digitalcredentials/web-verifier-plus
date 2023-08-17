@@ -12,4 +12,6 @@ export type CredentialDisplayFields = {
   expirationDate: string | undefined,
   credentialDescription: string | undefined,
   criteria: string | undefined,
+  achievementImage?: string | undefined,
+  achievementType?: string | undefined,
 }

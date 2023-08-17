@@ -7,6 +7,7 @@ import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardProps) => {
   // TODO: add back IssuerInfoModal
@@ -20,6 +21,7 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
   const infoButtonPushed = () => {
     setIsOpen(true);
   }
+
 
   return (
     <main aria-labelledby='title'>
@@ -50,8 +52,14 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
               /> */}
             </div>
           </div>
-          <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
-          <div className={styles.subjectName}>Issued to: {displayValues.issuedTo}</div>
+          <div className={styles.achivementInfo}>
+            {displayValues.achievementImage ? <img className={styles.achievementImage} src={displayValues.achievementImage} alt="achievement image"/>: null}
+            <div>
+              <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
+              <p className={styles.subjectName}>Subject Name: {displayValues.issuedTo}</p>
+              {displayValues.achievementType ? <p className={styles.achievementType}>Achievement Type : {displayValues.achievementType}</p> : null}
+            </div>
+          </div>
         </div>
         <div className={styles.mainCard}>
           <div className={styles.secondaryColumn}>
@@ -80,7 +88,10 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             {displayValues.criteria && (
               <div>
                 <h3 className={styles.smallHeader}>Criteria</h3>
-                <div className={styles.credentialCriteria}>{displayValues.criteria}</div>
+                {/* <div className={styles.credentialCriteria}>{displayValues.criteria}</div> */}
+                <div className={styles.markdownContainer}>
+                  <ReactMarkdown >{displayValues.criteria}</ReactMarkdown>
+                </div>
               </div>
             )}
 
@@ -116,11 +127,13 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     issuanceDate: credential.issuanceDate,
     expirationDate: credential.expirationDate
   }
-  if (credential.type.includes("OpenBadgeCredential")){
+  if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
     return {...common,
-      credentialName: credential.credentialSubject.achievement?.name,
+      credentialName: credential.name,
       credentialDescription: credential.credentialSubject.achievement?.description,
-      criteria: credential.credentialSubject.achievement?.criteria?.narrative
+      criteria: credential.credentialSubject.achievement?.criteria?.narrative,
+      achievementImage: credential.credentialSubject.achievement?.image?.id,
+      achievementType: credential.credentialSubject.achievement?.achievementType
 
     }
   } else {

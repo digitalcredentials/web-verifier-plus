@@ -113,7 +113,7 @@ const Home: NextPage = () => {
     if (!checkJson(textArea)) {
       const fromUrl = await getJSONFromURL(textArea);
       if (fromUrl !== "") {
-        console.log(fromUrl);
+        // console.log(fromUrl);
         input = fromUrl;
       }
     } else { input = textArea; }
@@ -129,8 +129,8 @@ const Home: NextPage = () => {
 
   async function onScan(json: string) : Promise<Boolean> {
     const fromqr = await credentialsFromQrText(json);
-    console.log('here');
-    console.log(fromqr);
+    // console.log('here');
+    // console.log(fromqr);
     if (fromqr === null) { return false; }
     // get first cred. this will eventually need to be changed
     const cred = fromqr[0];
@@ -149,7 +149,7 @@ const Home: NextPage = () => {
   }
 
   function handleBrowse(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e);
+    // console.log(e);
     setFile(e.target.files !== null ? e.target.files[0] : null);
   }
 

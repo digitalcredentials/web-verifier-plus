@@ -39,10 +39,16 @@ export type OpenBadgeAchievement = {
   readonly achievementType?: string;
   readonly criteria?: {
         readonly narrative?: string
-      },
-  readonly description?: string,
-  readonly id?: string,
-  readonly name?: string,
+      };
+  readonly description?: string;
+  readonly id?: string;
+  readonly name?: string;
+  readonly type?: string;
+  readonly image?: achievementImage;
+}
+
+type achievementImage = {
+  readonly id?: string;
   readonly type?: string;
 }
 
@@ -77,6 +83,7 @@ export type Status = {
 
 // https://digitalcredentials.github.io/dcc/v1/dcc-context-v1.json
 export type VerifiableCredential = {
+  readonly name: string | undefined;
   readonly credentialStatus?: Status;    // https://w3c.github.io/vc-data-model/#status
   readonly '@context': string[];         // https://w3c.github.io/vc-data-model/#contexts
   readonly id?: string;                   // https://w3c.github.io/vc-data-model/#identifiers
