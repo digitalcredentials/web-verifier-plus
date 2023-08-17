@@ -1,3 +1,4 @@
+import { issuerDidRegistry, IssuerDidEntry } from '../data/issuerDid';
 import { issuerAuthRegistry, IssuerAuthEntry } from '../data/issuerAuth';
 
 type RegistryMetadata = {
@@ -34,5 +35,6 @@ class Registry<Entry> implements RegistryRaw<Entry> {
 }
 
 export const registries = {
+  issuerDid: new Registry<IssuerDidEntry>(issuerDidRegistry),
   issuerAuth: new Registry<IssuerAuthEntry>(issuerAuthRegistry),
 };
