@@ -22,7 +22,6 @@ const CredentialPage: NextPage = () => {
   // On page load, the credential is undefined, and is loaded and set
   // asynchronously from server-side API via `useSWR` hook
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
-  console.log(credential);
   const [isDark, setIsDark] = useState(false);
 
   const credentialContext = useVerification(credential as VerifiableCredential);
