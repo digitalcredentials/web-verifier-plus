@@ -36,4 +36,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 # MongoDB
-To set up MongoDB to this app create an Mongo Atlas cluster. From there create a database and a cluster aswell as a user with read and write permissions. Finally copy `.env.example` and rename the copy `.env` then copy all the information from your Atlas cluster into the appropriate fields in the `.env` file.
+This app currently requires MongoDB for its backend storage. To set up MongoDB for this app:
+
+ * create an Mongo Atlas cluster. 
+ * From there create a collection, as well as a user with read and write permissions. 
+ * Copy `.env.example`, and rename the copy `.env` 
+ * Copy all the information from your Atlas cluster into the appropriate fields in the `.env` file.
