@@ -7,7 +7,7 @@ import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'typ
 import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
 import { registryCollections } from '@digitalcredentials/issuer-registry-client';
-const documentLoader = securityLoader().build();
+const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
 
