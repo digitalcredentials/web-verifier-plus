@@ -33,7 +33,16 @@ const Home: NextPage = () => {
   useEffect(() => {
     document.documentElement.lang = "en";
     document.title = "VerifierPlus Home page";
-    window.addEventListener('popstate', handlePop);
+    const handlePopstate = () => {
+      if (window.location.hash === '/') {  
+        setCredential(undefined);
+        setWasMulti(false);
+      } else {
+        window.location.replace('/');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopstate);
   }, []);
 
   useEffect(() => {
@@ -41,7 +50,6 @@ const Home: NextPage = () => {
       setTextAreaError(false);
       setFileError(false);
       setScanError(false);
-      // history.replaceState(null, '', '');
     }
   }, [credential])
 
@@ -61,11 +69,6 @@ const Home: NextPage = () => {
       reader.readAsText(file, 'UTF-8');
     }
   }, [file]);
-
-  function handlePop() {
-    setCredential(undefined);
-    setWasMulti(false);
-  }
 
   function checkJson(json: string) {
     try {
