@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, Info } from 'luxon';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
 import { IssuerObject, VerifiableCredential } from 'types/credential';
@@ -83,7 +83,11 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
           </div>
 
           <div className={styles.primaryColumn}>
-            <p className={styles.subjectName}>Subject Name: {displayValues.issuedTo}</p>
+            {displayValues.issuedTo ? 
+            <InfoBlock header="Issued To:" contents={displayValues.issuedTo} />
+            :
+            null
+            }
             <div className={styles.credentialDescription}>{displayValues.credentialDescription}</div>
             {displayValues.criteria && (
               <div>
