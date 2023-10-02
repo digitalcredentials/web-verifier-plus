@@ -84,11 +84,15 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
 
           <div className={styles.primaryColumn}>
             {displayValues.issuedTo ? 
-            <InfoBlock header="Issued To:" contents={displayValues.issuedTo} />
+            <InfoBlock header="Issued To" contents={displayValues.issuedTo} />
             :
             null
             }
-            <div className={styles.credentialDescription}>{displayValues.credentialDescription}</div>
+            {displayValues.credentialDescription ? 
+              <InfoBlock header="Description" contents={displayValues.credentialDescription}/>
+              :
+              null
+            }
             {displayValues.criteria && (
               <div>
                 <h3 className={styles.smallHeader}>Criteria</h3>
