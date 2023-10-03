@@ -3,7 +3,7 @@ import { CredentialError } from 'types/credential';
 import type { ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 
-export const ResultLog = ({ verificationResult }: ResultLogProps) => {
+export const ResultLog = ({ verificationResult, issuerName }: ResultLogProps) => {
   const [moreInfo, setMoreInfo] = useState(false);
   const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = '', issuer = false}) => {
     return (
@@ -15,7 +15,10 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           {verified ? positiveMessage : negativeMessage}
           { issuer ?
             <ul className={styles.issuerList}>
-              <li>DCC Trust Registry</li>
+              {issuerName ?
+              <li>{issuerName}</li>
+              : null
+              }
             </ul> :
             null
           }
