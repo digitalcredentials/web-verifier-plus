@@ -6,7 +6,7 @@ import { VerifiablePresentation, PresentationError } from 'types/presentation.d'
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
-import { registryCollections } from '@digitalcredentials/issuer-registry-client';
+import { registryCollections, Registry } from '@digitalcredentials/issuer-registry-client';
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
@@ -21,6 +21,7 @@ export type Result = {
   credential: VerifiableCredential;
   error: CredentialError;
   log: ResultLog[];
+  registryName?: string;
 }
 
 export type VerifyResponse = {
@@ -58,8 +59,9 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
 
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
+  await registryCollections.issuerDid.fetchRegistries();
   const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
-  if (isInRegistry) {
+  if (!isInRegistry) {
     // throw new Error(CredentialErrorTypes.DidNotInRegistry);
     return createErrorMessage(credential, CredentialErrorTypes.DidNotInRegistry)
   }
@@ -73,6 +75,9 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       // Only check revocation status if VC has a 'credentialStatus' property
       checkStatus: hasRevocation ? checkStatus : undefined
     });
+
+    const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
+    result.registryName  = registryInfo[0].name;
     
     return result;
   } catch (err) {
