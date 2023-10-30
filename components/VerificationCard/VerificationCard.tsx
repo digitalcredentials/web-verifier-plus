@@ -5,7 +5,7 @@ import { VerifyResponse } from 'types/credential';
 import styles from './VerificationCard.module.css';
 
 export const VerificationCard = () => {
-  const { loading, verificationResult, verifyCredential, issuerName } = useVerificationContext();
+  const { loading, verificationResult, verifyCredential } = useVerificationContext();
   return (
     <div className={styles.card}>
       <div className={styles.verification}>
@@ -25,7 +25,7 @@ export const VerificationCard = () => {
           loading ? (
             <div className={styles.loadingMessage}>Please wait while we verify your credential.</div>
           ) : (
-            <ResultLog verificationResult={verificationResult as VerifyResponse} issuerName={issuerName}/>
+            <ResultLog verificationResult={verificationResult as VerifyResponse} />
           )
         }
       </div>

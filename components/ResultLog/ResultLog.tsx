@@ -3,7 +3,7 @@ import { CredentialError } from 'types/credential';
 import type { ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 
-export const ResultLog = ({ verificationResult, issuerName }: ResultLogProps) => {
+export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   const [moreInfo, setMoreInfo] = useState(false);
   const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = '', issuer = false}) => {
     return (
@@ -15,8 +15,8 @@ export const ResultLog = ({ verificationResult, issuerName }: ResultLogProps) =>
           {verified ? positiveMessage : negativeMessage}
           { issuer ?
             <ul className={styles.issuerList}>
-              {issuerName ?
-              <li>{issuerName}</li>
+              {verificationResult.registryName ?
+              <li>{verificationResult.registryName}</li>
               : null
               }
             </ul> :
