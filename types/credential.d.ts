@@ -71,6 +71,7 @@ export type Proof = {
   proofValue?: string;
   challenge?: string;
   jws?: string;
+  cryptosuite?: string;
 }
 
 export type Status = {
