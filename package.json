@@ -17,7 +17,7 @@
     "@digitalcredentials/issuer-registry-client": "^1.0.0",
     "@digitalcredentials/security-document-loader": "^3.1.0",
     "@digitalcredentials/vc": "^6.0.0",
-    "@digitalcredentials/vc-status-list": "^5.0.2",
+    "@digitalcredentials/vc-status-list": "^7.1.1",
     "@digitalcredentials/vpqr": "^2.2.1",
     "luxon": "^3.0.1",
     "material-icons": "^1.11.4",
