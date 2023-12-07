@@ -55,7 +55,14 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
   const { issuer } = credential;
 
   const {malformed, message} = checkMalformed(credential);
-  if (malformed) { return createErrorMessage(credential, message); }
+  if (malformed) {
+    return createErrorMessage(credential, message);
+  }
+
+  if (credential?.proof?.type === 'DataIntegrityProof') {
+    return createErrorMessage(credential,
+      `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
+  }
 
   const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
 
@@ -76,9 +83,13 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       checkStatus: hasRevocation ? checkStatus : undefined
     });
 
+    if (result?.error?.name === 'VerificationError') {
+      return createErrorMessage(credential, CredentialErrorTypes.CouldNotBeVerified);
+    }
+
     const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
     result.registryName  = registryInfo[0].name;
-    
+
     return result;
   } catch (err) {
     console.warn(err);
