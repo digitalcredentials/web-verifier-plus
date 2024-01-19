@@ -10,7 +10,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # to reduce the size of the resulting image.
 RUN apt-get update && \
     apt-get install -y python3-minimal build-essential git && \
-    npm isntall --legacy-peer-deps && \
+    npm install --legacy-peer-deps && \
    #yarn install && \
     apt-get clean && \
     apt-get purge -y python3-minimal build-essential git && \
