@@ -1,4 +1,4 @@
-FROM node:16.18-bullseye-slim
+FROM node:18.19-bookworm-slim
 
 WORKDIR /usr/src/app
 
@@ -10,8 +10,8 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # to reduce the size of the resulting image.
 RUN apt-get update && \
     apt-get install -y python3-minimal build-essential git && \
-    # npm install --legacy-peer-deps && \
-    yarn install && \
+    npm isntall --legacy-peer-deps && \
+   #yarn install && \
     apt-get clean && \
     apt-get purge -y python3-minimal build-essential git && \
     apt-get -y autoremove
