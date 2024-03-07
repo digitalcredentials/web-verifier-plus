@@ -20,7 +20,6 @@ const Faq: NextPage = () => {
         <h2 id="trust">Why trust us?</h2>
         <p>The Digital Credentials Consortium is a member organization comprised of <a href='https://digitalcredentials.mit.edu/#dcc-members'>leading universities</a> in North America and Europe that are working together to create an infrastructure for digital academic credentials that can support the education systems of the future.</p>
         <p>This website implements <a href='https:/https://github.com/digitalcredentials'>open source libraries</a> that support open technical standards for supported digital credentials.</p>
-        <p>This website implements <a href='https:/https://github.com/digitalcredentials'>open source libraries</a> that support open technical standards for supported digital credentials.</p>
         <p>This service is maintained by <a href='https://openlearning.mit.edu'>MIT Open Learning</a> at the Massachusetts Institute of Technology. Please contact verifierplus-support -at- mit -dot- edu with any questions.</p>
 
         <h2 id="supported">What formats of digital academic credentials are supported?</h2>
