@@ -14,6 +14,27 @@ import { BottomBar } from 'components/BottomBar/BottomBar';
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 import { LoadingError } from 'components/LoadingError/LoadingError';
 
+interface CredentialVerificationProps {
+  credential: VerifiableCredential;
+}
+
+const CredentialVerification: React.FC<CredentialVerificationProps> = ({
+  credential,
+}) => {
+  const verificationContext = useVerification(credential);
+
+  return (
+    <div className={styles.verifyContainer}>
+      <VerificationContext.Provider value={verificationContext}>
+        <Container>
+          <CredentialCard credential={credential} />
+          <VerificationCard />
+        </Container>
+      </VerificationContext.Provider>
+    </div>
+  );
+};
+
 // @see https://nextjs.org/docs/basic-features/data-fetching/client-side#client-side-data-fetching-with-swr
 // think this needed to be changed because of ts https://stackoverflow.com/questions/64199630/problem-with-typescript-while-making-request-to-swr
 const fetcher = (input: RequestInfo, init: RequestInit, ...args: any[]) => fetch(input, init).then((res) => res.json());
@@ -21,10 +42,8 @@ const fetcher = (input: RequestInfo, init: RequestInit, ...args: any[]) => fetch
 const CredentialPage: NextPage = () => {
   // On page load, the credential is undefined, and is loaded and set
   // asynchronously from server-side API via `useSWR` hook
-  const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
+  const [credentials, setCredentials] = useState<VerifiableCredential[]>([]);
   const [isDark, setIsDark] = useState(false);
-
-  const credentialContext = useVerification(credential as VerifiableCredential);
 
   const router = useRouter();
   const { publicCredentialId } = router.query;
@@ -33,7 +52,7 @@ const CredentialPage: NextPage = () => {
     if (data !== undefined) {
       const vp = data.vp;
       const creds = extractCredentialsFrom(vp);
-      setCredential(creds![0])
+      setCredentials(creds || []);
     }
   }
 
@@ -46,22 +65,17 @@ const CredentialPage: NextPage = () => {
       <BottomBar isDark={isDark}/>
     </div>);
   }
-  if (!credential) {
+  if (credentials.length === 0) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className={styles.container}>
       <TopBar hasLogo={true} isDark={isDark} setIsDark={setIsDark} />
-      <div className={styles.verifyContainer}>
-        <VerificationContext.Provider value={credentialContext}>
-          <Container>
-            <CredentialCard credential={credential} />
-            <VerificationCard />
-          </Container>
-        </VerificationContext.Provider>
-      </div>
-      <BottomBar isDark={isDark}/>
+      {credentials.map((credential, index) => (
+        <CredentialVerification credential={credential} key={index} />
+      ))}
+      <BottomBar isDark={isDark} />
     </div>
   )
 }

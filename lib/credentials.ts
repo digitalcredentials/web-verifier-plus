@@ -46,7 +46,7 @@ export async function post({ vp }: CredentialPayload): Promise<StoreCredentialRe
   //  signature on the VP).
 
   const Credentials = await dbCredentials.open();
-  const credential = _extractCredential(vp);
+  const credential = _extractCredential(vp)[0];
   const publicId = publicIdFrom(holder, credential);
 
   await Credentials.insert({
@@ -76,10 +76,10 @@ export function publicIdFrom (holder: string, credential: VerifiableCredential):
   return uuidv4();
 }
 
-function _extractCredential(vp: VerifiablePresentation): VerifiableCredential {
+function _extractCredential(vp: VerifiablePresentation): VerifiableCredential[] {
   return Array.isArray(vp.verifiableCredential)
-    ? vp.verifiableCredential[0]
-    : vp.verifiableCredential;
+    ? vp.verifiableCredential
+    : [vp.verifiableCredential];
 }
 
 /**
