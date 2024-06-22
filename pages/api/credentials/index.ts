@@ -34,11 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     switch (req.method) {
       case 'POST':
-        console.log('POST /credentials:', req.body)
-
         const result = await credentials.post(req.body);
-        console.log('Credential stored:', JSON.stringify(result, null, 2));
-
+        
         res.setHeader('Location', result.url.view);
         res.status(201).json({ status: 'Credential added', ...result });
         break;

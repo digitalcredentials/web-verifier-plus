@@ -145,7 +145,7 @@ export async function unshare({ publicCredentialId, payload }: any): Promise<Get
 
   const unshareResult: any = await Credentials.updateOne(filter, update, options);
 
-  console.log('VC unshare result:', JSON.stringify(unshareResult, null, 2));
+  //console.log('VC unshare result:', JSON.stringify(unshareResult, null, 2));
 
   await dbCredentials.close();
 
