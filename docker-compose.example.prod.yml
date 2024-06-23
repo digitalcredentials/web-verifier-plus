@@ -8,6 +8,35 @@ services:
       - VIRTUAL_HOST=${URL}
       - VIRTUAL_PORT=3000
       - LETSENCRYPT_HOST=${URL}
+      - HEALTH_CHECK_SMTP_HOST=
+      - HEALTH_CHECK_SMTP_USER=
+      - HEALTH_CHECK_SMTP_PASS=
+      - HEALTH_CHECK_EMAIL_FROM=Digital Credentials Consortium Demo Issuer <DCC-support@mit.edu>
+      - HEALTH_CHECK_EMAIL_RECIPIENT=
+      - HEALTH_CHECK_EMAIL_SUBJECT="DCC Dashboard Issuer Coordinator Microservice Healthcheck"
+      - HEALTH_CHECK_WEB_HOOK=
+      - HEALTH_CHECK_SERVICE_URL=http://localhost:3000/api/healthz
+      - HEALTH_CHECK_SERVICE_NAME=VERIFIER-PLUS
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.mjs"]
+      interval: 120s
+      retries: 3
+      start_period: 30s
+      timeout: 80s
+    ports:
+      - "3000:3000"
+    labels:
+      autoheal: true
+  autoheal:
+    environment:
+      - AUTOHEAL_INTERVAL=60
+      - AUTOHEAL_START_PERIOD=30
+      - WEBHOOK_URL=
+    image: willfarrell/autoheal:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
   nginx-proxy:
     container_name: nginx-proxy
     image: nginxproxy/nginx-proxy
