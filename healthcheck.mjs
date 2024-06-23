@@ -11,6 +11,9 @@ const shouldSendEmail =
   process.env.HEALTH_CHECK_EMAIL_FROM &&
   process.env.HEALTH_CHECK_EMAIL_RECIPIENT
 
+  /*
+  This is intended to be called from the Docker HEALTHCHECK.
+  */
 async function callHealthz() {
   try {
     const response = await axios.get(serviceURL)
@@ -19,11 +22,11 @@ async function callHealthz() {
     if (body?.healthy === true) {
       process.exit(0)
     }
-    await notify(`${serviceName} is unhealthy and will restart after 3 tries. Returned messages: ${body.error}`)
+    await notify(`${serviceName} is unhealthy and will restart after 3 tries. Returned messages: \n ${body.error}`)
     process.exit(1)
 
   } catch (e) {
-    await notify(`${serviceName} is unhealthy and will restart after 3 tries. Messages: ${e.response.data.error}`)
+    await notify(`${serviceName} is unhealthy and will restart after 3 tries. Messages: \n ${e.response.data.error}`)
     process.exit(1)
   }
 }
