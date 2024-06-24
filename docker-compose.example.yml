@@ -4,34 +4,38 @@ services:
   web-verifier-plus:
     container_name: web-verifier-plus
     build: .
-    healthcheck:
-      test: ["CMD", "node", "healthcheck.mjs"]
-      interval: 120s
-      retries: 3
-      start_period: 30s
-      timeout: 80s
     environment:
-      - HEALTH_CHECK_SMTP_HOST=
+      - HEALTH_CHECK_SMTP_HOST=add your email host, like smtp.sendgrid.net
       - HEALTH_CHECK_SMTP_USER=
       - HEALTH_CHECK_SMTP_PASS=
       - HEALTH_CHECK_EMAIL_FROM=Digital Credentials Consortium Demo Issuer <DCC-support@mit.edu>
-      - HEALTH_CHECK_EMAIL_RECIPIENT=
+      - HEALTH_CHECK_EMAIL_RECIPIENT=the email addresss of whoever should receive unhealthy notications
       - HEALTH_CHECK_EMAIL_SUBJECT="DCC Dashboard Issuer Coordinator Microservice Healthcheck"
-      - HEALTH_CHECK_WEB_HOOK=
-      - HEALTH_CHECK_SERVICE_URL=http://localhost:3000/api/healthz
+      - HEALTH_CHECK_WEB_HOOK=a webhook like those of Slack
+      - HEALTH_CHECK_SERVICE_URL=http://localhost:3000/api/healthz - the healthz endpoint
       - HEALTH_CHECK_SERVICE_NAME=VERIFIER-PLUS
+      - DB_USER=your mongo user
+      - DB_PASS=and mongo password
+      - DB_HOST=and mongo host
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.mjs"]
+      interval: 30m
+      retries: 3
+      start_period: 30s
+      timeout: 80s
     ports:
       - "3000:3000"
     labels:
       autoheal: true
   autoheal:
+    image: willfarrell/autoheal:latest
+    restart: always
     environment:
       - AUTOHEAL_INTERVAL=60
       - AUTOHEAL_START_PERIOD=30
-      - WEBHOOK_URL=
-    image: willfarrell/autoheal:latest
-    restart: always
+      - WEBHOOK_URL=an optional webhook to report restarts
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-  
+
+

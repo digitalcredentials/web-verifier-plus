@@ -33,7 +33,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 # Deploy on Vercel
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 # MongoDB
 This app currently requires MongoDB for its backend storage. To set up MongoDB for this app:
@@ -42,18 +42,19 @@ This app currently requires MongoDB for its backend storage. To set up MongoDB f
  * From there create a collection, as well as a user with read and write permissions. 
  * Copy `.env.example`, and rename the copy `.env` 
  * Copy all the information from your Atlas cluster into the appropriate fields in the `.env` file.
- * NOTE: If the app can't connect to your Mongo Atlas collection, make sure that you've added your server IP to the whitelist for your Mongo Atlas account.
+
+TROUBLESHOOTING: If the app can't connect to your Mongo Atlas collection, make sure that you've added your server IP to the whitelist for your Mongo Atlas account.
 
  # Docker
 
  We've provided both a sample Dockerfile and two sample docker compose files.
 
- The docker compose files are identical except that the production version includes configuration for [nginxproxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) and [nginxproxy/acme-companion](https://github.com/nginx-proxy/acme-companion).
+ The two docker compose files are identical except that the production version includes configuration for [nginxproxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) and [nginxproxy/acme-companion](https://github.com/nginx-proxy/acme-companion).
 
- Both compose files includes a HEALTHCHECK configuration that monitors the running web app container. If the healthcheck returns 'unhealthy' three times in a row, the the [willfarrell/autoheal](https://github.com/willfarrell/docker-autoheal) service restarts the container.
+ Both compose files include a HEALTHCHECK configuration that monitors the running web app container. If the healthcheck returns 'unhealthy' three times in a row, the the [willfarrell/autoheal](https://github.com/willfarrell/docker-autoheal) service restarts the container.
 
  You can also configure an SMTP email server, which the healtcheck will use to send emails to an email recipient whose address you can also configure. The healthcheck only sends emails if the check returns unhealthy. 
  
  And finally you can set a webhook on both the healtcheck and the autoheal, to which the same notifications of unhealthy status will be sent. We use the Slack webhook for this.
 
- We've set the configuation values in the 'environment' sections of the compose file, but you can also use a .env file. We've in fact also provided a .env file in which we've configured the mongo user, password, and host. Feel free to add environment variable either way - they are equivalent. The .env file may be more secure.
+ We've set the configuation values in the 'environment' sections of the compose file, but you can also use a .env file, like the .env.example we provide. The .env file may be more secure.
