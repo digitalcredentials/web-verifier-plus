@@ -1,7 +1,16 @@
 import { useState } from 'react';
-import { CredentialError } from 'types/credential';
+import { CredentialError } from 'types/credential.d';
 import type { ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
+import { StatusPurpose, hasStatusPurpose } from 'lib/credentialStatus';
+
+enum LogId {
+  ValidSignature = 'valid_signature',
+  Expiration = 'expiration',
+  IssuerDIDResolves = 'issuer_did_resolves',
+  RevocationStatus = 'revocation_status',
+  SuspensionStatus = 'suspension_status'
+}
 
 export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   const [moreInfo, setMoreInfo] = useState(false);
@@ -53,12 +62,16 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
         </div>
       )
     } else {
+      const { credential } = verificationResult.results[0];
+      const hasCredentialStatus = credential.credentialStatus !== undefined;
+      const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
+      const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
       return (
         <div className={styles.resultLog}>
           <div className={styles.issuer}>
             <div className={styles.header}>Issuer</div>
             <ResultItem
-              verified={logMap['issuer_did_resolves'] ?? true}
+              verified={logMap[LogId.IssuerDIDResolves] ?? true}
               positiveMessage="Has been issued by a registered institution:"
               negativeMessage="Issuing institution cannot be reached for verification"
               issuer={true}
@@ -67,20 +80,27 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           <div className={styles.credential}>
             <div className={styles.header}>Credential</div>
             <ResultItem
-              verified={logMap['valid_signature'] ?? true}
+              verified={logMap[LogId.ValidSignature] ?? true}
               positiveMessage="Has a valid digital signature"
               negativeMessage="Has an invalid digital signature"
             />
             <ResultItem
-              verified={logMap['expiration'] ?? true}
+              verified={logMap[LogId.Expiration] ?? true}
               positiveMessage="Has not expired"
               negativeMessage="Has expired"
             />
+            {hasCredentialStatus && hasRevocationStatus &&
             <ResultItem
-              verified={logMap['revocation_status'] ?? true}
+              verified={logMap[LogId.RevocationStatus] ?? true}
               positiveMessage="Has not been revoked by issuer"
               negativeMessage="Has been revoked by issuer"
-            />
+            />}
+            {hasCredentialStatus && hasSuspensionStatus &&
+            <ResultItem
+              verified={logMap[LogId.SuspensionStatus] ?? true}
+              positiveMessage="Has not been suspended by issuer"
+              negativeMessage="Has been suspended by issuer"
+            />}
           </div>
         </div>
       )

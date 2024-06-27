@@ -1,13 +1,14 @@
 import { DateTime, Info } from 'luxon';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
-import { IssuerObject, VerifiableCredential } from 'types/credential';
+import { IssuerObject, VerifiableCredential } from 'types/credential.d';
 import type {CredentialCardProps, CredentialDisplayFields} from './CredentialCard.d';
 import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { getExpirationDate, getIssuanceDate } from 'lib/credentialValidityPeriod';
 
 export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardProps) => {
   // TODO: add back IssuerInfoModal
@@ -132,8 +133,8 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
   }
   const common = {
     issuedTo: credential.credentialSubject.name,
-    issuanceDate: credential.issuanceDate,
-    expirationDate: credential.expirationDate
+    issuanceDate: getIssuanceDate(credential),
+    expirationDate: getExpirationDate(credential)
   }
   if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
     return {...common,
