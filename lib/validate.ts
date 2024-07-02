@@ -91,6 +91,16 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       return createErrorMessage(credential, CredentialErrorTypes.CouldNotBeVerified);
     }
 
+    if (!result.results) {
+      result.results = [{}];
+    }
+
+    for (const res of result.results) {
+      if (!res.credential) {
+        res.credential = credential;
+      }
+    }
+
     const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
     result.registryName  = registryInfo[0].name;
 
@@ -122,7 +132,7 @@ function createErrorMessage(credential: VerifiableCredential, message: string) {
     results: [
       {
         verified: false,
-        credential: credential,
+        credential,
         error: {
           details: {
             cause: {
