@@ -17,7 +17,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <a href='https://digitalcredentials.mit.edu/'>
           <img
             src={isDark ? '/DarkModeLogo.png' : '/LightModeLogo.png'}
-            alt='Digital Credenials Consortium logo'
+            alt='Digital Credentials Consortium logo'
             className={styles.logo}
           />
         </a>
