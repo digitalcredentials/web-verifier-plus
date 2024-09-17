@@ -16,16 +16,16 @@
     "postinstall": "./post-install.sh"
   },
   "dependencies": {
-    "@digitalcredentials/crypto-ld": "7.0.6",
+    "@digitalcredentials/crypto-ld": "^7.0.6",
     "@digitalcredentials/did-io": "^1.0.2",
     "@digitalcredentials/did-method-key": "^2.0.3",
-    "@digitalcredentials/ed25519-signature-2020": "^4.0.0",
-    "@digitalcredentials/ed25519-verification-key-2020": "^3.2.2",
+    "@digitalcredentials/ed25519-signature-2020": "^5.0.0",
+    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/issuer-registry-client": "^1.0.0",
-    "@digitalcredentials/security-document-loader": "digitalcredentials/security-document-loader#add-vc-2.0-context",
-    "@digitalcredentials/vc": "digitalcredentials/vc#vc-2.0-time-props",
-    "@digitalcredentials/vc-bitstring-status-list": "digitalcredentials/vc-bitstring-status-list#add-vc-2.0",
-    "@digitalcredentials/vc-status-list": "digitalcredentials/vc-status-list#add-vc-2.0",
+    "@digitalcredentials/security-document-loader": "^6.0.0",
+    "@digitalcredentials/vc": "^8.0.1",
+    "@digitalcredentials/vc-bitstring-status-list": "^1.0.0",
+    "@digitalcredentials/vc-status-list": "^9.0.0",
     "@digitalcredentials/vpqr": "^2.2.1",
     "axios": "^1.7.2",
     "luxon": "^3.0.1",
@@ -43,6 +43,7 @@
     "x25519-key-agreement-2020-context": "^1.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/luxon": "^2.3.2",
     "@types/node": "18.0.3",
     "@types/react": "18.0.15",
