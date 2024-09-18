@@ -1,5 +1,5 @@
-import { checkStatus } from '@digitalcredentials/vc-bitstring-status-list';
-import { checkStatus as checkStatusLegacy } from '@digitalcredentials/vc-status-list';
+import { checkStatus } from '@digitalbazaar/vc-bitstring-status-list';
+import { checkStatus as checkStatusLegacy } from '@digitalbazaar/vc-status-list';
 import { VerifiableCredential } from 'types/credential.d';
 
 export enum StatusPurpose {
