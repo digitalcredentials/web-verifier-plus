@@ -1,6 +1,6 @@
-import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020';
-import { purposes } from '@digitalcredentials/jsonld-signatures';
-import * as vc from '@digitalcredentials/vc';
+import { Ed25519Signature2020 } from '@digitalbazaar/ed25519-signature-2020';
+import { purposes } from 'jsonld-signatures';
+import * as vc from '@digitalbazaar/vc';
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';

@@ -1,10 +1,9 @@
-declare module '@digitalcredentials/vc';
-declare module '@digitalcredentials/vpqr';
-declare module '@digitalcredentials/ed25519-verification-key-2020';
-declare module '@digitalcredentials/ed25519-signature-2020';
-declare module '@digitalcredentials/jsonld-signatures';
+declare module '@digitalbazaar/vc';
+declare module '@digitalbazaar/vpqr';
+declare module '@digitalbazaar/ed25519-verification-key-2020';
+declare module '@digitalbazaar/ed25519-signature-2020';
 declare module '@digitalcredentials/security-document-loader';
-declare module '@digitalcredentials/vc-bitstring-status-list';
-declare module '@digitalcredentials/vc-status-list';
-declare module 'json-canonicalize';
+declare module '@digitalbazaar/vc-bitstring-status-list';
+declare module '@digitalbazaar/vc-status-list';
+declare module 'jsonld-signatures';
 declare module 'uuid';
