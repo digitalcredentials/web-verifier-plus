@@ -16,13 +16,10 @@
     "postinstall": "./post-install.sh"
   },
   "dependencies": {
-    "@digitalcredentials/crypto-ld": "^7.0.6",
-    "@digitalcredentials/did-io": "^1.0.2",
-    "@digitalcredentials/did-method-key": "^2.0.3",
-    "@digitalcredentials/ed25519-signature-2020": "^5.0.0",
-    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/issuer-registry-client": "^1.0.0",
     "@digitalcredentials/security-document-loader": "^6.0.0",
+    "@digitalcredentials/ed25519-signature-2020": "^5.0.0",
+    "@digitalcredentials/ed25519-verification-key-2020": "^4.0.0",
     "@digitalcredentials/vc": "^8.0.1",
     "@digitalcredentials/vc-bitstring-status-list": "^1.0.0",
     "@digitalcredentials/vc-status-list": "^9.0.0",
