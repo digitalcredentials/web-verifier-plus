@@ -42,7 +42,6 @@ export async function verifyPresentation(
       unsignedPresentation,
     });
 
-    console.log(JSON.stringify(result));
     return result;
   } catch (err) {
     console.warn(err);
@@ -86,6 +85,7 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       // Only check revocation status if VC has a 'credentialStatus' property
       checkStatus
     });
+
 
     if (result?.error?.name === 'VerificationError') {
       return createErrorMessage(credential, CredentialErrorTypes.CouldNotBeVerified);
