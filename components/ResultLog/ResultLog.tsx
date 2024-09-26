@@ -66,11 +66,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       return acc;
     }, {}) ?? {};
   
-    console.log(logMap)
-
     hasSigningError = ! logMap[LogId.ValidSignature];
     
- 
 } else {
   hasUnknownError = true;
 }
