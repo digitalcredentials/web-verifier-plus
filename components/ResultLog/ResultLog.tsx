@@ -36,20 +36,44 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     )
   }
 
-  const logMap = verificationResult.results[0]?.log?.reduce((acc: Record<string, boolean>, log) => {
-    acc[log.id] = log.valid;
-    return acc;
-  }, {}) ?? {};
-
-  let hasError = false;
-  let hasSigningError = logMap[LogId.ValidSignature];
-  console.log(logMap)
+  let logMap = null;
+  let hasKnownError = false;
+  let showKnownError = false;
+  let hasUnknownError = false;
+  let hasSigningError = false;
   let error: CredentialError;
-  if (verificationResult.results[0].error) {
-    hasError = true;
-    error = verificationResult.results[0].error
-    console.log('Error: ', error);
-  }
+  let hasResult = verificationResult.results[0];
+
+  if (hasResult) {
+    let log = []
+    const result = verificationResult.results[0]
+    const hasResultLog = result.log;
+    const hasErrorLog = result.error?.log
+    hasKnownError = !!result.error
+    showKnownError = hasKnownError && !hasErrorLog
+    if (hasKnownError) {
+      error = result.error
+      console.log('Error: ', error);
+    }
+
+    if (hasResultLog) {
+      log = result.log
+    } else if (hasErrorLog) {
+      log = result.error.log
+    }
+    logMap = log.reduce((acc: Record<string, boolean>, logEntry: any) => {
+      acc[logEntry.id] = logEntry.valid;
+      return acc;
+    }, {}) ?? {};
+  
+    console.log(logMap)
+
+    hasSigningError = ! logMap[LogId.ValidSignature];
+    
+ 
+} else {
+  hasUnknownError = true;
+}
 
   const result = () => {
     if (hasSigningError) {
@@ -63,7 +87,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           )}
         </div>
       )
-    } else if (hasError) {
+    } else if (showKnownError) {
       return (
         <div>
           <p className={styles.error}>There was an error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
@@ -74,6 +98,16 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           )}
         </div>
       )
+    } else if (hasUnknownError) {
+      <div>
+        <p className={styles.error}>There was an unknown error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
+        {moreInfo && (
+          <div className={styles.errorContainer}>
+            <p>"Please try again, or let us know."</p>
+          </div>
+        )}
+      </div>
+      
     } else {
       const { credential } = verificationResult.results[0];
       const hasCredentialStatus = credential.credentialStatus !== undefined;
