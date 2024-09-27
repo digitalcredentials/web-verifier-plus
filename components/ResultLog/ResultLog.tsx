@@ -117,7 +117,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             <ResultItem
               verified={logMap[LogId.IssuerDIDResolves] ?? true}
               positiveMessage="Has been issued by a registered institution:"
-              negativeMessage="Issuing institution cannot be reached for verification"
+              negativeMessage="Could not find issuer in registry with given DID."
               issuer={true}
             />
           </div>
