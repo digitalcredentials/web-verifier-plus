@@ -45,7 +45,6 @@ export async function verifyPresentation(
     return result;
   } catch (err) {
     console.warn(err);
-
     throw new Error(PresentationError.CouldNotBeVerified);
   }
 }
@@ -53,23 +52,14 @@ export async function verifyPresentation(
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
   const { issuer } = credential;
 
-  const {malformed, message} = checkMalformed(credential);
+  const { malformed, message } = checkMalformed(credential);
   if (malformed) {
-    return createErrorMessage(credential, message);
+    return createFatalErrorResult(credential, message);
   }
 
   if (credential?.proof?.type === 'DataIntegrityProof') {
-    return createErrorMessage(credential,
+    return createFatalErrorResult(credential,
       `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
-  }
-
-  const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
-
-  await registryCollections.issuerDid.fetchRegistries();
-  const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
-  if (!isInRegistry) {
-    // throw new Error(CredentialErrorTypes.DidNotInRegistry);
-    return createErrorMessage(credential, CredentialErrorTypes.DidNotInRegistry)
   }
 
   try {
@@ -78,6 +68,15 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     const checkStatus = extractedCredential ?
       getCredentialStatusChecker(extractedCredential)
       : undefined;
+
+    /*
+basic structure from verifyCredential call
+{
+    verified: false,
+    results: [{credential, verified: false, error}],
+    error
+  };
+*/
     const result = await vc.verifyCredential({
       credential,
       suite,
@@ -85,10 +84,9 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       // Only check revocation status if VC has a 'credentialStatus' property
       checkStatus
     });
-
-
+    result.fatal = false;
     if (result?.error?.name === 'VerificationError') {
-      return createErrorMessage(credential, CredentialErrorTypes.CouldNotBeVerified);
+      return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified);
     }
 
     if (!result.results) {
@@ -101,13 +99,22 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       }
     }
 
-    const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
-    result.registryName  = registryInfo[0].name;
+    const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
+    await registryCollections.issuerDid.fetchRegistries();
+    const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
+    if (isInRegistry) {
+      const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
+      result.registryName = registryInfo[0].name;
+    } else {
+      (result.results[0].log ??= []).push({ id: 'issuer_did_resolves', valid: false })
+      addErrorToResult(result, CredentialErrorTypes.DidNotInRegistry, false)
+    }
 
     return result;
   } catch (err) {
     console.warn(err);
-    throw new Error(CredentialErrorTypes.CouldNotBeVerified);
+    //throw new Error(CredentialErrorTypes.CouldNotBeVerified);
+    return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified)
   }
 }
 
@@ -115,42 +122,48 @@ function checkMalformed(credential: VerifiableCredential) {
   let message = '';
 
   // check credential for proof
-  if (!credential.proof){
+  if (!credential.proof) {
     message += 'This is not a Verifiable Credential (does not have a digital signature).'
   }
 
   if (message) {
-    return {malformed: true, message: message};
+    return { malformed: true, message: message };
   }
-  return {malformed: false, message: message};
+  return { malformed: false, message: message };
 
 }
 
-function createErrorMessage(credential: VerifiableCredential, message: string) {
-  return {
+function createFatalErrorResult(credential: VerifiableCredential, message: string): VerifyResponse {
+  const result = {
     verified: false,
     results: [
       {
         verified: false,
-        credential,
-        error: {
-          details: {
-            cause: {
-              message: message,
-              name: 'Error',
-            },
-          },
-          message: message,
-          name: 'Error',
-        },
+        credential: credential,
         log: [
-            { id: 'expiration', valid: false },
-            { id: 'valid_signature', valid: false },
-            { id: 'issuer_did_resolves', valid: false },
-            { id: 'revocation_status', valid: false },
-            { id: 'suspension_status', valid: false }
-          ],
+          { id: 'expiration', valid: false },
+          { id: 'valid_signature', valid: false },
+          { id: 'issuer_did_resolves', valid: false },
+          { id: 'revocation_status', valid: false }
+        ]
       }
     ]
+  }
+  addErrorToResult(result, message, true)
+  return result as VerifyResponse
+}
+
+function addErrorToResult(result: any, message: string, isFatal: boolean = true) {
+  result.results[0].error =
+  {
+    details: {
+      cause: {
+        message,
+        name: 'Error',
+      },
+    },
+    message,
+    name: 'Error',
+    isFatal
   }
 }

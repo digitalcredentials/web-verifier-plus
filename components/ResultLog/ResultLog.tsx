@@ -38,7 +38,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
 
   let logMap = null;
   let hasKnownError = false;
-  let showKnownError = false;
+  let shouldShowKnownError = false;
   let hasUnknownError = false;
   let hasSigningError = false;
   let error: CredentialError;
@@ -47,10 +47,10 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   if (hasResult) {
     let log = []
     const result = verificationResult.results[0]
-    const hasResultLog = result.log;
-    const hasErrorLog = result.error?.log
+    const hasResultLog = !!result.log;
+    const hasErrorLog = !!result.error?.log
     hasKnownError = !!result.error
-    showKnownError = hasKnownError && !hasErrorLog
+    shouldShowKnownError = !!result.error?.isFatal
     if (hasKnownError) {
       error = result.error
       console.log('Error: ', error);
@@ -84,7 +84,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           )}
         </div>
       )
-    } else if (showKnownError) {
+    } else if (shouldShowKnownError) {
       return (
         <div>
           <p className={styles.error}>There was an error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
