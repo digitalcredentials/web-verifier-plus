@@ -36,7 +36,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     )
   }
 
-  let logMap = null;
+  let logMap: { [x: string]: any; };
   let hasKnownError = false;
   let shouldShowKnownError = false;
   let hasUnknownError = false;
@@ -96,14 +96,14 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
         </div>
       )
     } else if (hasUnknownError) {
-      <div>
+      return (<div>
         <p className={styles.error}>There was an unknown error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
         {moreInfo && (
           <div className={styles.errorContainer}>
             <p>"Please try again, or let us know."</p>
           </div>
         )}
-      </div>
+      </div>)
       
     } else {
       const { credential } = verificationResult.results[0];
