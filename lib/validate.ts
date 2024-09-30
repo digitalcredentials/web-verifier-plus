@@ -7,6 +7,8 @@ import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
 import { registryCollections } from '@digitalcredentials/issuer-registry-client';
 import { getCredentialStatusChecker } from './credentialStatus';
+import { parseUri } from 'parseuri';
+
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
@@ -52,6 +54,10 @@ export async function verifyPresentation(
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
   const { issuer } = credential;
 
+  if (!checkID(credential)) {
+    return createFatalErrorResult(credential, "The credential's id uses an invalid format. It may have been issued as part of an early pilot. Please contact the issuer to get a replacement.")
+  }
+
   const { malformed, message } = checkMalformed(credential);
   if (malformed) {
     return createFatalErrorResult(credential, message);
@@ -70,13 +76,13 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       : undefined;
 
     /*
-basic structure from verifyCredential call
-{
-    verified: false,
-    results: [{credential, verified: false, error}],
-    error
-  };
-*/
+    basic structure of object returned from verifyCredential call
+    {
+        verified: false,
+        results: [{credential, verified: false, error}],
+        error
+      };
+    */
     const result = await vc.verifyCredential({
       credential,
       suite,
@@ -132,6 +138,17 @@ function checkMalformed(credential: VerifiableCredential) {
   }
   return { malformed: false, message: message };
 
+}
+
+function checkID(credential: VerifiableCredential) : boolean {
+
+  try {
+    new URL(credential.id as string);
+  } catch (e) {
+    return false
+  }
+  return true
+  
 }
 
 function createFatalErrorResult(credential: VerifiableCredential, message: string): VerifyResponse {

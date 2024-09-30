@@ -73,24 +73,24 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
 }
 
   const result = () => {
-    if (hasSigningError) {
-      return (
-        <div>
-          <p className={styles.error}>"This credential cannot be verified. Note that the JSON code is sensitive to changes in code text including spaces and characters. Please ensure you have input the correct code." <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
-          {moreInfo && (
-            <div className={styles.errorContainer}>
-              <p>Something has changed in the credential so that the electronic signature no longer matches the content. This could be something as simple as inadvertently adding a space.</p>
-            </div>
-          )}
-        </div>
-      )
-    } else if (shouldShowKnownError) {
+    if (shouldShowKnownError) {
       return (
         <div>
           <p className={styles.error}>There was an error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
           {moreInfo && (
             <div className={styles.errorContainer}>
               <p>{error.message}</p>
+            </div>
+          )}
+        </div>
+      )
+    } else if (hasSigningError) {
+      return (
+        <div>
+          <p className={styles.error}>"This credential cannot be verified. Note that the JSON code is sensitive to changes in code text including spaces and characters. Please ensure you have input the correct code." <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
+          {moreInfo && (
+            <div className={styles.errorContainer}>
+              <p>Something has changed in the credential so that the electronic signature no longer matches the content. This could be something as simple as inadvertently adding a space.</p>
             </div>
           )}
         </div>
