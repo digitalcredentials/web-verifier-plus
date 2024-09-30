@@ -106,6 +106,7 @@ basic structure from verifyCredential call
       const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
       result.registryName = registryInfo[0].name;
     } else {
+      result.verified = false;
       (result.results[0].log ??= []).push({ id: 'issuer_did_resolves', valid: false })
       addErrorToResult(result, CredentialErrorTypes.DidNotInRegistry, false)
     }
