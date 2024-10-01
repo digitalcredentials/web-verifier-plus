@@ -5,7 +5,8 @@ import { VerifiablePresentation, PresentationError } from 'types/presentation.d'
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
-import { registryCollections } from '@digitalcredentials/issuer-registry-client';
+import { RegistryClient } from '@digitalcredentials/issuer-registry-client';
+import { getCachedRegistryClient } from './registryManager';
 import { getCredentialStatusChecker } from './credentialStatus';
 
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
@@ -111,12 +112,13 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       }
     }
 
-    const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
-    await registryCollections.issuerDid.fetchRegistries();
-    const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
-    if (isInRegistry) {
-      const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
-      result.registryName = registryInfo[0].name;
+    const registries = await getCachedRegistryClient();
+    const registryNames = issuerInRegistries({
+      issuer,
+      registries,
+    });
+    if (registryNames) {
+      result.registryName = registryNames;
     } else {
       result.verified = false;
       (result.results[0].log ??= []).push({ id: 'issuer_did_resolves', valid: false })
@@ -129,6 +131,23 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     //throw new Error(CredentialErrorTypes.CouldNotBeVerified);
     return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified)
   }
+}
+
+function issuerInRegistries({
+  issuer,
+  registries,
+}: {
+  issuer: string | any;
+  registries: RegistryClient;
+}): string[] | null {
+  const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
+  const issuerInfo = registries.didEntry(issuerDid);
+
+  // See if the issuer DID appears in any of the known registries
+  // If yes, assemble a list of registries it appears in
+  return issuerInfo?.inRegistries
+    ? Array.from(issuerInfo.inRegistries).map((r) => r.name)
+    : null;
 }
 
 function checkMalformed(credential: VerifiableCredential) {
