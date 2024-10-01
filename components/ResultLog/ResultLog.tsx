@@ -13,10 +13,9 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
         </span>
         <div>
           {verified ? positiveMessage : negativeMessage}
-          { issuer ?
+          { issuer ? 
             <ul className={styles.issuerList}>
-              {verificationResult.registryName ?
-              <li>{verificationResult.registryName}</li>
+              {verificationResult.registryName ? verificationResult.registryName.map((registry:string) => { return <li key={registry}>{registry}</li>})
               : null
               }
             </ul> :

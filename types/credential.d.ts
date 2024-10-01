@@ -136,5 +136,5 @@ export type VerifyResult = {
 export type VerifyResponse = {
   verified: boolean;
   results: VerifyResult[];
-  registryName?: string;
+  registryName?: string[];
 }

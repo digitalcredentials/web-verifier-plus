@@ -6,7 +6,8 @@ import { VerifiablePresentation, PresentationError } from 'types/presentation.d'
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
-import { registryCollections, Registry } from '@digitalcredentials/issuer-registry-client';
+import { RegistryClient } from '@digitalcredentials/issuer-registry-client';
+import { getCachedRegistryClient } from './registryManager';
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
 const presentationPurpose = new purposes.AssertionProofPurpose();
@@ -64,11 +65,15 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
   }
 
-  const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
+  const registries = await getCachedRegistryClient();
 
-  await registryCollections.issuerDid.fetchRegistries();
-  const isInRegistry = await registryCollections.issuerDid.isInRegistryCollection(issuerDid);
-  if (!isInRegistry) {
+
+  const registryNames = issuerInRegistries({
+    issuer,
+    registries
+  });
+  
+  if (!registryNames) {
     // throw new Error(CredentialErrorTypes.DidNotInRegistry);
     return createErrorMessage(credential, CredentialErrorTypes.DidNotInRegistry)
   }
@@ -82,13 +87,11 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       // Only check revocation status if VC has a 'credentialStatus' property
       checkStatus: hasRevocation ? checkStatus : undefined
     });
-
     if (result?.error?.name === 'VerificationError') {
       return createErrorMessage(credential, CredentialErrorTypes.CouldNotBeVerified);
     }
 
-    const registryInfo = await registryCollections.issuerDid.registriesFor(issuerDid)
-    result.registryName  = registryInfo[0].name;
+    result.registryName = registryNames;
 
     return result;
   } catch (err) {
@@ -110,6 +113,23 @@ function checkMalformed(credential: VerifiableCredential) {
   }
   return {malformed: false, message: message};
 
+}
+
+function issuerInRegistries({
+  issuer,
+  registries,
+}: {
+  issuer: string | any;
+  registries: RegistryClient;
+}): string[] | null {
+  const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
+  const issuerInfo = registries.didEntry(issuerDid);
+
+  // See if the issuer DID appears in any of the known registries
+  // If yes, assemble a list of registries it appears in
+  return issuerInfo?.inRegistries
+    ? Array.from(issuerInfo.inRegistries).map((r) => r.name)
+    : null;
 }
 
 function createErrorMessage(credential: VerifiableCredential, message: string) {
