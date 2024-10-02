@@ -137,7 +137,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             <ResultItem
               verified={logMap[LogId.RevocationStatus] ?? true}
               positiveMessage="Has not been revoked by issuer"
-              negativeMessage="Has been revoked by issuer"
+              negativeMessage={verificationResult.hasStatusError?"Revocation status could not be checked":"Has been revoked by issuer"}
             />}
             {hasCredentialStatus && hasSuspensionStatus &&
             <ResultItem

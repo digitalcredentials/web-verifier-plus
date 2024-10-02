@@ -165,6 +165,7 @@ export type VerifyResult = {
 }
 
 export type VerifyResponse = {
+  hasStatusError?: any;
   verified: boolean;
   results: VerifyResult[];
   registryName?: string;
