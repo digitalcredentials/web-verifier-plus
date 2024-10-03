@@ -7,7 +7,6 @@ import { securityLoader } from '@digitalcredentials/security-document-loader';
 import { extractCredentialsFrom } from './verifiableObject';
 import { registryCollections } from '@digitalcredentials/issuer-registry-client';
 import { getCredentialStatusChecker } from './credentialStatus';
-import { error } from 'console';
 
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
