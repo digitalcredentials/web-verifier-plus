@@ -74,27 +74,54 @@ export type Proof = {
   cryptosuite?: string;
 }
 
-export type Status = {
-  id: string;
-  type: string | [];
-  statusPurpose: string;
-  statusListIndex: string;
-  statusListCredential: string;
+// https://www.w3.org/TR/vc-bitstring-status-list
+export type CredentialStatus = {
+  readonly id: string;
+  readonly type: string | string[];
+  readonly statusPurpose: string;
+  readonly statusListIndex: string | number;
+  readonly statusListCredential: string;
 }
 
-// https://digitalcredentials.github.io/dcc/v1/dcc-context-v1.json
-export type VerifiableCredential = {
-  readonly name: string | undefined;
-  readonly credentialStatus?: Status;    // https://w3c.github.io/vc-data-model/#status
-  readonly '@context': string[];         // https://w3c.github.io/vc-data-model/#contexts
-  readonly id?: string;                   // https://w3c.github.io/vc-data-model/#identifiers
-  readonly type: string[];               // https://w3c.github.io/vc-data-model/#types
-  readonly issuer: Issuer;               // https://w3c.github.io/vc-data-model/#issuer
-  readonly issuanceDate?: string;         // https://w3c.github.io/vc-data-model/#issuance-date
-  readonly expirationDate?: string;      // https://w3c.github.io/vc-data-model/#expiration
-  readonly credentialSubject: Subject;   // https://w3c.github.io/vc-data-model/#credential-subject
-  readonly proof?: Proof;                // https://w3c.github.io/vc-data-model/#proofs-signatures
+export type RenderMethod = {
+  id?: string;
+  type: string;
+  name?: string;
+  css3MediaQuery?: string;
 }
+
+// https://www.w3.org/TR/vc-data-model/
+export type VerifiableCredentialV1 = {
+  readonly '@context': string[];         // https://www.w3.org/TR/vc-data-model/#contexts
+  readonly id?: string;                  // https://www.w3.org/TR/vc-data-model/#identifiers
+  readonly type: string[];               // https://www.w3.org/TR/vc-data-model/#types
+  readonly issuer: Issuer;               // https://www.w3.org/TR/vc-data-model/#issuer
+  readonly issuanceDate: string;         // https://www.w3.org/TR/vc-data-model/#issuance-date
+  readonly expirationDate?: string;      // https://www.w3.org/TR/vc-data-model/#expiration
+  readonly credentialSubject: Subject;   // https://www.w3.org/TR/vc-data-model/#credential-subject
+  readonly credentialStatus?: CredentialStatus | CredentialStatus[]; // https://www.w3.org/TR/vc-data-model/#status
+  readonly proof?: Proof;                // https://www.w3.org/TR/vc-data-model/#proofs-signatures
+  readonly name?: string;
+  readonly renderMethod?: RenderMethod[];
+}
+
+// https://www.w3.org/TR/vc-data-model-2.0/
+// (At this time, this should be in sync with https://w3c.github.io/vc-data-model/)
+export type VerifiableCredentialV2 = {
+  readonly '@context': string[];         // https://www.w3.org/TR/vc-data-model-2.0/#contexts
+  readonly id?: string;                  // https://www.w3.org/TR/vc-data-model-2.0/#identifiers
+  readonly type: string[];               // https://www.w3.org/TR/vc-data-model-2.0/#types
+  readonly issuer: Issuer;               // https://www.w3.org/TR/vc-data-model-2.0/#issuer
+  readonly validFrom?: string;           // https://www.w3.org/TR/vc-data-model-2.0/#validity-period
+  readonly validUntil?: string;          // https://www.w3.org/TR/vc-data-model-2.0/#validity-period
+  readonly credentialSubject: Subject;   // https://www.w3.org/TR/vc-data-model-2.0/#credential-subject
+  readonly credentialStatus?: CredentialStatus | CredentialStatus[]; // https://www.w3.org/TR/vc-data-model-2.0/#status
+  readonly proof?: Proof;                // https://w3c.github.io/vc-data-model/#proofs-signatures
+  readonly name?: string;
+  readonly renderMethod?: RenderMethod[]; // https://www.w3.org/TR/vc-data-model-2.0/#reserved-extension-points
+}
+
+export type VerifiableCredential = VerifiableCredentialV1 | VerifiableCredentialV2;
 
 export enum CredentialErrorTypes {
   IsNotVerified = 'Credential is not verified.',
@@ -102,17 +129,21 @@ export enum CredentialErrorTypes {
   DidNotInRegistry = 'Could not find issuer in registry with given DID.',
 }
 
-export type CredentialError = {
-  details: ErrorDetails,
-  message: string,
-  name: string,
-  stack?: string,
-}
+
 
 export type ErrorDetails = {
   cause: ErrorCause;
   code?: string;
   url?: string;
+}
+
+export type CredentialError = {
+  details: ErrorDetails,
+  message: string,
+  name: string,
+  stack?: string,
+  isFatal?: boolean,
+  log?: any
 }
 
 export type ErrorCause = {
@@ -134,6 +165,7 @@ export type VerifyResult = {
 }
 
 export type VerifyResponse = {
+  hasStatusError?: any;
   verified: boolean;
   results: VerifyResult[];
   registryName?: string;

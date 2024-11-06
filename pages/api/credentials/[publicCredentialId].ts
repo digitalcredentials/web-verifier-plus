@@ -6,7 +6,7 @@ import * as credentials from 'lib/credentials';
  * DELETE /api/credentials/{publicCredentialId}
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('started api');
+
   try {
     let result: any;
     const { publicCredentialId } = req.query;
@@ -17,20 +17,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     switch (req.method) {
       case 'GET':
-        console.log(`GET /api/credentials/${publicCredentialId}`)
-
         // Returns a GetCredentialResult instance
         result = await credentials.get({ publicCredentialId });
-        console.log(`Loaded credential by public id "${publicCredentialId}"`);
-
         res.status(200).json(result);
         break;
       case 'DELETE':
-        console.log(`DELETE /api/credentials/${publicCredentialId}`)
-
         result = await credentials.unshare({ publicCredentialId, payload: req.body });
-        console.log('Unshared credential.');
-
         res.status(200).json({ message: 'Credential unshared.' });
         break;
       default:

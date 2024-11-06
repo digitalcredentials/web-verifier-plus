@@ -5,15 +5,47 @@ services:
     container_name: web-verifier-plus
     build: .
     environment:
-      - VIRTUAL_HOST=${URL}
-      - VIRTUAL_PORT=3000
-      - LETSENCRYPT_HOST=${URL}
+      - HEALTH_CHECK_SMTP_HOST=add your email host, like smtp.sendgrid.net
+      - HEALTH_CHECK_SMTP_USER=
+      - HEALTH_CHECK_SMTP_PASS=
+      - HEALTH_CHECK_EMAIL_FROM=Digital Credentials Consortium Demo Issuer <DCC-support@mit.edu>
+      - HEALTH_CHECK_EMAIL_RECIPIENT=the email addresss of whoever should receive unhealthy notications
+      - HEALTH_CHECK_EMAIL_SUBJECT="DCC Dashboard Issuer Coordinator Microservice Healthcheck"
+      - HEALTH_CHECK_WEB_HOOK=a webhook like those of Slack
+      - HEALTH_CHECK_SERVICE_URL=http://testing.dcconsortium.org/api/healthz - the healthz endpoint
+      - HEALTH_CHECK_SERVICE_NAME=VERIFIER-PLUS
+      - DB_USER=your mongo user
+      - DB_PASS=and mongo password
+      - DB_HOST=and mongo host
+      - VIRTUAL_HOST=testing.dcconsortium.org - replace with your server host
+      - VIRTUAL_PORT=3000 - and port
+      - LETSENCRYPT_HOST=testing.dcconsortium.org - usually the same as VIRTUAL_HOST
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.mjs"]
+      interval: 30m
+      retries: 3
+      start_period: 30s
+      timeout: 80s
+    ports:
+      - "3000:3000"
+    labels:
+      autoheal: true
+  autoheal:
+    image: willfarrell/autoheal:latest
+    restart: always
+    environment:
+      - AUTOHEAL_INTERVAL=60
+      - AUTOHEAL_START_PERIOD=30
+      - WEBHOOK_URL=an optional webhook to report restarts
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
   nginx-proxy:
     container_name: nginx-proxy
     image: nginxproxy/nginx-proxy
     ports:
-      - "${HTTPPORT}:80"
-      - "${HTTPSPORT}:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./certs:/etc/nginx/certs
@@ -22,6 +54,9 @@ services:
   nginx-proxy-acme:
     container_name: nginx-proxy-acme
     image: nginxproxy/acme-companion
+    environment:
+      - DEFAULT_EMAIL=chartraj@mit.edu - replace with the admin/maintainer
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./acme:/etc/acme.sh
@@ -29,8 +64,6 @@ services:
       - ./certs:/etc/nginx/certs
       - ./vhost:/etc/nginx/vhost.d
       - ./html:/usr/share/nginx/html
-    environment:
-      - "DEFAULT_EMAIL=${EMAIL}"
-      - NGINX_PROXY_CONTAINER=nginx-proxy
     depends_on:
       - "nginx-proxy"
+

@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-package-lock.json
 
 # testing
 /coverage
@@ -31,9 +30,12 @@ yarn-error.log*
 .env
 
 docker-compose.yml
+compose.yaml
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
+
+compose.yaml
