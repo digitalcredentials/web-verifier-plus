@@ -16,7 +16,7 @@ export const KnownDidRegistries = [
     url: 'https://digitalcredentials.github.io/dcc-registry/registry.json',
   },
   {
-    name: 'My Skills Registry',
+    name: 'MSP Registry',
     url: 'https://sandbox-issuer.myskillspocket.com/registry.json',
   },
 ];
