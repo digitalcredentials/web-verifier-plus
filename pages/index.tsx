@@ -112,8 +112,12 @@ const Home: NextPage = () => {
           query: [
             {
               type: 'QueryByExample',
-              reason: 'VerifierPlus is requesting any credential for verification.',
-              type: ['VerifiableCredential']
+              credentialQuery: {
+                reason: 'VerifierPlus is requesting any credential for verification.',
+                example: {
+                  type: ['VerifiableCredential']
+                }
+              }
             }
           ]
         }
@@ -129,7 +133,11 @@ const Home: NextPage = () => {
     console.log(chapiResult);
 
     const { data: vp } = chapiResult
-    setCredential(vp)
+    const vc = extractCredentialsFrom(vp)[0]
+
+    console.log('Extracted VC:', vc)
+
+    setCredential(vc)
   }
 
   async function getJSONFromURL(url: string) {
