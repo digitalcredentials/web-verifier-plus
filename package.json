@@ -17,6 +17,7 @@
     "@digitalcredentials/vc-status-list": "^9.0.0",
     "@digitalcredentials/vpqr": "^2.2.1",
     "axios": "^1.7.7",
+    "credential-handler-polyfill": "^4.0.0",
     "jsonld-signatures": "^11.3.0",
     "luxon": "^3.0.1",
     "material-icons": "^1.11.4",
