@@ -36,8 +36,8 @@ const Home: NextPage = () => {
     document.title = "VerifierPlus Home page";
 
     polyfill.loadOnce()
-      .then(_ => { console.log('CHAPI polyfill loaded.') })
-      .catch(e => { console.error('Error loading CHAPI polyfill:', e) })
+      .then((_: any) => { console.log('CHAPI polyfill loaded.') })
+      .catch((e: any) => { console.error('Error loading CHAPI polyfill:', e) })
 
     const handlePopstate = () => {
       if (window.location.hash === '/') {
@@ -133,6 +133,7 @@ const Home: NextPage = () => {
     console.log(chapiResult);
 
     const { data: vp } = chapiResult
+    // @ts-ignore
     const vc = extractCredentialsFrom(vp)[0]
 
     console.log('Extracted VC:', vc)
