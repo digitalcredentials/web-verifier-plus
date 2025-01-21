@@ -47,7 +47,7 @@ export const TopBar = ({hasLogo = false, isDark, setIsDark, setCredential}: TopB
           <div className={styles.logo} onClick={() => clearCredential()}>
             <Link href='/'>
               <div>
-                <p>VerifierPlus <span className={styles.betaTag}>Beta</span></p>
+                <p>VerifierPlus</p>
               </div>
               {/* <p>VerifierPlus</p> */}
             </Link>
