@@ -276,7 +276,7 @@ const Home: NextPage = () => {
               warning
             </span>
             <p className={styles.error}>
-              JSON cannot be parsed
+            The JSON is not a Verifiable Credential or an Open Badge 3.0
             </p>
           </div>
         )}
