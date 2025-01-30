@@ -13,6 +13,7 @@ import { TopBar } from 'components/TopBar/TopBar';
 import { BottomBar } from 'components/BottomBar/BottomBar';
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject';
 import { LoadingError } from 'components/LoadingError/LoadingError';
+import Link from "next/link";
 
 interface CredentialVerificationProps {
   credential: VerifiableCredential;
@@ -66,7 +67,30 @@ const CredentialPage: NextPage = () => {
     </div>);
   }
   if (credentials.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <main className={styles.container}>
+      <TopBar isDark={isDark} setIsDark={setIsDark}/>
+      <div className={styles.contentContainer}>
+        <div>
+        <Link href='/'>
+              <div>
+                <h1 className={styles.title}>
+                  VerifierPlus
+                </h1>
+              </div>
+        </Link>
+        <h2 className={styles.errorTitle}>404: Credential Not Found</h2>
+        <p className={styles.errorMessage}>
+            Please confirm you have entered the correct URL or public link. <br/> Other reasons for this error could include:
+        </p>
+        <ul className={styles.errorList}>
+            <li>The credential has expired</li>
+            <li>The credential holder has unshared the URL or public link</li>
+        </ul>
+        </div>
+       </div>
+      <BottomBar isDark={isDark}/>
+    </main>);  
   }
 
   return (
