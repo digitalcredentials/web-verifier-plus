@@ -73,11 +73,6 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     return createFatalErrorResult(credential, message);
   }
 
-  if (credential?.proof?.type === 'DataIntegrityProof') {
-    return createFatalErrorResult(credential,
-      `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
-  }
-
   try {
     const extractedCredential = extractCredentialsFrom(credential)?.find(
       vc => vc.credentialStatus);
