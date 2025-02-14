@@ -28,7 +28,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <Link className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</Link>
         <Link className={styles.link} href='https://github.com/digitalcredentials/web-verifier-plus'>View on Github</Link>
       </div>
-      <p className={styles.version}>VerifierPlus Version {getVersionNumber()}</p>
+      <p className={styles.version}>GitHub commit ID {getVersionNumber()}</p>
     </footer>
   )
 }
