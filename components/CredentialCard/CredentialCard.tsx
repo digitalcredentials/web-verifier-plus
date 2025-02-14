@@ -132,13 +132,13 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     }
   }
   const common = {
-    issuedTo: credential.credentialSubject.name,
+    issuedTo: credential.credentialSubject.name || credential.name,
     issuanceDate: getIssuanceDate(credential),
     expirationDate: getExpirationDate(credential)
   }
   if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
     return {...common,
-      credentialName: credential.name,
+      credentialName: credential.credentialSubject.achievement?.name,
       credentialDescription: credential.credentialSubject.achievement?.description,
       criteria: credential.credentialSubject.achievement?.criteria?.narrative,
       achievementImage: credential.credentialSubject.achievement?.image?.id,
