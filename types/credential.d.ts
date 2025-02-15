@@ -56,11 +56,17 @@ type SubjectExtensions = {
   readonly type?: string;
   readonly name?: string;
   readonly hasCredential?: EducationalOperationalCredential; // https://schema.org/hasCredential
-  readonly achievement?: OpenBadgeAchievement
+  readonly achievement?: OpenBadgeAchievement;
+  readonly identifier?: OBV3IdentifierObject | OBV3IdentifierObject[];
 }
 
 export type Subject = SubjectExtensions & {
   readonly id?: string;
+}
+
+export type OBV3IdentifierObject = {
+  readonly identityType?: string;
+  readonly identityHash?: string;
 }
 
 export type Proof = {

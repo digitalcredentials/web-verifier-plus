@@ -9,6 +9,7 @@ import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { getExpirationDate, getIssuanceDate } from 'lib/credentialValidityPeriod';
+import { extractNameFromOBV3Identifier } from 'lib/extractNameFromOBV3Identifier';
 
 export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardProps) => {
   // TODO: add back IssuerInfoModal
@@ -132,13 +133,13 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     }
   }
   const common = {
-    issuedTo: credential.credentialSubject.name || credential.name,
+    issuedTo: credential.credentialSubject?.name ??  credential.name ?? extractNameFromOBV3Identifier(credential.credentialSubject),
     issuanceDate: getIssuanceDate(credential),
     expirationDate: getExpirationDate(credential)
   }
   if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
     return {...common,
-      credentialName: credential.credentialSubject.achievement?.name,
+      credentialName: credential.credentialSubject.achievement?.name ,
       credentialDescription: credential.credentialSubject.achievement?.description,
       criteria: credential.credentialSubject.achievement?.criteria?.narrative,
       achievementImage: credential.credentialSubject.achievement?.image?.id,
