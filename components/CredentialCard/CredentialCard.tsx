@@ -133,7 +133,7 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     }
   }
   const common = {
-    issuedTo: credential.credentialSubject?.name ??  credential.name ?? extractNameFromOBV3Identifier(credential.credentialSubject),
+    issuedTo: credential.credentialSubject?.name ??  extractNameFromOBV3Identifier(credential.credentialSubject) ?? credential.name,
     issuanceDate: getIssuanceDate(credential),
     expirationDate: getExpirationDate(credential)
   }
