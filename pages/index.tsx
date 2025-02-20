@@ -62,8 +62,58 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (file !== null) {
       const reader = new FileReader();
+      
       reader.onload = (e) => {
-        const text = e.target?.result as string ?? '';
+        let text = e.target?.result as string ?? '';
+        if(file.type == 'image/png'){
+          // Search for keyword and extract the object following it
+          const keyword = 'openbadgecredential';  
+          const keywordIndex = text.indexOf(keyword);
+
+          // Check if the keyword is found
+          if (keywordIndex !== -1) {
+            // Extract the portion of the string after the keyword
+            const startIndex = keywordIndex + keyword.length;
+
+            // Find start of the object
+            const objectStart = text.indexOf('{', startIndex);
+
+            if (objectStart !== -1) {
+              // Find matching closing brace
+              let braceCount = 0;
+              let objectEnd = objectStart;
+
+              while (objectEnd < text.length) {
+                if (text[objectEnd] === '{') {
+                  braceCount++;
+                } else if (text[objectEnd] === '}') {
+                  braceCount--;
+                }
+
+                // When brace count goes back to zero = found the end of object
+                if (braceCount === 0) {
+                  break;
+                }
+
+                objectEnd++;
+              }
+
+              // Slice string to capture the entire object (including braces)
+              const objectString = text.slice(objectStart, objectEnd + 1);
+
+              // Parse object
+              try {
+                const parsedObject = JSON.parse(objectString);
+                text = JSON.stringify(parsedObject, null, 2);
+              } catch (error) {
+                console.error('Failed to parse JSON:', error);
+              }
+            } 
+          } else {
+            console.log('Keyword not found');
+          }
+        }
+
         const result = verifyCredential(text);
         if (!result) {
           console.log('file parse error');
@@ -174,8 +224,6 @@ const Home: NextPage = () => {
 
   async function onScan(json: string) : Promise<Boolean> {
     const fromqr = await credentialsFromQrText(json);
-    // console.log('here');
-    // console.log(fromqr);
     if (fromqr === null) { return false; }
     // get first cred. this will eventually need to be changed
     const cred = fromqr[0];
