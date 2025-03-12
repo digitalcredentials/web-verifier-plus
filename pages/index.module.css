@@ -68,7 +68,8 @@
   }
   
   .title,
-  .description {
+  .description,
+  .qrCode {
     text-align: center;
   }
   
