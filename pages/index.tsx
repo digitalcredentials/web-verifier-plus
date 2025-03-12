@@ -14,8 +14,8 @@ import { credentialsFromQrText } from 'lib/decode';
 import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
+import { QRCodeSVG } from 'qrcode.react';
 import Link from 'next/link'
-import { useQRCode } from 'next-qrcode';
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -31,8 +31,6 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
-
-  const { SVG: SvgQrCode } = useQRCode();
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -320,9 +318,11 @@ const Home: NextPage = () => {
         </div>
         <div>
           <p>
-          <a href={lcwRequestUrl}>Request from LCW directly</a>
+            <a href={lcwRequestUrl}>Request from LCW directly</a>
           </p>
-          <SvgQrCode text={lcwRequestUrl} />
+          <div className={styles.qrCode}>
+            <QRCodeSVG value={lcwRequestUrl} />
+          </div>
         </div>
 
         <div className={styles.textAreaContainer}>
