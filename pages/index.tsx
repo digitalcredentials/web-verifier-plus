@@ -15,6 +15,7 @@ import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
 import Link from 'next/link'
+import { useQRCode } from 'next-qrcode';
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -30,6 +31,8 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
+
+  const { SVG: SvgQrCode } = useQRCode();
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -62,12 +65,12 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (file !== null) {
       const reader = new FileReader();
-      
+
       reader.onload = (e) => {
         let text = e.target?.result as string ?? '';
         if(file.type == 'image/png'){
           // Search for keyword and extract the object following it
-          const keyword = 'openbadgecredential';  
+          const keyword = 'openbadgecredential';
           const keywordIndex = text.indexOf(keyword);
 
           // Check if the keyword is found
@@ -108,7 +111,7 @@ const Home: NextPage = () => {
               } catch (error) {
                 console.error('Failed to parse JSON:', error);
               }
-            } 
+            }
           } else {
             console.log('Keyword not found');
           }
@@ -264,6 +267,18 @@ const Home: NextPage = () => {
     );
   }
 
+  const serverUrl = 'http://localhost:3000';
+  // const serverUrl = 'https://<whatever>.ngrok.dev';
+
+  const chapiRequest = {
+    credentialRequestOrigin: 'https://verifierplus.org',
+    protocols: {
+      vcapi: `${serverUrl}/api/chapi/request`
+    }
+  }
+  const encodedRequest = encodeURI(JSON.stringify(chapiRequest));
+  const lcwRequestUrl = `https://lcw.app/request?request=${encodedRequest}`;
+
   return (
     <main className={styles.container}>
       <TopBar isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
@@ -302,6 +317,12 @@ const Home: NextPage = () => {
             text='Request Credential from Wallet'
             onClick={requestVcOnClick}
           />
+        </div>
+        <div>
+          <p>
+          <a href={lcwRequestUrl}>Request from LCW directly</a>
+          </p>
+          <SvgQrCode text={lcwRequestUrl} />
         </div>
 
         <div className={styles.textAreaContainer}>
