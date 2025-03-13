@@ -271,7 +271,7 @@ const Home: NextPage = () => {
   const chapiRequest = {
     credentialRequestOrigin: 'https://verifierplus.org',
     protocols: {
-      vcapi: `${serverUrl}/api/chapi/request`
+      vcapi: `${serverUrl}/api/exchanges/12345`
     }
   }
   const encodedRequest = encodeURI(JSON.stringify(chapiRequest));
