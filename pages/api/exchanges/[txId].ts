@@ -22,8 +22,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         break;
       case 'POST':
         const payload = JSON.stringify(req.body);
+
+        console.log('Incoming POST:', payload)
+
         if (payload === '{}') {
           // Initial POST by the wallet, send the VP Request query
+          const query = vprQuery()
+          res.status(200).json(query)
         } else {
           // Requested credentials sent by the wallet
           // Store in the exchanges cache
@@ -44,6 +49,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // @ts-ignore
       error: error.message
     })
+  }
+}
+
+function vprQuery() {
+  return {
+    "verifiablePresentationRequest": {
+      "query": [
+        {
+          "type": "QueryByExample",
+          "credentialQuery": {
+            "reason": "Please present your Verifiable Credential to complete the verification process.",
+            "example": {
+              "@context": ["https://www.w3.org/2018/credentials/v2"],
+              "type": ["VerifiableCredential"]
+            }
+          }
+        }
+      ]
+    }
   }
 }
 
