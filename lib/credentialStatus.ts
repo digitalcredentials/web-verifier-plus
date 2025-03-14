@@ -20,6 +20,8 @@ export function getCredentialStatusChecker(credential: VerifiableCredential) {
     return checkStatus;
   case 'StatusList2021Entry':
     return checkStatusLegacy;
+  case '1EdTechRevocationList':
+    return ()=>{return {verified:true, credentialStatus: 'active'}}
   default:
     return null;
   }
