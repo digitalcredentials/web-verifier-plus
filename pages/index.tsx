@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import * as polyfill from 'credential-handler-polyfill'
 import styles from './index.module.css'
+import { Accordion } from 'components/Accordion/Accordion'
 import { Button } from 'components/Button/Button'
 import { useEffect, useState  } from 'react'
 import { ScanModal } from 'components/ScanModal/ScanModal'
@@ -297,6 +298,7 @@ const Home: NextPage = () => {
           </p>
         </div>
 
+        <img src="lcw-icon.png" alt="LCW" />
         {scanError && (
           <div className={styles.errorContainer}>
             <span className="material-icons-outlined">
@@ -316,13 +318,18 @@ const Home: NextPage = () => {
             onClick={requestVcOnClick}
           />
         </div>
-        <div>
-          <p>
-            <a href={lcwRequestUrl}>Request from LCW directly</a>
-          </p>
-          <div className={styles.qrCode}>
-            <QRCodeSVG value={lcwRequestUrl} />
-          </div>
+
+        <div className={styles.lcwContainer}>
+          <Accordion 
+            icon={<span><img className={styles.lcwIcon} src="/LcwIcon.png" alt="LCW icon" /></span>}
+            title="Request directly from LCW" >
+            <p>
+              <a className={styles.lcwLink} href={lcwRequestUrl}>Request from LCW directly</a>
+            </p>
+            <div className={styles.qrCode}>
+              <QRCodeSVG value={lcwRequestUrl} />
+            </div>
+          </Accordion>
         </div>
 
         <div className={styles.textAreaContainer}>
