@@ -5,8 +5,8 @@ import styles from './BottomBar.module.css'
 export const BottomBar = ({isDark}: BottomBarProps) => {
 
   const getVersionNumber = () => {
-    const gitCommit = '98c0a2a';
-    const version = "0.1.0";
+    const gitCommit = '';
+    const version = "0.5.0";
     return gitCommit + ' ' + version;
 
   }
@@ -28,7 +28,7 @@ export const BottomBar = ({isDark}: BottomBarProps) => {
         <Link className={styles.link} href='https://accessibility.mit.edu/'>Accessibility</Link>
         <Link className={styles.link} href='https://github.com/digitalcredentials/web-verifier-plus'>View on Github</Link>
       </div>
-      <p className={styles.version}>GitHub commit ID {getVersionNumber()}</p>
+      <p className={styles.version}>GitHub commit ID and version {getVersionNumber()}</p>
     </footer>
   )
 }
