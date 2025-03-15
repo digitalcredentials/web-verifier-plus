@@ -266,8 +266,8 @@ const Home: NextPage = () => {
     );
   }
 
-  const serverUrl = 'http://localhost:3000';
-  // const serverUrl = 'https://<whatever>.ngrok.dev';
+  // const serverUrl = 'http://localhost:3000';
+  const serverUrl = 'https://feditest.ngrok.dev';
 
   const chapiRequest = {
     credentialRequestOrigin: 'https://verifierplus.org',

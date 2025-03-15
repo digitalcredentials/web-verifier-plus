@@ -1,4 +1,4 @@
-import { LruCache } from '@digitalcredentials/lru-memoize';
+import { LRUCache } from 'lru-cache';
 import { VC_API_EXCHANGE_TIMEOUT } from './config';
 
 declare global {
@@ -7,6 +7,6 @@ declare global {
 
 console.log('Initializing VC-API exchanges cache.');
 export const exchanges = globalThis.exchanges ||
-  new LruCache({ maxAge: VC_API_EXCHANGE_TIMEOUT });
+  new LRUCache({ ttl: VC_API_EXCHANGE_TIMEOUT, ttlAutopurge: true });
 
 globalThis.exchanges = exchanges;
