@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react"
 
 export type AccordionProps = {
-    icon?: ReactElement;
+    iconOpen?: ReactElement;
+    iconClosed?: ReactElement;
     onClick?: () => void;
     isOpen?: boolean;
     className?: string;

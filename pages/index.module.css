@@ -376,3 +376,23 @@
   font-weight: 500;
   font-family: Rubik, sans-serif;
 }
+
+.spinner {
+  display: list-item;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-left-color: var(--primary);
+  animation: spin 1s linear infinite;
+  margin-right: 12px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
