@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-const { exchanges } = globalThis;
+import { exchanges } from '../../../lib/exchangesCache';
 
 /**
  * POST /api/exchanges/[txId]
@@ -18,12 +17,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     switch (req.method) {
       case 'GET':
-        await pollForTx(req, res, txId as string);
+        if (exchanges.has(txId)) {
+          res.status(200).json(exchanges.get(txId));
+          // exchanges.delete(txId);
+        } else {
+          console.log('Incoming GET: tx not found.')
+          res.status(404).send('Not found');
+        }
         break;
       case 'POST':
         const payload = JSON.stringify(req.body);
 
-        console.log('Incoming POST:', payload)
+        console.log('Incoming POST:', req.body)
 
         if (payload === '{}') {
           // Initial POST by the wallet, send the VP Request query
@@ -32,6 +37,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } else {
           // Requested credentials sent by the wallet
           // Store in the exchanges cache
+          exchanges.set(txId, payload)
+          res.status(200).json({ status: 'received' })
         }
 
         break;
@@ -61,7 +68,7 @@ function vprQuery() {
           "credentialQuery": {
             "reason": "Please present your Verifiable Credential to complete the verification process.",
             "example": {
-              "@context": ["https://www.w3.org/2018/credentials/v2"],
+              "@context": ["https://www.w3.org/2018/credentials/v1"],
               "type": ["VerifiableCredential"]
             }
           }

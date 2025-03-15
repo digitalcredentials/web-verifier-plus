@@ -11,7 +11,6 @@
   "dependencies": {
     "@digitalcredentials/ed25519-signature-2020": "^6.0.0",
     "@digitalcredentials/issuer-registry-client": "^3.0.0",
-    "@digitalcredentials/lru-memoize": "^2.1.4",
     "@digitalcredentials/security-document-loader": "^6.0.0",
     "@digitalcredentials/vc": "^9.0.1",
     "@digitalcredentials/vc-bitstring-status-list": "^1.0.0",
@@ -20,6 +19,7 @@
     "axios": "^1.7.7",
     "credential-handler-polyfill": "^4.0.0",
     "jsonld-signatures": "^11.3.0",
+    "lru-cache": "^11.0.2",
     "luxon": "^3.0.1",
     "material-icons": "^1.11.4",
     "mongodb": "^4.11.0",
