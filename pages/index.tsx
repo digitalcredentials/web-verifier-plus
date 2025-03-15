@@ -278,6 +278,9 @@ const Home: NextPage = () => {
   const encodedRequest = encodeURI(JSON.stringify(chapiRequest));
   const lcwRequestUrl = `https://lcw.app/request?request=${encodedRequest}`;
 
+  const lcwIcon = <span><img className={styles.lcwIcon} src="/LcwIcon.png" alt="LCW icon" /></span>
+  const spinner = <span className={styles.spinner}></span>
+
   return (
     <main className={styles.container}>
       <TopBar isDark={isDark} setIsDark={setIsDark} setCredential={setCredential}/>
@@ -298,7 +301,6 @@ const Home: NextPage = () => {
           </p>
         </div>
 
-        <img src="lcw-icon.png" alt="LCW" />
         {scanError && (
           <div className={styles.errorContainer}>
             <span className="material-icons-outlined">
@@ -321,7 +323,8 @@ const Home: NextPage = () => {
 
         <div className={styles.lcwContainer}>
           <Accordion 
-            icon={<span><img className={styles.lcwIcon} src="/LcwIcon.png" alt="LCW icon" /></span>}
+            iconClosed={lcwIcon}
+            iconOpen={spinner}
             title="Request directly from LCW" >
             <p>
               <a className={styles.lcwLink} href={lcwRequestUrl}>Request from LCW directly</a>
