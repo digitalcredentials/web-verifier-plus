@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CredentialError } from 'types/credential.d';
 import type { ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
-import { StatusPurpose, hasStatusPurpose } from 'lib/credentialStatus';
+//import { StatusPurpose, hasStatusPurpose } from 'lib/credentialStatus';
 
 enum LogId {
   ValidSignature = 'valid_signature',
@@ -107,8 +107,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     } else {
       const { credential } = verificationResult.results[0];
       const hasCredentialStatus = credential.credentialStatus !== undefined;
-      const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
-      const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
+     // const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
+     // const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
       return (
         <div className={styles.resultLog}>
           <div className={styles.issuer}>
@@ -132,18 +132,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
               positiveMessage="Has not expired"
               negativeMessage="Has expired"
             />
-            {hasCredentialStatus && hasRevocationStatus &&
-            <ResultItem
-              verified={logMap[LogId.RevocationStatus] ?? true}
-              positiveMessage="Has not been revoked by issuer"
-              negativeMessage={verificationResult.hasStatusError?"Revocation status could not be checked":"Has been revoked by issuer"}
-            />}
-            {hasCredentialStatus && hasSuspensionStatus &&
-            <ResultItem
-              verified={logMap[LogId.SuspensionStatus] ?? true}
-              positiveMessage="Has not been suspended by issuer"
-              negativeMessage="Has been suspended by issuer"
-            />}
+         
           </div>
         </div>
       )
