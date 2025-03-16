@@ -30,6 +30,8 @@ export async function verifyVerifiableObject(obj: VerifiableObject): Promise<boo
 }
 
 export function extractCredentialsFrom(obj: VerifiableObject): VerifiableCredential[] | null {
+  console.log('EXTRACTING:', JSON.stringify(obj, null, 2));
+
   if (isVerifiableCredential(obj)) {
     return [obj];
   }

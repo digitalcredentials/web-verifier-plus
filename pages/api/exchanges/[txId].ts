@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { exchanges } from '../../../lib/exchangesCache';
+import { exchanges } from '../../../lib/exchanges';
 
 /**
  * POST /api/exchanges/[txId]
@@ -8,7 +8,6 @@ import { exchanges } from '../../../lib/exchangesCache';
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    let result: any;
     const { txId } = req.query;
 
     if(!txId) {
@@ -17,6 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     switch (req.method) {
       case 'GET':
+        console.log('Looking for tx', txId, exchanges.get(txId))
+
         if (exchanges.has(txId)) {
           res.status(200).json(exchanges.get(txId));
           // exchanges.delete(txId);
@@ -37,6 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } else {
           // Requested credentials sent by the wallet
           // Store in the exchanges cache
+          console.log('Storing txId', txId, payload)
           exchanges.set(txId, payload)
           res.status(200).json({ status: 'received' })
         }

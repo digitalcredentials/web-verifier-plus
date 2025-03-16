@@ -4,6 +4,8 @@ export type AccordionProps = {
     iconOpen?: ReactElement;
     iconClosed?: ReactElement;
     onClick?: () => void;
+    onOpen?: () => void;
+    onClose?: () => void;
     isOpen?: boolean;
     className?: string;
     id?: string;
@@ -16,7 +18,7 @@ export type AccordionProps = {
     ariaRole?: string;
     ariaOwns?: string;
     ariaHasPopup?: string;
-    ariaDisabled?: boolean;     
+    ariaDisabled?: boolean;
     title: string;
     children: React.ReactNode;
 }

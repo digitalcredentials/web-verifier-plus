@@ -7,6 +7,8 @@ export const useVerification = (credential?: VerifiableCredential) => {
   const [loading, setLoading] = useState(true);
   const [timerExpired, setTimerExpired] = useState(false);
   const timeout = useRef<number>();
+  console.log('Trying to verify:', credential)
+
   const issuerName = typeof credential?.issuer === 'string' ? credential?.issuer : credential?.issuer.name;
 
   const verifyCredential = useCallback(async () => {
@@ -15,6 +17,7 @@ export const useVerification = (credential?: VerifiableCredential) => {
     }
     setLoading(true);
     setTimerExpired(false);
+
 
     // artificial delay for UI purposes
     timeout.current = window.setTimeout(() => {
