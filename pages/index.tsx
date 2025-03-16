@@ -16,10 +16,14 @@ import { TopBar } from 'components/TopBar/TopBar'
 import { BottomBar } from 'components/BottomBar/BottomBar'
 import { extractCredentialsFrom, VerifiableObject } from 'lib/verifiableObject'
 import { QRCodeSVG } from 'qrcode.react';
+import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link'
+import { pollExchange } from '../lib/exchanges';
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
+
+const randomPageId = uuidv4();
 
 const Home: NextPage = () => {
   const [textArea, setTextArea] = useState('');
@@ -32,6 +36,8 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
+  const [pollSeconds, setPollSeconds] = useState(1);
+  const [timeInterval, setTimeInterval] = useState(null);
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -266,20 +272,43 @@ const Home: NextPage = () => {
     );
   }
 
-  // const serverUrl = 'http://localhost:3000';
-  const serverUrl = 'https://feditest.ngrok.dev';
+  // TODO: Move this to .env variable
+  const SERVER_URL = 'https://verifierplus.org';
+
+  const WALLET_DEEP_LINK = 'https://lcw.app/request'
+  const exchangeUrl = `${SERVER_URL}/api/exchanges/${randomPageId}`
 
   const chapiRequest = {
-    credentialRequestOrigin: 'https://verifierplus.org',
+    credentialRequestOrigin: SERVER_URL,
     protocols: {
-      vcapi: `${serverUrl}/api/exchanges/12345`
+      vcapi: exchangeUrl
     }
   }
+
   const encodedRequest = encodeURI(JSON.stringify(chapiRequest));
-  const lcwRequestUrl = `https://lcw.app/request?request=${encodedRequest}`;
+  const lcwRequestUrl = `${WALLET_DEEP_LINK}?request=${encodedRequest}`;
 
   const lcwIcon = <span><img className={styles.lcwIcon} src="/LcwIcon.png" alt="LCW icon" /></span>
   const spinner = <span className={styles.spinner}></span>
+
+  const startPolling = () => {
+    // @ts-ignore
+    setTimeInterval(setInterval(async () => {
+      await pollExchange({
+        exchangeUrl, onFetchVC: (vp: any) => {
+          const parsed = JSON.parse(vp);
+          console.log('PARSED:', parsed.verifiablePresentation.verifiableCredential[0])
+          // @ts-ignore
+          setCredential(parsed.verifiablePresentation.verifiableCredential[0]) }
+      })
+      clearInterval(timeInterval)
+
+    }, 3000)) // poll every 3 seconds
+  }
+  const stopPolling = () => {
+    // @ts-ignore
+    setTimeInterval(clearInterval(timeInterval))
+  }
 
   return (
     <main className={styles.container}>
@@ -322,12 +351,14 @@ const Home: NextPage = () => {
         </div>
 
         <div className={styles.lcwContainer}>
-          <Accordion 
+          <Accordion
             iconClosed={lcwIcon}
             iconOpen={spinner}
+            onOpen={startPolling}
+            onClose={stopPolling}
             title="Request directly from LCW" >
             <p>
-              <a className={styles.lcwLink} href={lcwRequestUrl}>Request from LCW directly</a>
+              <a className={styles.lcwLink} target={'_blank'} href={lcwRequestUrl}>Request from LCW directly</a>
             </p>
             <div className={styles.qrCode}>
               <QRCodeSVG value={lcwRequestUrl} />
