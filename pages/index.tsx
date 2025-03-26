@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
   const [pollSeconds, setPollSeconds] = useState(1);
-  const [timeInterval, setTimeInterval] = useState(null);
+  const [intervalId, setIntervalId] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -292,22 +292,21 @@ const Home: NextPage = () => {
   const spinner = <span className={styles.spinner}></span>
 
   const startPolling = () => {
-    // @ts-ignore
-    setTimeInterval(setInterval(async () => {
-      await pollExchange({
+      setIntervalId(window.setInterval(async () => {
+        await pollExchange({
         exchangeUrl, onFetchVC: (vp: any) => {
           const parsed = JSON.parse(vp);
-          console.log('PARSED:', parsed.verifiablePresentation.verifiableCredential[0])
-          // @ts-ignore
-          setCredential(parsed.verifiablePresentation.verifiableCredential[0]) }
-      })
-      clearInterval(timeInterval)
-
-    }, 3000)) // poll every 3 seconds
+          console.log('PARSED:', parsed.verifiablePresentation.verifiableCredential[0]);
+          setCredential(parsed.verifiablePresentation.verifiableCredential[0]);
+        }
+        });        
+        clearInterval(intervalId);   
+      }, 3000)); // poll every 3 seconds
+      setIntervalId(intervalId);
   }
   const stopPolling = () => {
-    // @ts-ignore
-    setTimeInterval(clearInterval(timeInterval))
+    clearInterval(intervalId);
+    setIntervalId(undefined);
   }
 
   return (
