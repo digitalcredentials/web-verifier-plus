@@ -1,13 +1,15 @@
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020';
 import { purposes } from 'jsonld-signatures';
-import * as vc from '@digitalcredentials/vc';
+// import * as vc from '@digitalcredentials/vc';
+import * as verifier from '@digitalcredentials/verifier-core';
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
-import { extractCredentialsFrom } from './verifiableObject';
-import { RegistryClient } from '@digitalcredentials/issuer-registry-client';
-import { getCachedRegistryClient } from './registryManager';
-import { getCredentialStatusChecker } from './credentialStatus';
+// import { extractCredentialsFrom } from './verifiableObject';
+// import { RegistryClient } from '@digitalcredentials/issuer-registry-client';
+// import { getCachedRegistryClient } from './registryManager';
+// import { getCredentialStatusChecker } from './credentialStatus';
+import { KnownDidRegistries } from './../data/knownRegistries'
 
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
 const suite = new Ed25519Signature2020();
@@ -15,7 +17,9 @@ const presentationPurpose = new purposes.AssertionProofPurpose();
 
 export type ResultLog = {
   id: string,
-  valid: boolean
+  valid: boolean,
+  foundInRegistries?: string[],
+  error?: any
 }
 
 export type Result = {
@@ -36,7 +40,7 @@ export async function verifyPresentation(
   unsignedPresentation = true,
 ): Promise<VerifyResponse> {
   try {
-    const result = await vc.verify({
+    const result = await verifier.verify({
       presentation,
       presentationPurpose,
       suite,
@@ -52,16 +56,7 @@ export async function verifyPresentation(
 }
 
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
-  const { issuer } = credential;
 
-  if (!checkID(credential)) {
-    return createFatalErrorResult(credential, "The credential's id uses an invalid format. It may have been issued as part of an early pilot. Please contact the issuer to get a replacement.")
-  }
-
-  const { malformed, message } = checkMalformed(credential);
-  if (malformed) {
-    return createFatalErrorResult(credential, message);
-  }
 
   if (credential?.proof?.type === 'DataIntegrityProof') {
     return createFatalErrorResult(credential,
@@ -69,12 +64,6 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
   }
 
   try {
-    const extractedCredential = extractCredentialsFrom(credential)?.find(
-      vc => vc.credentialStatus);
-    const checkStatus = extractedCredential ?
-      getCredentialStatusChecker(extractedCredential)
-      : undefined;
-
     /*
     basic structure of object returned from verifyCredential call
     {
@@ -83,48 +72,47 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
         error
       };
     */
-    const result = await vc.verifyCredential({
+ 
+
+   const reloadIssuerRegistry = true;
+   const result = await verifier.verifyCredential({
       credential,
-      suite,
-      documentLoader,
+      knownDIDRegistries:KnownDidRegistries,
+      reloadIssuerRegistry
       // Only check revocation status if VC has a 'credentialStatus' property
-      checkStatus
     });
-    result.fatal = false;
-    if (result?.error?.name === 'VerificationError') {
+    result.verified = Array.isArray(result.log)
+    ? result.log.every((check: { valid: any; }) => check.valid)
+    : false;
+    if (result?.errors) {
       return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified);
     }
-
-    if (result.statusResult?.verified === false) {
-      (result.results[0].log ??= []).push({ id: 'revocation_status', valid: false })
-      if (result.statusResult.error) {
-        result.hasStatusError = true;
-      }
-    }
-
     if (!result.results) {
-      result.results = [{}];
+      result.results = [{
+        verified: (result.log as ResultLog[]).every(check => check.valid),
+        log: result.log,
+        credential: result.credential
+      }];
     }
-
-    for (const res of result.results) {
-      if (!res.credential) {
-        res.credential = credential;
+    if (result?.verified === false) {
+      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");
+      if (revocationObject) {
+        const revocationResult = { 
+          id: "revocation_status",
+          valid: revocationObject.valid ?? false,
+        };
+        (result.results[0].log ??= []).push(revocationResult)
+        result.hasStatusError = !!revocationObject.error;
       }
     }
-
-    const registries = await getCachedRegistryClient();
-    const registryNames = issuerInRegistries({
-      issuer,
-      registries,
-    });
-    if (registryNames) {
+    if (result.log) {
+      const registryNames = (result.log as ResultLog[]).find(c => c.id === "registered_issuer")?.foundInRegistries || [];
       result.registryName = registryNames;
     } else {
       result.verified = false;
-      (result.results[0].log ??= []).push({ id: 'issuer_did_resolves', valid: false })
+      (result.results[0].log ??= []).push({ id: 'registered_issuer', valid: false })
       addErrorToResult(result, CredentialErrorTypes.DidNotInRegistry, false)
     }
-
     return result;
   } catch (err) {
     console.warn(err);
@@ -132,50 +120,6 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified)
   }
 }
-
-function issuerInRegistries({
-  issuer,
-  registries,
-}: {
-  issuer: string | any;
-  registries: RegistryClient;
-}): string[] | null {
-  const issuerDid = typeof issuer === 'string' ? issuer : issuer.id;
-  const issuerInfo = registries.didEntry(issuerDid);
-
-  // See if the issuer DID appears in any of the known registries
-  // If yes, assemble a list of registries it appears in
-  return issuerInfo?.inRegistries
-    ? Array.from(issuerInfo.inRegistries).map((r) => r.name)
-    : null;
-}
-
-function checkMalformed(credential: VerifiableCredential) {
-  let message = '';
-
-  // check credential for proof
-  if (!credential.proof) {
-    message += 'This is not a Verifiable Credential (does not have a digital signature).'
-  }
-
-  if (message) {
-    return { malformed: true, message: message };
-  }
-  return { malformed: false, message: message };
-
-}
-
-function checkID(credential: VerifiableCredential) : boolean {
-
-  try {
-    new URL(credential.id as string);
-  } catch (e) {
-    return false
-  }
-  return true
-  
-}
-
 function createFatalErrorResult(credential: VerifiableCredential, message: string): VerifyResponse {
   const result = {
     verified: false,
