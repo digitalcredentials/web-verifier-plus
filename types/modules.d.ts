@@ -1,4 +1,5 @@
 declare module '@digitalcredentials/vc';
+declare module '@digitalcredentials/verifier-core';
 declare module '@digitalcredentials/vpqr';
 declare module '@digitalcredentials/ed25519-verification-key-2020';
 declare module '@digitalcredentials/ed25519-signature-2020';
