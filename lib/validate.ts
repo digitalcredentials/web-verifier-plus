@@ -1,14 +1,9 @@
 import { Ed25519Signature2020 } from '@digitalcredentials/ed25519-signature-2020';
 import { purposes } from 'jsonld-signatures';
-// import * as vc from '@digitalcredentials/vc';
-import * as verifier from '@digitalcredentials/verifier-core';
+import * as verifierCore from '@digitalcredentials/verifier-core';
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
 import { securityLoader } from '@digitalcredentials/security-document-loader';
-// import { extractCredentialsFrom } from './verifiableObject';
-// import { RegistryClient } from '@digitalcredentials/issuer-registry-client';
-// import { getCachedRegistryClient } from './registryManager';
-// import { getCredentialStatusChecker } from './credentialStatus';
 import { KnownDidRegistries } from './../data/knownRegistries'
 
 const documentLoader = securityLoader({ fetchRemoteContexts: true }).build()
@@ -40,7 +35,7 @@ export async function verifyPresentation(
   unsignedPresentation = true,
 ): Promise<VerifyResponse> {
   try {
-    const result = await verifier.verify({
+    const result = await verifierCore.verify({
       presentation,
       presentationPurpose,
       suite,
@@ -58,6 +53,8 @@ export async function verifyPresentation(
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
 
 
+  
+
   if (credential?.proof?.type === 'DataIntegrityProof') {
     return createFatalErrorResult(credential,
       `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
@@ -73,12 +70,9 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       };
     */
  
-
-   const reloadIssuerRegistry = true;
-   const result = await verifier.verifyCredential({
+   const result = await verifierCore.verifyCredential({
       credential,
-      knownDIDRegistries:KnownDidRegistries,
-      reloadIssuerRegistry
+      knownDIDRegistries:KnownDidRegistries
       // Only check revocation status if VC has a 'credentialStatus' property
     });
     result.verified = Array.isArray(result.log)
@@ -94,9 +88,14 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
         credential: result.credential
       }];
     }
+
     if (result?.verified === false) {
-      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");
+      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");    
       if (revocationObject) {
+        if (revocationObject.error) {
+          if (revocationObject.error.name === "status_list_not_found") {
+            result.verified = true;
+          } else {
         const revocationResult = { 
           id: "revocation_status",
           valid: revocationObject.valid ?? false,
@@ -105,6 +104,8 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
         result.hasStatusError = !!revocationObject.error;
       }
     }
+  }
+}
     if (result.log) {
       const registryNames = (result.log as ResultLog[]).find(c => c.id === "registered_issuer")?.foundInRegistries || [];
       result.registryName = registryNames;
