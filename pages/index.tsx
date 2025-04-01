@@ -36,8 +36,6 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
-  const [pollSeconds, setPollSeconds] = useState(1);
-  const [intervalId, setIntervalId] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -273,7 +271,7 @@ const Home: NextPage = () => {
   }
 
   // TODO: Move this to .env variable
-  const SERVER_URL = 'https://verifierplus.org';
+  const SERVER_URL = 'https://026c-73-167-118-120.ngrok-free.app';
 
   const WALLET_DEEP_LINK = 'https://lcw.app/request'
   const exchangeUrl = `${SERVER_URL}/api/exchanges/${randomPageId}`
@@ -292,22 +290,29 @@ const Home: NextPage = () => {
   const spinner = <span className={styles.spinner}></span>
 
   const startPolling = () => {
-      setIntervalId(window.setInterval(async () => {
-        await pollExchange({
-        exchangeUrl, onFetchVC: (vp: any) => {
+    let newIntervalId = window.setInterval(async () => {
+      await pollExchange({
+        exchangeUrl,
+        onFetchVP: (vp: any) => {
           const parsed = JSON.parse(vp);
-          console.log('PARSED:', parsed.verifiablePresentation.verifiableCredential[0]);
-          setCredential(parsed.verifiablePresentation.verifiableCredential[0]);
-        }
-        });        
-        clearInterval(intervalId);   
-      }, 3000)); // poll every 3 seconds
-      setIntervalId(intervalId);
-  }
-  const stopPolling = () => {
-    clearInterval(intervalId);
-    setIntervalId(undefined);
-  }
+          setCredential(parsed.verifiablePresentation.verifiableCredential[0]);          
+          if (!credential) { // Only set credential if it hasn't been set yet
+            setCredential(parsed.verifiablePresentation.verifiableCredential[0]);
+          }else{
+            window.clearInterval(newIntervalId);
+            stopPolling(newIntervalId);
+          }
+        },
+        stopPolling: () => stopPolling(newIntervalId), // Adjusted to match the expected signature
+      });
+    }, 3000); // poll every 3 seconds
+  };
+  
+  const stopPolling = (newIntervalId: string | number | NodeJS.Timeout | undefined) => {
+    if (newIntervalId) {
+      clearInterval(newIntervalId); // Clear the interval when stopping polling
+    }
+  };
 
   return (
     <main className={styles.container}>
@@ -354,7 +359,7 @@ const Home: NextPage = () => {
             iconClosed={lcwIcon}
             iconOpen={spinner}
             onOpen={startPolling}
-            onClose={stopPolling}
+            onClose={() => stopPolling(undefined)}
             title="Request directly from LCW" >
             <p>
               <a className={styles.lcwLink} target={'_blank'} href={lcwRequestUrl}>Request from LCW directly</a>
