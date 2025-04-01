@@ -51,15 +51,6 @@ export async function verifyPresentation(
 }
 
 export async function verifyCredential(credential: VerifiableCredential): Promise<VerifyResponse> {
-
-
-  
-
-  if (credential?.proof?.type === 'DataIntegrityProof') {
-    return createFatalErrorResult(credential,
-      `Proof type not supported: DataIntegrityProof (cryptosuite: ${credential.proof.cryptosuite}).`);
-  }
-
   try {
     /*
     basic structure of object returned from verifyCredential call
@@ -69,15 +60,14 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
         error
       };
     */
- 
-   const result = await verifierCore.verifyCredential({
+
+    const result = await verifierCore.verifyCredential({
       credential,
-      knownDIDRegistries:KnownDidRegistries
-      // Only check revocation status if VC has a 'credentialStatus' property
+      knownDIDRegistries: KnownDidRegistries
     });
     result.verified = Array.isArray(result.log)
-    ? result.log.every((check: { valid: any; }) => check.valid)
-    : false;
+      ? result.log.every((check: { valid: any; }) => check.valid)
+      : false;
     if (result?.errors) {
       return createFatalErrorResult(credential, CredentialErrorTypes.CouldNotBeVerified);
     }
@@ -90,22 +80,22 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     }
 
     if (result?.verified === false) {
-      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");    
+      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");
       if (revocationObject) {
         if (revocationObject.error) {
           if (revocationObject.error.name === "status_list_not_found") {
             result.verified = true;
           } else {
-        const revocationResult = { 
-          id: "revocation_status",
-          valid: revocationObject.valid ?? false,
-        };
-        (result.results[0].log ??= []).push(revocationResult)
-        result.hasStatusError = !!revocationObject.error;
+            const revocationResult = {
+              id: "revocation_status",
+              valid: revocationObject.valid ?? false,
+            };
+            (result.results[0].log ??= []).push(revocationResult)
+            result.hasStatusError = !!revocationObject.error;
+          }
+        }
       }
     }
-  }
-}
     if (result.log) {
       const registryNames = (result.log as ResultLog[]).find(c => c.id === "registered_issuer")?.foundInRegistries || [];
       result.registryName = registryNames;
