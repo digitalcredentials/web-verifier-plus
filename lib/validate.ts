@@ -25,7 +25,6 @@ export type VerifyResponse = {
 
 export async function verifyPresentation(
   presentation: VerifiablePresentation,
-  unsignedPresentation = true,
 ): Promise<VerifyResponse> {
   try {
     const result = await verifierCore.verifyPresentation({
@@ -69,22 +68,30 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
     }
 
     if (result?.verified === false) {
-      const revocationObject = (result.log as ResultLog[]).find(c => c.id === "revocation_status");
-      if (revocationObject) {
-        if (revocationObject.error) {
-          if (revocationObject.error.name === "status_list_not_found") {
-            result.verified = true;
-          } else {
-            const revocationResult = {
-              id: "revocation_status",
-              valid: revocationObject.valid ?? false,
-            };
-            (result.results[0].log ??= []).push(revocationResult)
-            result.hasStatusError = !!revocationObject.error;
-          }
+      const revocationIndex = (result.log as ResultLog[]).findIndex(
+        c => c.id === 'revocation_status'
+      );
+
+      if (revocationIndex !== -1) {
+        const revocationObject = result.log[revocationIndex];
+
+        if (revocationObject?.error?.name === 'status_list_not_found') {
+          (result.log as ResultLog[]).splice(revocationIndex, 1);
+
+          // Re-evaluate verification result based on remaining logs
+          result.verified = (result.log as ResultLog[]).every(log => log.valid);
+        } else {
+          const revocationResult = {
+            id: 'revocation_status',
+            valid: revocationObject.valid ?? false,
+          };
+
+          (result.results[0].log ??= []).push(revocationResult);
+          result.hasStatusError = !!revocationObject.error;
         }
       }
     }
+    
     if (result.log) {
       const registryNames = (result.log as ResultLog[]).find(c => c.id === "registered_issuer")?.foundInRegistries || [];
       result.registryName = registryNames;
