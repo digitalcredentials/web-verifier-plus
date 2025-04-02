@@ -1,6 +1,6 @@
 .button {
   background: var(--primary);
-  border-radius: 4px;
+  border-radius: 10px;
   border: none;
   padding: 10px 18px;
   color: var(--contrast-text);

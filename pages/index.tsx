@@ -271,7 +271,7 @@ const Home: NextPage = () => {
   }
 
   // TODO: Move this to .env variable
-  const SERVER_URL = 'https://026c-73-167-118-120.ngrok-free.app';
+  const SERVER_URL = 'https://verifierplus.org';
 
   const WALLET_DEEP_LINK = 'https://lcw.app/request'
   const exchangeUrl = `${SERVER_URL}/api/exchanges/${randomPageId}`
@@ -345,15 +345,7 @@ const Home: NextPage = () => {
           </div>
         )}
 
-        <div>
-          <Button
-            icon={<span className="material-icons">wallet</span>}
-            className={styles.scan}
-            text='Request Credential from Wallet'
-            onClick={requestVcOnClick}
-          />
-        </div>
-
+        {/* <div className={styles.walletTitle}>Mobile Wallets:</div> */}
         <div className={styles.lcwContainer}>
           <Accordion
             iconClosed={lcwIcon}
@@ -369,6 +361,16 @@ const Home: NextPage = () => {
             </div>
           </Accordion>
         </div>
+
+{/*         <div className={styles.walletTitle}>Web Wallets:</div>
+        <div>
+          <Button
+            icon={<span className="material-icons">wallet</span>}
+            className={styles.scan}
+            text='Request credential via CHAPI'
+            onClick={requestVcOnClick}
+          />
+        </div> */}
 
         <div className={styles.textAreaContainer}>
           <div className={styles.floatingTextarea}>
