@@ -132,10 +132,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
               positiveMessage="Has not expired"
               negativeMessage="Has expired"
             />
-            {hasCredentialStatus && hasRevocationStatus &&
-  verificationResult?.results?.[0]?.log?.find(
-    log => log.id === LogId.RevocationStatus && log.error?.name === "status_list_not_found"
-  ) === undefined &&
+            {hasCredentialStatus && hasRevocationStatus && logMap[LogId.RevocationStatus] !== undefined &&
             <ResultItem
               verified={logMap[LogId.RevocationStatus] ?? true}
               positiveMessage="Has not been revoked by issuer"
