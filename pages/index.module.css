@@ -387,6 +387,10 @@
   font-family: Rubik, sans-serif;
 }
 
+a.lcwLink > h3 {
+  margin: 0px;
+}
+
 .spinner {
   display: list-item;
   border: 3px solid rgba(0, 0, 0, 0.1);
