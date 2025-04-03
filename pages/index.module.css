@@ -229,6 +229,7 @@
   justify-content: center;
   flex-shrink: 1;
   flex-wrap: 1;
+  margin-top: 24px;
 }
 
 .trustLink {

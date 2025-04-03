@@ -345,7 +345,6 @@ const Home: NextPage = () => {
           </div>
         )}
 
-        {/* <div className={styles.walletTitle}>Mobile Wallets:</div> */}
         <div className={styles.lcwContainer}>
           <Accordion
             iconClosed={lcwIcon}
@@ -362,16 +361,6 @@ const Home: NextPage = () => {
             </div>
           </Accordion>
         </div>
-
-{/*         <div className={styles.walletTitle}>Web Wallets:</div>
-        <div>
-          <Button
-            icon={<span className="material-icons">wallet</span>}
-            className={styles.scan}
-            text='Request credential via CHAPI'
-            onClick={requestVcOnClick}
-          />
-        </div> */}
 
         <div className={styles.textAreaContainer}>
           <div className={styles.floatingTextarea}>
@@ -433,6 +422,16 @@ const Home: NextPage = () => {
             </p>
           </div>
         )}
+
+        <div>
+          <Button
+            icon={<span className="material-icons">wallet</span>}
+            className={styles.scan}
+            text='Request from web wallet via CHAPI'
+            onClick={requestVcOnClick}
+          />
+        </div> 
+
         <ScanModal isOpen={isOpen} setIsOpen={setIsOpen} onScan={onScan} setErrorMessage={setScanError}/>
       </div>
       <BottomBar isDark={isDark}/>
