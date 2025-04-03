@@ -362,6 +362,15 @@ const Home: NextPage = () => {
           </Accordion>
         </div>
 
+        <div>
+          <Button
+            icon={<span className="material-icons">wallet</span>}
+            className={styles.scan}
+            text='Request from web wallet via CHAPI'
+            onClick={requestVcOnClick}
+          />
+        </div>
+
         <div className={styles.textAreaContainer}>
           <div className={styles.floatingTextarea}>
             <textarea
