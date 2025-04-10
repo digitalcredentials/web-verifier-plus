@@ -35,12 +35,3 @@
   width: 113px;
   height: 35px;
 }
-
-.version {
-  align-self: center;
-  text-align: left;
-  font: normal normal normal 8px Rubik;
-  color: var(--version);
-  margin-top: 24px;
-  margin-bottom: 4px;
-}

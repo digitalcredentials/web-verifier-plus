@@ -19,6 +19,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link'
 import { pollExchange } from '../lib/exchanges';
+import packageJson from '../package.json';
 
 // NOTE: We currently only support one credential at a time. If a presentation with more than one credential
 // is dropped, pasted, or scanned we only look at the first one
@@ -36,6 +37,7 @@ const Home: NextPage = () => {
   const [credential, setCredential] = useState<VerifiableCredential | undefined>(undefined);
   const credentialContext = useVerification(credential);
   const [wasMulti, setWasMulti] = useState(false);
+  const { version } = packageJson;
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -322,8 +324,7 @@ const Home: NextPage = () => {
           <h1 className={styles.title}>
             VerifierPlus
           </h1>
-        </div>
-        <div>
+          <p className={styles.version}>Version {version}</p>
           <p className={styles.descriptionBlock}>
             VerifierPlus allows users to verify any <Link href='faq#supported'>supported</Link> digital academic
             credential.
