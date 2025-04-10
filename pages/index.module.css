@@ -209,7 +209,6 @@
   color: var(--text);
   opacity: 1;
   font-size: 16px;
-  margin-top: 18px;
   margin-bottom: 10px;
   flex: 1;
 }
@@ -286,6 +285,13 @@
   position: absolute;
   bottom: 8px;
   right: 8px;
+}
+
+.version {
+  align-self: center;
+  text-align: center;
+  font: normal normal normal 14px Rubik;
+  color: var(--version);
 }
 
 /* .textarea::placeholder {
