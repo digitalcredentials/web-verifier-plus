@@ -346,7 +346,7 @@ const Home: NextPage = () => {
           </div>
         )}
 
-        <div className={styles.lcwContainer}>
+{/*         <div className={styles.lcwContainer}>
           <Accordion
             iconClosed={lcwIcon}
             iconOpen={spinner}
@@ -361,7 +361,7 @@ const Home: NextPage = () => {
               <QRCodeSVG value={lcwRequestUrl} />
             </div>
           </Accordion>
-        </div>
+        </div> */}
 
         <div className={styles.textAreaContainer}>
           <div className={styles.floatingTextarea}>
