@@ -273,7 +273,7 @@ const Home: NextPage = () => {
   }
 
   // TODO: Move this to .env variable
-  const SERVER_URL = 'https://verifierplus.org';
+  const SERVER_URL = 'https://stage.verifierplus.org';
 
   const WALLET_DEEP_LINK = 'https://lcw.app/request'
   const exchangeUrl = `${SERVER_URL}/api/exchanges/${randomPageId}`
