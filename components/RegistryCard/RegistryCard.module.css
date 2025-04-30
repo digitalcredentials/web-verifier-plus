@@ -1,0 +1,34 @@
+.registryCard {
+    margin-top: 1.5rem;
+  }
+  
+  .registryName {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .registryLink {
+    margin-left: 0.5rem;
+    font-size: 0.95rem;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .registryLink:hover {
+    text-decoration: underline;
+  }
+  
+  .issuerMeta {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  
+  .logoPlaceholder img {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }

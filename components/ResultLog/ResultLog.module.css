@@ -1,41 +1,46 @@
 .resultLog {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px 12px;
+  /* gap: 24px 12px; */
+  font-size: 12px;
+  margin-left: -15px;
 }
 
-.issuer, .credential {
+.issuer,
+.credential {
   flex: 0 0 100%;
 }
 
 @media screen and (min-width: 700px) {
-  .resultLog {
+
+  /* .resultLog {
     flex-wrap: nowrap;
-  }
-  .issuer, .credential {
+  } */
+  .issuer,
+  .credential {
     flex: 1;
   }
 }
 
 .resultItem {
   line-height: 1.5;
-  display:flex;
+  display: flex;
   align-items: flex-start;
   margin-top: 8px;
+  width: 100%;
 }
 
 .resultItem span {
   margin-right: 8px;
   margin-top: -1px;
+  font-size: 19px;
 }
 
-.verified {
-  color: var(--success);
-}
 
-.notVerified {
-  color: var(--error);
+/* .verified {
+  color: var(--check-success);
 }
+*/
 
 .header {
   font-weight: bold;
@@ -56,4 +61,29 @@
 
 .errorContainer {
   font-size: 12px;
+}
+
+
+.verified {
+  color: var(--check-success);
+}
+
+.notVerified {
+  color: red;
+}
+
+.warning {
+  color: orange;
+}
+
+.warningIcon {
+  background-color: orange;
+  color: white;
+  border-radius: 50%;
+  /* padding: 4px; */
+  margin-left: 2px;
+  font-size: 16px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

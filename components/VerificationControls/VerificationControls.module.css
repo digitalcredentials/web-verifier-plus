@@ -1,10 +1,21 @@
 .result {
   background-color: var(--background);
-  display: flex;
+  /* display: flex; */
   width: 100%;
   padding: 12px 16px;
   border-radius: 5px;
   gap: 12px;
+}
+
+.title {
+  margin-left: -12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.subTitle{
+  margin-left: -12px;
+  font-size: 12px;
+  font-weight: 600;
 }
 .notVerified {
   color: var(--error);

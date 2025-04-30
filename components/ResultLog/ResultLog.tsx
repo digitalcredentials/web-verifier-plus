@@ -14,26 +14,58 @@ enum LogId {
 
 export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   const [moreInfo, setMoreInfo] = useState(false);
-  const ResultItem = ({verified = true, positiveMessage = '', negativeMessage = '', issuer = false}) => {
+
+
+  const ResultItem = ({
+    verified = true,
+    positiveMessage = '',
+    negativeMessage = '',
+    warningMessage = '',
+    sourceLogId = '',
+    issuer = false
+  }) => {
+    const isIssuerCheck = sourceLogId === LogId.IssuerDIDResolves;
+    const isExpirationCheck = sourceLogId === LogId.Expiration;
+    const status = verified
+      ? 'positive'
+      : isIssuerCheck || isExpirationCheck
+        ? 'warning'
+        : 'negative';
+
+    const getStatusClass = () => {
+      if (status === 'positive') return styles.verified;
+      if (status === 'warning') return `${styles.warning} ${styles.warningIcon}`;
+      return styles.notVerified;
+    };
+
     return (
       <div className={styles.resultItem}>
-        <span role='img' aria-label={verified ? 'green checkmark': 'red x'} className={`material-icons ${verified ? styles.verified : styles.notVerified}`}>
-          {verified ? 'check' : 'close'}
+        <span
+          role="img"
+          aria-label={
+            status === 'positive'
+              ? 'green checkmark'
+              : status === 'warning'
+                ? 'yellow warning'
+                : 'red x'
+          }
+          className={`material-icons ${getStatusClass()}`}
+        >
+          {status === 'positive'
+            ? 'check_circle'
+            : status === 'warning'
+              ? 'priority_high'
+              : 'close'}
         </span>
         <div>
-          {verified ? positiveMessage : negativeMessage}
-          { issuer ? 
-            <ul className={styles.issuerList}>
-              {verificationResult.registryName ? verificationResult.registryName.map((registry:string) => { return <li key={registry}>{registry}</li>})
-              : null
-              }
-            </ul> :
-            null
-          }
+          {status === 'positive' && positiveMessage}
+          {status === 'warning' && warningMessage}
+          {status === 'negative' && negativeMessage}
         </div>
       </div>
-    )
-  }
+    );
+  };
+
 
   let logMap: { [x: string]: any; };
   let hasKnownError = false;
@@ -42,6 +74,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   let hasSigningError = false;
   let error: CredentialError;
   let hasResult = verificationResult.results[0];
+
 
   if (hasResult) {
     let log = []
@@ -54,7 +87,6 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       error = result.error
       console.log('Error: ', error);
     }
-
     if (hasResultLog) {
       log = result.log
     } else if (hasErrorLog) {
@@ -64,23 +96,24 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       acc[logEntry.id] = logEntry.valid;
       return acc;
     }, {}) ?? {};
-  
-    hasSigningError = ! logMap[LogId.ValidSignature];
-    
-} else {
-  hasUnknownError = true;
-}
+
+    hasSigningError = !logMap[LogId.ValidSignature];
+
+  } else {
+    hasUnknownError = true;
+  }
 
   const result = () => {
     if (shouldShowKnownError) {
       return (
         <div>
-          <p className={styles.error}>There was an error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span></p>
-          {moreInfo && (
+          <p className={styles.error}>There was an error verifing this credential.</p>
+          {/* <p className={styles.error}>There was an error verifing this credential. <span className={styles.moreInfoLink} onClick={() => setMoreInfo(!moreInfo)}>More Info</span> </p> */}
+          {/* {moreInfo && (
             <div className={styles.errorContainer}>
               <p>{error.message}</p>
             </div>
-          )}
+          )} */}
         </div>
       )
     } else if (hasSigningError) {
@@ -103,48 +136,64 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           </div>
         )}
       </div>)
-      
+
     } else {
       const { credential } = verificationResult.results[0];
       const hasCredentialStatus = credential.credentialStatus !== undefined;
       const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
       const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
+      const expirationDateExists = 'expirationDate' in credential && !!(credential as any).expirationDate;
+      const expirationStatus = logMap[LogId.Expiration]; // could be true, false, or undefined
+
       return (
         <div className={styles.resultLog}>
-          <div className={styles.issuer}>
-            <div className={styles.header}>Issuer</div>
-            <ResultItem
-              verified={logMap[LogId.IssuerDIDResolves] ?? true}
-              positiveMessage="Has been issued by a registered institution:"
-              negativeMessage="Could not find issuer in registry with given DID."
-              issuer={true}
-            />
-          </div>
-          <div className={styles.credential}>
-            <div className={styles.header}>Credential</div>
-            <ResultItem
-              verified={logMap[LogId.ValidSignature] ?? true}
-              positiveMessage="Has a valid digital signature"
-              negativeMessage="Has an invalid digital signature"
-            />
-            <ResultItem
-              verified={logMap[LogId.Expiration] ?? true}
-              positiveMessage="Has not expired"
-              negativeMessage="Has expired"
-            />
-            {hasCredentialStatus && hasRevocationStatus && logMap[LogId.RevocationStatus] !== undefined &&
+          {/* <div className={styles.issuer}> */}
+          {/* <div className={styles.header}>Issuer</div> */}
+
+          <ResultItem
+            verified={logMap[LogId.ValidSignature] ?? true}
+            positiveMessage="is in a supported credential format"
+            negativeMessage="is not a recognized credential type"
+          />
+          <ResultItem
+            verified={logMap[LogId.ValidSignature] ?? true}
+            positiveMessage="has a valid signature"
+            negativeMessage="has an invalid signature"
+          />
+          <ResultItem
+            verified={logMap[LogId.IssuerDIDResolves] ?? true}
+            positiveMessage="has been issued by a known issuer"
+            warningMessage="isn't in a known issuer registry"
+            sourceLogId={LogId.IssuerDIDResolves}
+            issuer={true}
+          />
+
+          {hasCredentialStatus && hasRevocationStatus && logMap[LogId.RevocationStatus] !== undefined &&
             <ResultItem
               verified={logMap[LogId.RevocationStatus] ?? true}
-              positiveMessage="Has not been revoked by issuer"
-              negativeMessage={verificationResult.hasStatusError?"Revocation status could not be checked":"Has been revoked by issuer"}
+              positiveMessage="has not been revoked"
+              negativeMessage={verificationResult.hasStatusError ? "Revocation status could not be checked" : "has been revoked"}
             />}
-            {hasCredentialStatus && hasSuspensionStatus &&
+          {/* </div> */}
+          {/* <div className={styles.credential}> */}
+          {/* <div className={styles.header}>Credential</div> */}
+
+          <ResultItem
+            verified={expirationStatus === false ? false : true}
+            positiveMessage={!expirationDateExists ? "no expiration date set" : "has not expired"}
+            warningMessage="has expired"
+            sourceLogId={LogId.Expiration}
+          />
+
+          {hasCredentialStatus && hasSuspensionStatus &&
             <ResultItem
               verified={logMap[LogId.SuspensionStatus] ?? true}
-              positiveMessage="Has not been suspended by issuer"
-              negativeMessage="Has been suspended by issuer"
+              positiveMessage="has not been suspended"
+              negativeMessage="has been suspended"
             />}
-          </div>
+
+
+          {/* </div> */}
         </div>
       )
     }

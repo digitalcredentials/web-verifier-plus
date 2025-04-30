@@ -2,7 +2,7 @@ import { DateTime, Info } from 'luxon';
 import { CompletionDocumentSection } from 'components/CompletionDocumentSection/CompletionDocumentSection';
 import { Issuer } from 'components/Issuer/Issuer';
 import { IssuerObject, VerifiableCredential } from 'types/credential.d';
-import type {CredentialCardProps, CredentialDisplayFields} from './CredentialCard.d';
+import type { CredentialCardProps, CredentialDisplayFields } from './CredentialCard.d';
 import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
@@ -55,7 +55,7 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             </div>
           </div>
           <div className={styles.achivementInfo}>
-            {displayValues.achievementImage ? <img className={styles.achievementImage} src={displayValues.achievementImage} alt="achievement image"/>: null}
+            {displayValues.achievementImage ? <img className={styles.achievementImage} src={displayValues.achievementImage} alt="achievement image" /> : null}
             <div>
               <h1 id='title' className={styles.credentialName}>{displayValues.credentialName}</h1>
               {displayValues.achievementType ? <p className={styles.achievementType}>Achievement Type : {displayValues.achievementType}</p> : null}
@@ -65,15 +65,20 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
         <div className={styles.mainCard}>
           <div className={styles.secondaryColumn}>
             <section>
-              <Issuer issuer={issuer} infoButtonPushed={infoButtonPushed} header='Issuer'/>
+              <Issuer issuer={issuer} infoButtonPushed={infoButtonPushed} header='Issuer' />
               <div className={styles.headerRow}>
                 {displayValues.issuanceDate && (
                   <InfoBlock header="Issuance Date" contents={DateTime.fromISO(displayValues.issuanceDate).toLocaleString(DateTime.DATE_MED)} />
                 )}
 
-                {displayValues.expirationDate && (
-                  <InfoBlock header="Expiration Date" contents={DateTime.fromISO(displayValues.expirationDate).toLocaleString(DateTime.DATE_MED)} />
-                )}
+                <InfoBlock
+                  header="Expiration Date"
+                  contents={
+                    displayValues.expirationDate
+                      ? DateTime.fromISO(displayValues.expirationDate).toLocaleString(DateTime.DATE_MED)
+                      : "N/A"
+                  }
+                />
               </div>
               {credential?.credentialSubject?.hasCredential?.awardedOnCompletionOf && (
                 <CompletionDocumentSection completionDocument={credential.credentialSubject.hasCredential.awardedOnCompletionOf} />
@@ -85,13 +90,13 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
           </div>
 
           <div className={styles.primaryColumn}>
-            {displayValues.issuedTo ? 
-            <InfoBlock header="Issued To" contents={displayValues.issuedTo} />
-            :
-            null
+            {displayValues.issuedTo ?
+              <InfoBlock header="Issued To" contents={displayValues.issuedTo} />
+              :
+              null
             }
-            {displayValues.credentialDescription ? 
-              <InfoBlock header="Description" contents={displayValues.credentialDescription}/>
+            {displayValues.credentialDescription ?
+              <InfoBlock header="Description" contents={displayValues.credentialDescription} />
               :
               null
             }
@@ -133,13 +138,14 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
     }
   }
   const common = {
-    issuedTo: credential.credentialSubject?.name ??  extractNameFromOBV3Identifier(credential.credentialSubject) ?? credential.name,
+    issuedTo: credential.credentialSubject?.name ?? extractNameFromOBV3Identifier(credential.credentialSubject) ?? credential.name,
     issuanceDate: getIssuanceDate(credential),
     expirationDate: getExpirationDate(credential)
   }
-  if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")){
-    return {...common,
-      credentialName: credential.credentialSubject.achievement?.name ,
+  if (credential.type.includes("OpenBadgeCredential") || credential.type.includes("AchievementCredential")) {
+    return {
+      ...common,
+      credentialName: credential.credentialSubject.achievement?.name,
       credentialDescription: credential.credentialSubject.achievement?.description,
       criteria: credential.credentialSubject.achievement?.criteria?.narrative,
       achievementImage: credential.credentialSubject.achievement?.image?.id,
@@ -147,7 +153,8 @@ const mapCredDataToDisplayValues = (credential?: VerifiableCredential): Credenti
 
     }
   } else {
-    return {...common,
+    return {
+      ...common,
       credentialName: credential.credentialSubject.hasCredential?.name,
       credentialDescription: credential.credentialSubject.hasCredential?.description,
       criteria: credential.credentialSubject.hasCredential?.competencyRequired
