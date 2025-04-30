@@ -6,9 +6,19 @@ export const VerifyIndicator = () => {
   let className: string = '';
   let icon: JSX.Element | null = null;
   let text: string = '';
+
+  const result = verificationResult?.results?.[0];
+  const log = result?.log ?? [];
+  const issuerLog = log.find(entry => entry.id === 'registered_issuer');
+  const issuerWarning = issuerLog && issuerLog.valid === false;
+
   if (loading) {
     className = styles.loading;
     text = 'Verifying...';
+  } else if (issuerWarning) {
+    icon = <span className={`material-icons ${styles.indicatorIcon}`}>priority_high</span>;
+    text = 'Warning';
+    className = styles.warning;
   } else if (verificationResult?.verified) {
     icon = <span className={`material-icons ${styles.indicatorIcon}`}>check_circle</span>;
     text = 'Verified';
@@ -27,4 +37,4 @@ export const VerifyIndicator = () => {
       </span>
     </div>
   );
-}
+};

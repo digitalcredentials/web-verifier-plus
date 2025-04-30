@@ -3,7 +3,7 @@
 }
 
 .indicator {
-  min-height: 20px;
+  /* min-height: 20px; */
   border-radius: 10px;
   font-size: 12px;
   background-color: var(--background);
@@ -14,7 +14,7 @@
 }
 
 .indicatorIcon {
-  margin-right: 4px;
+  /* margin-right: 4px; */
   font-size: 16px;
 }
 
@@ -29,4 +29,51 @@
 
 .notVerified {
   color: var(--error);
+}
+.indicator {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.indicatorIcon {
+  font-size: 20px;
+}
+
+.loading {
+  color: gray;
+}
+
+.verified {
+  color: green;
+}
+
+.warning {
+  color: orange;
+}
+
+.notVerified {
+  color: red;
+}
+
+.warning {
+  color: orange; 
+  background-color: #fff3e0; 
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.warningIcon {
+  background-color:orange;
+  color: white;
+  border-radius: 50%;
+  font-size: 16px;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

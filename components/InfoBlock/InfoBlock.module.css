@@ -11,3 +11,6 @@
 .infoBlock {
   flex: 1;
 }
+.expirationDate{
+  margin-top: 15px;
+}
