@@ -10,7 +10,7 @@ export const VerificationControls = ({ verificationResult, verifyCredential }: V
     <div>
       
       <div className={styles.result}>
-      <div className={styles.title}> Credential Verification and Validation</div><br />
+      <div className={styles.title}> Credential Verification and Validation</div>
       <div className={styles.subTitle}> This credential:</div>
         {/* <span className={`material-icons ${verified ? styles.verified : styles.notVerified}`}>
           {verified ? 'check_circle' : 'cancel'}
