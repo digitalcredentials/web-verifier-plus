@@ -74,11 +74,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   let hasSigningError = false;
   let error: CredentialError;
   let hasResult = verificationResult.results[0];
-
+  
 
   if (hasResult) {
     let log = []
-    const result = verificationResult.results[0]
+    const result = verificationResult.results[0];
     const hasResultLog = !!result.log;
     const hasErrorLog = !!result.error?.log
     hasKnownError = !!result.error
@@ -103,7 +103,12 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     hasUnknownError = true;
   }
 
-  const result = () => {
+  const renderResult = () => {
+    const result = verificationResult.results[0];
+    const isMalformedError =
+    result?.error?.message ===
+    'Credential could not be checked for verification and may be malformed.';
+    const { credential } = result;
     if (shouldShowKnownError) {
       return (
         <div>
@@ -138,7 +143,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       </div>)
 
     } else {
-      const { credential } = verificationResult.results[0];
+      
       const hasCredentialStatus = credential.credentialStatus !== undefined;
       const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
       const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
@@ -150,11 +155,14 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           {/* <div className={styles.issuer}> */}
           {/* <div className={styles.header}>Issuer</div> */}
 
-          <ResultItem
-            verified={logMap[LogId.ValidSignature] ?? true}
-            positiveMessage="is in a supported credential format"
-            negativeMessage="is not a recognized credential type"
-          />
+          {isMalformedError && (
+        <ResultItem
+          verified={false}
+          positiveMessage="is in a supported credential format"
+          negativeMessage="is not a recognized credential type"
+        />
+      )}
+         
           <ResultItem
             verified={logMap[LogId.ValidSignature] ?? true}
             positiveMessage="has a valid signature"
@@ -200,6 +208,6 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
   }
 
   return (
-    result()
+    renderResult()
   );
 }
