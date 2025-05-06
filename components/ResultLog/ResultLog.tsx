@@ -155,13 +155,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           {/* <div className={styles.issuer}> */}
           {/* <div className={styles.header}>Issuer</div> */}
 
-          {isMalformedError && (
-        <ResultItem
-          verified={false}
-          positiveMessage="is in a supported credential format"
-          negativeMessage="is not a recognized credential type"
-        />
-      )}
+          <ResultItem
+  verified={!isMalformedError}
+  positiveMessage="is in a supported credential format"
+  negativeMessage="is not a recognized credential type"
+/>
          
           <ResultItem
             verified={logMap[LogId.ValidSignature] ?? true}
