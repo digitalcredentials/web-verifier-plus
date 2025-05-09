@@ -1,7 +1,7 @@
 import * as verifierCore from '@digitalcredentials/verifier-core';
 import { VerifiablePresentation, PresentationError } from 'types/presentation.d';
 import { VerifiableCredential, CredentialError, CredentialErrorTypes } from 'types/credential.d';
-import { KnownDidRegistries } from './../data/knownRegistries'
+//import { KnownDidRegistries } from './../data/knownRegistries'
 
 export type ResultLog = {
   id: string,
@@ -49,9 +49,12 @@ export async function verifyCredential(credential: VerifiableCredential): Promis
       };
     */
 
+      const response = await fetch("https://digitalcredentials.github.io/dcc-known-registries/known-did-registries.json");
+      const knownDIDRegistries = await response.json();
+
     const result = await verifierCore.verifyCredential({
       credential,
-      knownDIDRegistries: KnownDidRegistries
+      knownDIDRegistries: knownDIDRegistries
     });
     result.verified = Array.isArray(result.log)
       ? result.log.every((check: { valid: any; }) => check.valid)
