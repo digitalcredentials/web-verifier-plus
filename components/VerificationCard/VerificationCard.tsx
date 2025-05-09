@@ -12,28 +12,28 @@ export const VerificationCard = () => {
   const resultMessage = () => {
     const result = (verificationResult as VerifyResponse)?.results?.[0];
     const log = result?.log ?? [];
-
+  
     // Build a lookup of log validity
     const details = log.reduce<Record<string, boolean>>((acc, entry) => {
       acc[entry.id] = entry.valid;
       return acc;
     }, {});
-
+  
     // Set missing expected keys to false
     ['valid_signature', 'expiration', 'registered_issuer'].forEach(key => {
       if (!(key in details)) {
         details[key] = false;
       }
     });
-
+  
     const hasFailure = ['valid_signature', 'revocation_status'].some(
       key => details[key] === false
     );
-
+  
     const hasWarning = ['expiration', 'registered_issuer'].some(
       key => details[key] === false
     );
-
+  
     if (hasFailure) {
       return {
         type: 'error',
@@ -117,7 +117,7 @@ export const VerificationCard = () => {
                       match?.issuer?.institution_additional_information?.legal_name ??
                       issuer?.legalName;
 
-                    const issuerLogo =
+                      const issuerLogo =
                       match?.issuer?.federation_entity?.logo_uri ??
                       (typeof issuer?.image === 'string'
                         ? issuer.image
