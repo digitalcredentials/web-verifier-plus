@@ -51,8 +51,18 @@ const Home: NextPage = () => {
       if (window.location.hash === '/') {
         setCredential(undefined);
         setWasMulti(false);
+      } else if (window.location.hash.startsWith('/#verify')) {
+        const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        const vcUrl = urlParams.get('vc');
+        if (vcUrl) {
+          getJSONFromURL(decodeURIComponent(vcUrl)).then(json => {
+            if (json) {
+              verifyCredential(json);
+            }
+          });
+        }
       } else {
-        window.location.replace('/');
+        history.pushState(null, '', '/');
       }
     };
 
@@ -201,11 +211,23 @@ const Home: NextPage = () => {
 
   async function getJSONFromURL(url: string) {
     try {
-      let response = await fetch(url);
-      let responseJson = await response.json(); //.json()
+      // Proxy the request through our backend to avoid CORS
+      const response = await fetch('/api/proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const responseJson = await response.json();
       return JSON.stringify(responseJson);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching URL:', error);
       return "";
     }
   }
@@ -214,13 +236,23 @@ const Home: NextPage = () => {
     // check if textarea is json
     let input = "";
     if (!checkJson(textArea)) {
+      // If it's a URL, redirect to the verify route with query param
+      if (textArea.startsWith('http')) {
+        history.pushState(null, '', `/#verify?vc=${encodeURIComponent(textArea)}`);
+        const json = await getJSONFromURL(textArea);
+        console.log('🚀 ~ verifyTextArea ~ json:', json)
+        if (json) {
+          verifyCredential(json);
+        }
+        return;
+      }
       const fromUrl = await getJSONFromURL(textArea);
       if (fromUrl !== "") {
-        // console.log(fromUrl);
         input = fromUrl;
       }
-    } else { input = textArea; }
-    // if its not json check if its a url
+    } else { 
+      input = textArea; 
+    }
 
     const result = verifyCredential(input);
     if (!result) {
