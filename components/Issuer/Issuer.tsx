@@ -11,13 +11,9 @@ export const Issuer = ({ issuer, header, infoButtonPushed }: IssuerProps) => {
     }
   }
 
-  const hasIssuerBlock = () => {
-    return issuer.image || issuer.name || issuer.url;
-  }
-
   return (
     <div>
-      {hasIssuerBlock() && (
+      {issuer?.image || issuer?.name || issuer?.url && (
         <div>
           <h2 className={styles.header}>{header}</h2>
           <div className={styles.issuer}>
