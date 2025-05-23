@@ -147,7 +147,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
       const hasCredentialStatus = credential.credentialStatus !== undefined;
       const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
       const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
-      const expirationDateExists = 'validUntil' in credential && !!(credential as any).validUntil;
+      
+      const expirationDateExistsV1 = 'expirationDate' in credential && !!(credential as any).expirationDate;
+      const expirationDateExistsV2 = 'validUntil' in credential && !!(credential as any).validUntil;
+      const expirationDateExists = expirationDateExistsV1 || expirationDateExistsV2;
+
       const expirationStatus = logMap[LogId.Expiration]; // could be true, false, or undefined
 
       return (
