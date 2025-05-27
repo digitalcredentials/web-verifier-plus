@@ -29,12 +29,6 @@ export default async function handler(
 
     let targetUrl = url;
 
-    // Handle URLs with /#verify
-    if (url.includes('/#verify')) {
-      targetUrl = url.replace('/#verify', '/verify');
-      console.log('Converted /#verify to /verify:', targetUrl);
-    }
-
     // If URL contains query parameters, extract the vc parameter
     if (url.includes('?')) {
       try {
