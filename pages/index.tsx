@@ -51,7 +51,7 @@ const Home: NextPage = () => {
       if (window.location.hash === '/') {
         setCredential(undefined);
         setWasMulti(false);
-      } else if (window.location.hash.startsWith('/#verify')) {
+      } else if (window.location.hash.startsWith('#verify')) {
         const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
         const vcUrl = urlParams.get('vc');
         if (vcUrl) {
@@ -65,6 +65,9 @@ const Home: NextPage = () => {
         history.pushState(null, '', '/');
       }
     };
+
+    // Handle initial page load
+    handlePopstate();
 
     window.addEventListener('popstate', handlePopstate);
   }, []);
@@ -162,7 +165,13 @@ const Home: NextPage = () => {
 
     const vc = extractCredentialsFrom(newCredential);
     if (vc === null) { return; }
-    history.pushState(null, '', '#verify/results');
+    const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+    const vcUrl = urlParams.get('vc');
+    if (vcUrl) {
+      history.pushState(null, '', `#verify?vc=${vcUrl}`);
+    } else {
+      history.pushState(null, '', '#verify/results');
+    }
     // get first cred. this will eventually need to be changed
     if(vc.length > 1) { setWasMulti(true); }
     setCredential(vc[0]);
