@@ -47,10 +47,16 @@ const Home: NextPage = () => {
       .then((_: any) => { console.log('CHAPI polyfill loaded.') })
       .catch((e: any) => { console.error('Error loading CHAPI polyfill:', e) })
 
-    const handlePopstate = () => {
+    const handlePopstate = (event: PopStateEvent) => {
+      if (event.state && event.state.credential) {
+        setCredential(event.state.credential);
+        return;
+      }
+
       if (window.location.hash === '/') {
         setCredential(undefined);
         setWasMulti(false);
+        setTextArea('');
       } else if (window.location.hash.startsWith('#verify')) {
         const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
         const vcUrl = urlParams.get('vc');
@@ -61,15 +67,45 @@ const Home: NextPage = () => {
             }
           });
         }
+      } else if (window.location.hash === '') {
+        setCredential(undefined);
+        setWasMulti(false);
+        setTextArea('');
       } else {
-        history.pushState(null, '', '/');
+        history.replaceState(null, '', '/');
+        setCredential(undefined);
+        setWasMulti(false);
+        setTextArea('');
       }
     };
 
-    // Handle initial page load
-    handlePopstate();
+    // Set initial state
+    if (window.location.hash.startsWith('#verify')) {
+      const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+      const vcUrl = urlParams.get('vc');
+      if (vcUrl) {
+        getJSONFromURL(decodeURIComponent(vcUrl)).then(json => {
+          if (json) {
+            const parsedJson = JSON.parse(json);
+            const vc = extractCredentialsFrom(parsedJson);
+            if (vc && vc.length > 0) {
+              const state = { credential: vc[0] };
+              history.replaceState(state, '', window.location.hash);
+              setCredential(vc[0]);
+              if (vc.length > 1) {
+                setWasMulti(true);
+              }
+            }
+          }
+        });
+      }
+    } else {
+      // Set initial state for home page
+      history.replaceState({ credential: undefined }, '', window.location.hash || '/');
+    }
 
     window.addEventListener('popstate', handlePopstate);
+    return () => window.removeEventListener('popstate', handlePopstate);
   }, []);
 
   useEffect(() => {
@@ -167,11 +203,18 @@ const Home: NextPage = () => {
     if (vc === null) { return; }
     const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
     const vcUrl = urlParams.get('vc');
+    
+    // Create a new history state
+    const state = { credential: vc[0] };
+    
     if (vcUrl) {
-      history.pushState(null, '', `#verify?vc=${vcUrl}`);
+      // If we're coming from a URL, replace the current state
+      history.replaceState(state, '', `#verify?vc=${vcUrl}`);
     } else {
-      history.pushState(null, '', '#verify/results');
+      // If we're navigating within the app, push a new state
+      history.pushState(state, '', '#verify/results');
     }
+    
     // get first cred. this will eventually need to be changed
     if(vc.length > 1) { setWasMulti(true); }
     setCredential(vc[0]);
