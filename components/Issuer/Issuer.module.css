@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   font-size: 14px;
+  margin-left: 5px;
 }
 
 .issuerInformation a {

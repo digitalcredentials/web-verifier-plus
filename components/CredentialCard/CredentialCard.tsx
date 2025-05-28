@@ -7,6 +7,7 @@ import styles from './CredentialCard.module.css';
 import { InfoBlock } from 'components/InfoBlock/InfoBlock';
 import { VerifyIndicator } from 'components/VerifyIndicator/VerifyIndicator';
 import { useState } from 'react';
+import { useVerificationContext } from "lib/verificationContext";
 import ReactMarkdown from 'react-markdown';
 import { getExpirationDate, getIssuanceDate } from 'lib/credentialValidityPeriod';
 import { extractNameFromOBV3Identifier } from 'lib/extractNameFromOBV3Identifier';
@@ -17,7 +18,9 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
   // NOTE: unused imports will be used when above features get reinstated
 
   const displayValues = mapCredDataToDisplayValues(credential)
-  const issuer = credential?.issuer as IssuerObject;
+  const { verificationResult } = useVerificationContext();
+
+  const issuer = extractIssuerFromVerification(verificationResult, credential?.issuer as IssuerObject);
   const [isOpen, setIsOpen] = useState(false);
 
   const infoButtonPushed = () => {
@@ -125,6 +128,37 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
     </main>
   );
 }
+
+const extractIssuerFromVerification = (
+  verificationResult: any,
+  credentialIssuer: IssuerObject
+): IssuerObject => {
+  const registeredIssuerEntry = verificationResult?.log?.find(
+    (entry: any) => entry.id === 'registered_issuer'
+  );
+
+  const matchingIssuers = registeredIssuerEntry?.matchingIssuers;
+
+  if (matchingIssuers && matchingIssuers.length > 0) {
+    const matched = matchingIssuers[0];
+    const org = matched.issuer?.federation_entity;
+
+    return {
+      id: credentialIssuer?.id || '',
+      name: org?.organization_name || '',
+      url: org?.homepage_uri || '',
+      image: org?.logo_uri || '',
+    };
+  }
+
+  // fallback to credential issuer
+  return {
+    id: credentialIssuer?.id || '',
+    name: credentialIssuer?.name || '',
+    url: credentialIssuer?.url || '',
+    image: credentialIssuer?.image || '',
+  };
+};
 
 const mapCredDataToDisplayValues = (credential?: VerifiableCredential): CredentialDisplayFields => {
   if (!credential) {
