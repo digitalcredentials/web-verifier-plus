@@ -7,7 +7,7 @@ export const useVerification = (credential?: VerifiableCredential) => {
   const [loading, setLoading] = useState(true);
   const [timerExpired, setTimerExpired] = useState(false);
   const timeout = useRef<number>();
-  console.log('Trying to verify:', credential)
+  //console.log('Trying to verify:', credential)
 
   const issuerName = typeof credential?.issuer === 'string' ? credential?.issuer : credential?.issuer.name;
 

@@ -9,16 +9,21 @@ type RegistryCardProps = {
   issuerLogo?: string | { id: string };
   issuerLegalName?: string;
   issuerUrl?: string;
+  policyUrl?: string; // Uncomment if needed
 };
 
-export const RegistryCard: React.FC<RegistryCardProps> = ({ registryName, issuerName, issuerId, issuerLogo, issuerLegalName, issuerUrl }) => {
+export const RegistryCard: React.FC<RegistryCardProps> = ({ registryName, issuerName, issuerId, issuerLogo, issuerLegalName, issuerUrl,policyUrl }) => {
   return (
     <div className={styles.registryCard}>
-      <p className={styles.registryName}><strong>Issuer Details</strong></p>
+      {/* <p className={styles.registryName}><strong>Issuer Details</strong></p> */}
       <strong className={styles.registryName}>{registryName}</strong>{' '}
-      {/* <a href="#" className={styles.registryLink} onClick={(e) => e.preventDefault()}>
-        (More info on governance)
-      </a> */}
+      {policyUrl ? (
+                <a href={policyUrl} target="_blank" rel="noopener noreferrer">
+                    (More info on governance)
+                </a>
+              ) : null}
+
+     
 
       <div className={styles.issuerMeta}>
       {issuerLogo && (
@@ -43,7 +48,7 @@ export const RegistryCard: React.FC<RegistryCardProps> = ({ registryName, issuer
             </p>
           )}
           {issuerLegalName && (
-            <p>
+            <p className={styles.registryName}>
               <strong  className={styles.registryName}>Legal Name:</strong> {issuerLegalName}
             </p>
           )}
