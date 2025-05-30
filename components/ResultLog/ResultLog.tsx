@@ -7,7 +7,7 @@ import { StatusPurpose, hasStatusPurpose } from 'lib/credentialStatus';
 enum LogId {
   ValidSignature = 'valid_signature',
   Expiration = 'expiration',
-  IssuerDIDResolves = 'issuer_did_resolves',
+  IssuerDIDResolves = 'registered_issuer',
   RevocationStatus = 'revocation_status',
   SuspensionStatus = 'suspension_status'
 }
@@ -145,13 +145,11 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     } else {
       
       const hasCredentialStatus = credential.credentialStatus !== undefined;
-      const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
+      //const hasRevocationStatus = hasStatusPurpose(credential, StatusPurpose.Revocation);
       const hasSuspensionStatus = hasStatusPurpose(credential, StatusPurpose.Suspension);
-      
-      const expirationDateExistsV1 = 'expirationDate' in credential && !!(credential as any).expirationDate;
-      const expirationDateExistsV2 = 'validUntil' in credential && !!(credential as any).validUntil;
-      const expirationDateExists = expirationDateExistsV1 || expirationDateExistsV2;
-
+      const expirationDateExists = 
+  ('expirationDate' in credential && !!(credential as any).expirationDate) || 
+  ('validUntil' in credential && !!(credential as any).validUntil);
       const expirationStatus = logMap[LogId.Expiration]; // could be true, false, or undefined
 
       return (
@@ -178,12 +176,13 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             issuer={true}
           />
 
-          {hasCredentialStatus && hasRevocationStatus && logMap[LogId.RevocationStatus] !== undefined &&
-            <ResultItem
-              verified={logMap[LogId.RevocationStatus] ?? true}
-              positiveMessage="has not been revoked"
-              negativeMessage={verificationResult.hasStatusError ? "Revocation status could not be checked" : "has been revoked"}
-            />}
+{ 
+  <ResultItem
+    verified={logMap[LogId.RevocationStatus] !== undefined ? logMap[LogId.RevocationStatus] : true}
+    positiveMessage="has not been revoked"
+    negativeMessage={verificationResult.hasStatusError ? "Revocation status could not be checked" : "has been revoked"}
+  />
+}
           {/* </div> */}
           {/* <div className={styles.credential}> */}
           {/* <div className={styles.header}>Credential</div> */}
