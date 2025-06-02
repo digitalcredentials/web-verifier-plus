@@ -1,6 +1,6 @@
 {
   "name": "web-verifier-plus",
-  "version": "0.5.2",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
