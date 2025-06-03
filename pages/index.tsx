@@ -47,16 +47,65 @@ const Home: NextPage = () => {
       .then((_: any) => { console.log('CHAPI polyfill loaded.') })
       .catch((e: any) => { console.error('Error loading CHAPI polyfill:', e) })
 
-    const handlePopstate = () => {
+    const handlePopstate = (event: PopStateEvent) => {
+      if (event.state && event.state.credential) {
+        setCredential(event.state.credential);
+        return;
+      }
+
       if (window.location.hash === '/') {
         setCredential(undefined);
         setWasMulti(false);
+        setTextArea('');
+      } else if (window.location.hash.startsWith('#verify')) {
+        const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+        const vcUrl = urlParams.get('vc');
+        if (vcUrl) {
+          getJSONFromURL(decodeURIComponent(vcUrl)).then(json => {
+            if (json) {
+              verifyCredential(json);
+            }
+          });
+        }
+      } else if (window.location.hash === '') {
+        setCredential(undefined);
+        setWasMulti(false);
+        setTextArea('');
       } else {
-        window.location.replace('/');
+        history.replaceState(null, '', '/');
+        setCredential(undefined);
+        setWasMulti(false);
+        setTextArea('');
       }
     };
 
+    // Set initial state
+    if (window.location.hash.startsWith('#verify')) {
+      const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+      const vcUrl = urlParams.get('vc');
+      if (vcUrl) {
+        getJSONFromURL(decodeURIComponent(vcUrl)).then(json => {
+          if (json) {
+            const parsedJson = JSON.parse(json);
+            const vc = extractCredentialsFrom(parsedJson);
+            if (vc && vc.length > 0) {
+              const state = { credential: vc[0] };
+              history.replaceState(state, '', window.location.hash);
+              setCredential(vc[0]);
+              if (vc.length > 1) {
+                setWasMulti(true);
+              }
+            }
+          }
+        });
+      }
+    } else {
+      // Set initial state for home page
+      history.replaceState({ credential: undefined }, '', window.location.hash || '/');
+    }
+
     window.addEventListener('popstate', handlePopstate);
+    return () => window.removeEventListener('popstate', handlePopstate);
   }, []);
 
   useEffect(() => {
@@ -152,7 +201,20 @@ const Home: NextPage = () => {
 
     const vc = extractCredentialsFrom(newCredential);
     if (vc === null) { return; }
-    history.pushState(null, '', '#verify/results');
+    const urlParams = new URLSearchParams(window.location.hash.split('?')[1]);
+    const vcUrl = urlParams.get('vc');
+    
+    // Create a new history state
+    const state = { credential: vc[0] };
+    
+    if (vcUrl) {
+      // If we're coming from a URL, replace the current state
+      history.replaceState(state, '', `#verify?vc=${vcUrl}`);
+    } else {
+      // If we're navigating within the app, push a new state
+      history.pushState(state, '', '#verify/results');
+    }
+    
     // get first cred. this will eventually need to be changed
     if(vc.length > 1) { setWasMulti(true); }
     setCredential(vc[0]);
@@ -201,11 +263,23 @@ const Home: NextPage = () => {
 
   async function getJSONFromURL(url: string) {
     try {
-      let response = await fetch(url);
-      let responseJson = await response.json(); //.json()
+      // Proxy the request through our backend to avoid CORS
+      const response = await fetch('/api/proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const responseJson = await response.json();
       return JSON.stringify(responseJson);
     } catch (error) {
-      console.error(error);
+      console.error('Error fetching URL:', error);
       return "";
     }
   }
@@ -214,13 +288,23 @@ const Home: NextPage = () => {
     // check if textarea is json
     let input = "";
     if (!checkJson(textArea)) {
+      // If it's a URL, redirect to the verify route with query param
+      if (textArea.startsWith('http')) {
+        history.pushState(null, '', `/#verify?vc=${encodeURIComponent(textArea)}`);
+        const json = await getJSONFromURL(textArea);
+        console.log('🚀 ~ verifyTextArea ~ json:', json)
+        if (json) {
+          verifyCredential(json);
+        }
+        return;
+      }
       const fromUrl = await getJSONFromURL(textArea);
       if (fromUrl !== "") {
-        // console.log(fromUrl);
         input = fromUrl;
       }
-    } else { input = textArea; }
-    // if its not json check if its a url
+    } else { 
+      input = textArea; 
+    }
 
     const result = verifyCredential(input);
     if (!result) {
