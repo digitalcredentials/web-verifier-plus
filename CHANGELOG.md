@@ -13,3 +13,11 @@
 - Update where we get credential name from #161
 - Integrate verifier-core and shared known issuer registry list. #184
 
+## 0.5.0 
+### Added
+- Update buttons wording on V+ #173
+- Capability to Unbake Open Badge 3.0 #142
+- Add favicon to verifierplus.org production deployment #80
+- Change versioning on verifier plus site #119
+- Revise 404 page: Credentials not found #121
+- Update where we get credential name from in V+ #156
