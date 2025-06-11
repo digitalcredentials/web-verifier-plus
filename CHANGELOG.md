@@ -1,5 +1,13 @@
 # web-verifier-plus Changelog
 
+## 1.0.1 
+### Added
+- update verifier core package
+- Feature/url verification query params
+### Fixed
+- Fix problem where app crashes during verification of pasted JSON
+
+
 ## 1.0.0 
 ### Added
 - [EPIC] Design for Issuer & Issuer Registry Display #168
