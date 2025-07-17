@@ -13,7 +13,7 @@ export const Issuer = ({ issuer, header, infoButtonPushed }: IssuerProps) => {
 
   return (
     <div>
-      {issuer?.image || issuer?.name || issuer?.url && (
+      {(issuer?.image || issuer?.name || issuer?.url) && (
         <div>
           <h2 className={styles.header}>{header}</h2>
           <div className={styles.issuer}>
