@@ -70,7 +70,6 @@ function vprQuery() {
           "credentialQuery": {
             "reason": "Please present your Verifiable Credential to complete the verification process.",
             "example": {
-              "@context": ["https://www.w3.org/2018/credentials/v1"],
               "type": ["VerifiableCredential"]
             }
           }
