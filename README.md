@@ -59,3 +59,9 @@ TROUBLESHOOTING: If the app can't connect to your Mongo Atlas collection, make s
  And finally you can set a webhook on both the healtcheck and the autoheal, to which the same notifications of unhealthy status will be sent. We use the Slack webhook for this.
 
  We've set the configuation values in the 'environment' sections of the compose file, but you can also use a .env file, like the .env.example we provide. The .env file may be more secure.
+
+ # Verifiable Presentation Request Exchange
+
+ VerifierPlus provides an option on the landing page to request credentials from the Learner Credential Wallet.
+
+ To use it you must set the NEXT_PUBLIC_EXCHANGE_SERVER_URL environment variable. See .env.example for an example
