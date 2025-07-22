@@ -356,14 +356,14 @@ const Home: NextPage = () => {
     );
   }
 
-  // TODO: Move this to .env variable
-  const SERVER_URL = 'https://verifierplus.org';
+
+  const EXCHANGE_SERVER_URL = process.env.NEXT_PUBLIC_EXCHANGE_SERVER_URL // e.g.,'https://verifierplus.org';
 
   const WALLET_DEEP_LINK = 'https://lcw.app/request'
-  const exchangeUrl = `${SERVER_URL}/api/exchanges/${randomPageId}`
+  const exchangeUrl = `${EXCHANGE_SERVER_URL}/api/exchanges/${randomPageId}`
 
   const chapiRequest = {
-    credentialRequestOrigin: SERVER_URL,
+    credentialRequestOrigin: EXCHANGE_SERVER_URL,
     protocols: {
       vcapi: exchangeUrl
     }
