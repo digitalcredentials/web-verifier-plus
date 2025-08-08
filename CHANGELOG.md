@@ -1,8 +1,18 @@
 # web-verifier-plus Changelog
 
+## 1.1.0 
+### Added
+- [EPIC] - Presentation request link: Send link; receive wallet creds and verify
+- Add API endpoint to request/receive creds
+- UI: adds link and QR code
+- extract SERVER_URL to env
+
+### Fixed
+- Unhandled runtime error on exchange.ts
+
 ## 1.0.1 
 ### Added
-- update verifier core package
+- Update verifier core package
 - Feature/url verification query params
 ### Fixed
 - Fix problem where app crashes during verification of pasted JSON
