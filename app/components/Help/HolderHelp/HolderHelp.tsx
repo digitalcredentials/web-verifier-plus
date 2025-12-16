@@ -1,9 +1,21 @@
 import styles from '../Help.module.css';
 import { VcDisplay } from '@/components/VcDisplay/VcDisplay';
 
-const ExampleV2Section = () => {
-  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/ed25519/didKey/legacy-noStatus-expired.json' nodesToExpand={['validUntil']}/>
+
+
+
+const CredSubjNameVCSection = () => {
+  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/dataIntegrityProof/didKey/legacyRegistry-noStatus-noExpiry-credSubjName.json' nodesToExpand={['credentialSubject']}/>
 }
+
+const CredSubjIdentityHashVCSection = () => {
+  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/dataIntegrityProof/didKey/legacyRegistry-noStatus-noExpiry-identityHash.json' nodesToExpand={['credentialSubject', 'credentialSubject.identifier']}/>
+}
+
+const CredNameVCSection = () => {
+  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/dataIntegrityProof/didKey/legacyRegistry-noStatus-noExpiry-credName.json' />
+}
+
 
 
 const DeterminationSection = () => {
@@ -12,10 +24,10 @@ const DeterminationSection = () => {
        <div className={styles.preference}>In order of preference:</div>
       <ul className={styles.list}>
       <li>credential.credentialSubject.name</li>
-      <li>credential.credentialSubject.identifiers[identityType=name].identityHash</li>
+      <li>credential.credentialSubject.identifier[identityType=name].identityHash</li>
       <li>credential.name</li>
     </ul>
-      <div className={styles.preference}>See the example section for examples of each.</div>
+      <div className={styles.preference}>See the example sections for examples of each.</div>
     </div>)
 }
 
@@ -65,7 +77,9 @@ export const holderHelpDescription = DescriptionSection()
 export const holderHelpSections  = [
   { sectionTitle: 'Details', content: DetailsSection() },
   { sectionTitle: 'How We Determine the Subject', content: DeterminationSection() },
-  { sectionTitle: 'Example Verifiable Credential', content: ExampleV2Section() },
+  { sectionTitle: 'Example - credentialSubject.name', content: CredSubjNameVCSection() },
+  { sectionTitle: 'Example - credentialSubject.identifier.identityHash', content: CredSubjIdentityHashVCSection() },
+  { sectionTitle: 'Example - credential name', content: CredNameVCSection() },
   { sectionTitle: 'Notes', content: NotesSection( )}
 ]
 
