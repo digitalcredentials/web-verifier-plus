@@ -15,5 +15,6 @@ export type ResultItem = {
     helpTitle?:string, 
     HelpContent?:ReactElement,
     helpSections?:CollapsibleSectionProps[]
+    helpDescription?:ReactElement,
     issuer?:boolean
 }

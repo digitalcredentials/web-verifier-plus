@@ -5,7 +5,7 @@ import type { ResultItem, ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 import { StatusPurpose, hasStatusPurpose } from '@/lib/credentialStatus';
 import { TestId } from "@/lib/testIds"
-import { CredentialFormatHelp, validUntilHelpSections, KnownIssuerHelp, RegistryHelp, SignatureHelp } from '../Help';
+import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, KnownIssuerHelp, SignatureHelp } from '../Help';
 import { ContextualHelp } from '../ContextualHelp/ContextualHelp';
 import { RevocationHelp } from '../Help/RevocationHelp/RevocationHelp';
 
@@ -50,6 +50,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
     helpTitle, 
     HelpContent,
     helpSections,
+    helpDescription,
     issuer = false
   }: ResultItem) => {
     const isIssuerCheck = sourceLogId === LogId.IssuerDIDResolves;
@@ -89,7 +90,7 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
           {status === 'positive' && positiveMessage}
           {status === 'warning' && warningMessage}
           {status === 'negative' && negativeMessage}
-          {(HelpContent || helpSections)&&<div style={{verticalAlign: 'top', display: 'inline-block'}}> <ContextualHelp title={helpTitle} sections={helpSections}><HelpContent/></ContextualHelp> </div>}  
+          {(helpSections)&&<div style={{verticalAlign: 'top', display: 'inline-block'}}> <ContextualHelp title={helpTitle} sections={helpSections} description={helpDescription}/> </div>}  
         </div>
       </div>
     );
@@ -190,7 +191,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             positiveMessage={LogMessages.WellFormed}
             negativeMessage={LogMessages.MalFormed}
             testId={TestId.MalformedLogMsg}
-            HelpContent={CredentialFormatHelp}
+            helpDescription={credentialFormatHelpDescription}
+            helpSections={credentialFormatHelpSections}
             helpTitle="Supported Credential Format"
           />
 
