@@ -4,6 +4,8 @@ import type { Alignment as AlignmentType } from '@/types/credential.d'
 import { isValidHttpUrl } from '@/lib/url'
 import type { AlignmentProps } from './Alignment.d'
 import { TestId } from '@/lib/testIds'
+import { alignmentHelpDescription, alignmentHelpSections } from '../Help'
+import { ContextualHelp } from '../ContextualHelp/ContextualHelp'
 
 export const Alignment = ({ alignment, headerClassName }: AlignmentProps) => {
   const alignmentsArray: AlignmentType[] = Array.isArray(alignment) ? alignment : (alignment ? [alignment] : [])
@@ -18,7 +20,7 @@ export const Alignment = ({ alignment, headerClassName }: AlignmentProps) => {
 
   return (
     <section className={styles.container} data-testid={TestId.Alignment}>
-      <h3 className={headerClassName ?? styles.header}>Alignments</h3>
+      <h3 className={headerClassName ?? styles.header}>Alignments <ContextualHelp title='Alignments' sections={alignmentHelpSections} description={alignmentHelpDescription}/></h3>
       <ul className={styles.list}>
         {items.map((a, idx) => (
           <li key={`${a.targetUrl || a.targetName}-${idx}`} className={styles.item}>
@@ -38,6 +40,7 @@ export const Alignment = ({ alignment, headerClassName }: AlignmentProps) => {
           </li>
         ))}
       </ul>
+     
     </section>
   )
 }
