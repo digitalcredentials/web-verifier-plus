@@ -5,7 +5,7 @@ import type { ResultItem, ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 import { StatusPurpose, hasStatusPurpose } from '@/lib/credentialStatus';
 import { TestId } from "@/lib/testIds"
-import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, KnownIssuerHelp, signatureHelpDescription, signatureHelpSections } from '../Help';
+import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, signatureHelpDescription, signatureHelpSections, knownIssuerFormatHelpDescription, knownIssuerHelpSections } from '../Help';
 import { ContextualHelp } from '../ContextualHelp/ContextualHelp';
 import { RevocationHelp } from '../Help/RevocationHelp/RevocationHelp';
 
@@ -212,7 +212,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             sourceLogId={LogId.IssuerDIDResolves}
             testId={TestId.IssuerLogMsg}
             issuer={true}
-            HelpContent={KnownIssuerHelp}
+            helpSections={knownIssuerHelpSections}
+            helpDescription={knownIssuerFormatHelpDescription}
             helpTitle="Known Issuer"
           />
 

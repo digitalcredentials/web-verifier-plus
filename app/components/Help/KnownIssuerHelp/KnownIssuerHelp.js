@@ -1,13 +1,38 @@
 import styles from '../Help.module.css';
-export const KnownIssuerHelp = () => {
-  return <>
-  <ul className={styles.list}>
-        <li>Verifies that we recognize the Decentralized Identifier (DID) that signed the credential.</li>
-        <li>VerifierPlus looks up the DID in the DCC registries.</li>    
-         <li>The DCC makes no claims about the authenticity or relevance of credentials signed by DIDs in its registries - only that we know about the DIDs in some way.</li>   
-  </ul>
-  
-     <div className={styles.note}><img className={styles.infoIcon} src="./icons/info_24_lime.svg"></img>
+import { VcDisplay } from '@/components/VcDisplay/VcDisplay';
+
+const DidKeyVCSection = () => {
+  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/dataIntegrityProof/didKey/legacyRegistry-noStatus-noExpiry-credSubjName.json' nodesToExpand={['proof', 'proof.verificationMethod']} />
+}
+
+const DidWebVCSection = () => {
+  return <VcDisplay link='https://digitalcredentials.github.io/vc-test-fixtures/verifiableCredentials/v2/dataIntegrityProof/didweb/oidf-noStatus-notExpired.json' nodesToExpand={['proof', 'proof.verificationMethod']} />
+}
+
+const DeterminationSection = () => {
+  return (
+    <div>
+      <ul className={styles.list}>
+        <li>VerifierPlus looks up the signing DID in the DCC registries.</li>
+        <li>The signing DID is listed in the proof.verificationMethod property of the Verifiable Credential</li>
+      </ul> 
+      <div className={styles.preference}>See the example sections for examples of a proof signed by both a did:key and a did:web.</div>
+    </div>)
+}
+
+const DetailsSection = () => {
+  return (
+    <ul className={styles.list}>
+      <li>Verifies that we recognize the Decentralized Identifier (DID) that signed the credential.</li>
+      <li>The DCC makes no claims about the authenticity or relevance of credentials signed by DIDs in its registries - only that we know about the DIDs in some way.</li>   
+    </ul>
+  )
+}
+
+const NotesSection = () => {
+  return (
+    <>
+       <div className={styles.note}><img className={styles.infoIcon} src="./icons/info_24_lime.svg"></img>
       Fundmentally important is that to trust anything signed by an issuer,
       the DID (Decentralized Identififer) used to
       sign the credential must be known to us in some way. That might be because
@@ -32,6 +57,22 @@ export const KnownIssuerHelp = () => {
        A registry of DIDs controlled by the association of university registrars for a given coountry, for example,
             could be used to verify digital degrees from accredited universities. In this case, it might then be more accurate
             to say it was a registry of 'trusted' issuers, rather than simply 'known' issuers.</div>
-
-  </>
+          </>
+  )
 }
+
+const DescriptionSection = () => {
+  return (
+    <div className={styles.note}>Checks that the credential was signed by an issuer in our registry.</div>
+  )
+}
+
+export const knownIssuerFormatHelpDescription = DescriptionSection()
+
+export const knownIssuerHelpSections = [
+  { sectionTitle: 'Details', content: DetailsSection() },
+  { sectionTitle: 'How We Determine Who Issued the Credential', content: DeterminationSection() },
+  { sectionTitle: 'Example did:key VC', content: DidKeyVCSection() },
+  { sectionTitle: 'Example did:web VC', content: DidWebVCSection() },
+  { sectionTitle: 'Notes', content: NotesSection() }
+]
