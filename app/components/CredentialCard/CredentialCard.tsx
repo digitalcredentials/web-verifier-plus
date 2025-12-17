@@ -16,7 +16,7 @@ import { TestId } from '@/lib/testIds';
 import { Alignment } from '@/components/Alignment/Alignment';
 
 import { ContextualHelp } from '@/components/ContextualHelp/ContextualHelp'
-import { holderHelpDescription, holderHelpSections, DescriptionHelp, CriteriaHelp, titleHelpDescription, titleHelpSections, achievementTypeHelpDescription, achievementTypeHelpSections, validUntilHelpSections, validUntilHelpDescription, validFromHelpDescription, validFromHelpSections } from '@/components/Help';
+import { holderHelpDescription, holderHelpSections, DescriptionHelp, CriteriaHelp, titleHelpDescription, titleHelpSections, achievementTypeHelpDescription, achievementTypeHelpSections, validUntilHelpSections, validUntilHelpDescription, validFromHelpDescription, validFromHelpSections, descriptionHelpDescription, descriptionHelpSections } from '@/components/Help';
 
 
 
@@ -125,7 +125,8 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             {displayValues.credentialDescription ?
               <InfoBlock 
               header="Description" 
-              HelpContent={DescriptionHelp}
+              helpDescription={descriptionHelpDescription}
+              helpSections={descriptionHelpSections}
               helpTitle="Credential Description"
               contents={displayValues.credentialDescription} 
               testId={TestId.CredentialDescription}/>
