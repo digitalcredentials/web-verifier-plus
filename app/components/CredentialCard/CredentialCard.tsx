@@ -16,7 +16,7 @@ import { TestId } from '@/lib/testIds';
 import { Alignment } from '@/components/Alignment/Alignment';
 
 import { ContextualHelp } from '@/components/ContextualHelp/ContextualHelp'
-import { holderHelpDescription, holderHelpSections, DescriptionHelp, CriteriaHelp, titleHelpDescription, titleHelpSections, achievementTypeHelpDescription, achievementTypeHelpSections, validUntilHelpSections, validUntilHelpDescription, validFromHelpDescription, validFromHelpSections, descriptionHelpDescription, descriptionHelpSections } from '@/components/Help';
+import { holderHelpDescription, holderHelpSections, titleHelpDescription, titleHelpSections, achievementTypeHelpDescription, achievementTypeHelpSections, validUntilHelpSections, validUntilHelpDescription, validFromHelpDescription, validFromHelpSections, descriptionHelpDescription, descriptionHelpSections, criteriaHelpDescription, criteriaHelpSections } from '@/components/Help';
 
 
 
@@ -135,8 +135,7 @@ export const CredentialCard = ({ credential, wasMulti = false }: CredentialCardP
             }
             {displayValues.criteria && (
               <div>
-                <h3 className={styles.smallHeader}>Criteria<ContextualHelp title="Criteria"><CriteriaHelp/></ContextualHelp></h3>
-                {/* <div className={styles.credentialCriteria}>{displayValues.criteria}</div> */}
+                <h3 className={styles.smallHeader}>Criteria<ContextualHelp title="Criteria" description={criteriaHelpDescription} sections={criteriaHelpSections}/></h3>
                 <div className={styles.markdownContainer} data-testid={TestId.CredentialCriteria}>
                   <ReactMarkdown >{displayValues.criteria}</ReactMarkdown>
                 </div>

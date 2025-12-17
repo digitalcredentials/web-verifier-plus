@@ -76,7 +76,7 @@ export const holderHelpDescription = DescriptionSection()
 
 export const holderHelpSections  = [
   { sectionTitle: 'Details', content: DetailsSection() },
-  { sectionTitle: 'How We Determine the Subject', content: DeterminationSection() },
+  { sectionTitle: 'How We Determine the Subject of the credential', content: DeterminationSection() },
   { sectionTitle: 'Example - credentialSubject.name', content: CredSubjNameVCSection() },
   { sectionTitle: 'Example - credentialSubject.identifier.identityHash', content: CredSubjIdentityHashVCSection() },
   { sectionTitle: 'Example - credential name', content: CredNameVCSection() },

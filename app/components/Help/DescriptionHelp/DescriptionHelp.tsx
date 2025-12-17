@@ -59,7 +59,7 @@ export const descriptionHelpDescription = DescriptionSection()
 
 export const descriptionHelpSections  = [
   { sectionTitle: 'Details', content: DetailsSection() },
-  { sectionTitle: 'How We Determine the Subject', content: DeterminationSection() },
+  { sectionTitle: 'How We Determine the Description', content: DeterminationSection() },
   { sectionTitle: 'Example VC - credential description', content: SampleVCSection() },
   { sectionTitle: 'Notes', content: NotesSection( )}
 ]
