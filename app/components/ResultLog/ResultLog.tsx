@@ -5,7 +5,7 @@ import type { ResultItem, ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 import { StatusPurpose, hasStatusPurpose } from '@/lib/credentialStatus';
 import { TestId } from "@/lib/testIds"
-import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, KnownIssuerHelp, SignatureHelp } from '../Help';
+import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, KnownIssuerHelp, signatureHelpDescription, signatureHelpSections } from '../Help';
 import { ContextualHelp } from '../ContextualHelp/ContextualHelp';
 import { RevocationHelp } from '../Help/RevocationHelp/RevocationHelp';
 
@@ -201,7 +201,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             positiveMessage={LogMessages.ValidSignature}
             negativeMessage={LogMessages.InvalidSignature}
             testId={TestId.SigningLogMsg}
-            HelpContent={SignatureHelp}
+            helpDescription={signatureHelpDescription}
+            helpSections={signatureHelpSections}
             helpTitle="Valid Signature"
           />
           <ResultItem
