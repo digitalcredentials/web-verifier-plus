@@ -5,9 +5,8 @@ import type { ResultItem, ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 import { StatusPurpose, hasStatusPurpose } from '@/lib/credentialStatus';
 import { TestId } from "@/lib/testIds"
-import { credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, signatureHelpDescription, signatureHelpSections, knownIssuerFormatHelpDescription, knownIssuerHelpSections } from '../Help';
+import { revocationHelpDescription, revocationHelpSections, credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, signatureHelpDescription, signatureHelpSections, knownIssuerFormatHelpDescription, knownIssuerHelpSections } from '../Help';
 import { ContextualHelp } from '../ContextualHelp/ContextualHelp';
-import { RevocationHelp } from '../Help/RevocationHelp/RevocationHelp';
 
 export enum LogId {
   ValidSignature = 'valid_signature',
@@ -223,7 +222,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
               positiveMessage={LogMessages.NotRevoked}
               negativeMessage={verificationResult.hasStatusError ? LogMessages.UncheckedRevocation : LogMessages.Revoked}
               testId={TestId.RevocationLogMsg}
-              HelpContent={RevocationHelp}
+              helpDescription={revocationHelpDescription}
+              helpSections={revocationHelpSections}
               helpTitle="Revocation"
             />
           }
