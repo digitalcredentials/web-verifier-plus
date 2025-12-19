@@ -5,7 +5,7 @@ import type { ResultItem, ResultLogProps } from './ResultLog.d';
 import styles from './ResultLog.module.css';
 import { StatusPurpose, hasStatusPurpose } from '@/lib/credentialStatus';
 import { TestId } from "@/lib/testIds"
-import { revocationHelpDescription, revocationHelpSections, credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, signatureHelpDescription, signatureHelpSections, knownIssuerFormatHelpDescription, knownIssuerHelpSections } from '../Help';
+import { revocationHelpDescription, revocationHelpSections, credentialFormatHelpDescription, credentialFormatHelpSections, validUntilHelpSections, signatureHelpDescription, signatureHelpSections, knownIssuerFormatHelpDescription, knownIssuerHelpSections, validUntilHelpDescription } from '../Help';
 import { ContextualHelp } from '../ContextualHelp/ContextualHelp';
 
 export enum LogId {
@@ -237,7 +237,8 @@ export const ResultLog = ({ verificationResult }: ResultLogProps) => {
             warningMessage={LogMessages.HasExpired}
             sourceLogId={LogId.Expiration}
             testId={TestId.ExpirationLogMsg}
-            HelpContent={validUntilHelpSections}
+            helpDescription={validUntilHelpDescription}
+            helpSections={validUntilHelpSections}
             helpTitle="Expiration Date"
           />
 

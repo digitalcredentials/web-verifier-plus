@@ -26,6 +26,7 @@ const DetailsSection = () => {
     <ul className={styles.list}>
       <li>The validUntil date is set directly in the Verifiable Credential and cannot be changed without invalidating the cryptographic signature.</li>
       <li>The validUntil date is not required. A credential can be issued that never expires.</li>
+      <li>The validUntil date applies to the Verifiable Credential. The underlying credential attested to by the Verifiable Credential may have a different expiry date, or none at all.</li>
     </ul>
   )
 }
