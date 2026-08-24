@@ -56,7 +56,7 @@
   color: var(--primary);
   text-decoration: underline;
   margin: 0px;
-  font: normal normal medium 14px/17px Rubik;
+  font: normal normal medium 14px/17px Verdana;
 }
 
 .errorContainer {
