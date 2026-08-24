@@ -28,7 +28,7 @@
   border: none;
   gap: 8px;
   color: var(--dark-text);
-  font-family: Rubik, sans-serif;
+  font-family: Verdana, sans-serif;
   font-size: 14px;
   line-height: 1;
   font-weight: 500;
@@ -54,7 +54,7 @@
 .logo p {
   flex-grow: 1;
   font-size: 16px;
-  font-family: Rubik, sans-serif;
+  font-family: Verdana, sans-serif;
   font-weight: 700;
   color: var(--primary);
 
