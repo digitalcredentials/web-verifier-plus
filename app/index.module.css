@@ -88,8 +88,7 @@
     border-radius: 5px;
     padding: 0.75rem;
     font-size: 1.1rem;
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-      Bitstream Vera Sans Mono, Courier New, monospace;
+    font-family: Consolas, "Lucida Console", "Courier New", monospace;
   }
   
   .grid {
@@ -145,7 +144,7 @@
 .title {
   letter-spacing: 0px;
   text-align: center;
-  font-family: Rubik, sans-serif;
+  font-family: Verdana, sans-serif;
   font-size: 31px;
   line-height: 1.1;
   font-weight: bold;
@@ -187,7 +186,7 @@
 }
 
 .dndUploadText {
-  font: normal normal medium 14px/17px Rubik;
+  font: normal normal medium 14px/17px Verdana;
   color: var(--dark-text);
 }
 
@@ -212,7 +211,7 @@
   color: var(--primary);
   text-decoration: underline;
   margin: 0px;
-  font: normal normal medium 14px/17px Rubik;
+  font: normal normal medium 14px/17px Verdana;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.2s ease;
@@ -220,7 +219,7 @@
 
 .descriptionBlock {
   text-align: center;
-  font: normal normal 16px/24px Rubik;
+  font: normal normal 16px/24px Verdana;
   letter-spacing: 0px;
   color: var(--text);
   opacity: 1;
@@ -233,7 +232,7 @@
   font-size: 12px;
   color: var(--light-text);
   margin-top: 8px;
-  font: normal normal normal 12px/24px Rubik;
+  font: normal normal normal 12px/24px Verdana;
   flex-wrap: 1;
 }
 
@@ -270,12 +269,12 @@
   padding: 0;
   padding-left: 8px;
   
-  font: normal normal medium 14px/17px Rubik;
+  font: normal normal medium 14px/17px Verdana;
 }
 
 
 /* .textarea {
-  font: normal normal normal 16px/24px Rubik;
+  font: normal normal normal 16px/24px Verdana;
   display: flex;
   align-self: center;
   width: 100%;
@@ -306,7 +305,7 @@
 .version {
   align-self: center;
   text-align: center;
-  font: normal normal normal 14px Rubik;
+  font: normal normal normal 14px Verdana;
   color: var(--version);
 }
 
@@ -407,7 +406,7 @@
   justify-content: center;
   font-size: 0.9rem;
   font-weight: 500;
-  font-family: Rubik, sans-serif;
+  font-family: Verdana, sans-serif;
   margin: 10px;
 }
 
